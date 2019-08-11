@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 /action/
 /controller/
 /dao/
 /db/
 /svc/
 /vo/
+=======
+/dao/
+/action/
+/vo/
+/svc/
+/db/
+/controller/
+>>>>>>> origin/master

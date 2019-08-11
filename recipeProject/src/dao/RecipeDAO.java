@@ -1,6 +1,12 @@
 package dao;
 
+import static db.JDBCUtil.close;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import vo.Board;
 
 public class RecipeDAO {
 	/*
@@ -33,4 +39,79 @@ public class RecipeDAO {
 		// TODO Auto-generated method stub
 		this.con = con;
 	}
+	
+	public int selectArticleCount()
+		    throws Exception {
+		        PreparedStatement pstmt = null;
+		        ResultSet rs = null;
+
+		        int x=0;
+
+		        try {
+		            
+		            pstmt = con.prepareStatement
+		            		("select count(*) from board");
+		            rs = pstmt.executeQuery();
+
+		            if (rs.next()) {
+		               x= rs.getInt(1);
+					}
+		        } catch(Exception ex) {
+		            ex.printStackTrace();
+		        } finally {
+		            close(rs);
+		            close(pstmt);
+		        }
+				return x;
+		    }
+	
+	public List<Board> selectArticleList(int start, int end)
+		    throws Exception {
+		        Statement stmt = null;
+		        ResultSet rs = null;
+		        List<Board> articleList=null;
+		        PreparedStatement pstmt = null;
+		        try {
+		            
+		            pstmt = con.prepareStatement(
+		"select list2.* from(select  list1.*  " +
+		"from(select *  from board order by ref desc, re_step asc)list1) " +
+		"list2 limit ?,?");
+		            pstmt.setInt(1, start-1);
+					pstmt.setInt(2, end);
+		            rs = pstmt.executeQuery();
+		   
+		                if (rs.next()) {
+		                int i=0;
+		                articleList = new ArrayList<Board>(end);
+		                do{
+		                  Board article= new Board();
+		      article.setNum(rs.getInt("num"));
+		      article.setWriter(rs.getString("writer"));
+		                  article.setEmail(rs.getString("email"));
+		                  article.setSubject(rs.getString("subject"));
+		                  article.setPasswd(rs.getString("passwd"));
+		         article.setReg_date(rs.getTimestamp("reg_date"));
+		      article.setReadcount(rs.getInt("readcount"));
+		                  article.setRef(rs.getInt("ref"));
+		                  article.setRe_step(rs.getInt("re_step"));
+		      article.setRe_level(rs.getInt("re_level"));
+		                  article.setContent(rs.getString("content"));
+		         article.setIp(rs.getString("ip")); 
+		      
+		                  articleList.add(article);
+		                  i++;
+		       }while(rs.next()&& i<end);
+		   }
+		        } catch(Exception ex) {
+		            ex.printStackTrace();
+		        } finally {
+		           close(rs);
+		           close(pstmt);
+		        }
+		  return articleList;
+		    }
+	
+	
+	
 }
