@@ -13,26 +13,26 @@ public class RecipeLoginFormAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		//1. Á¤º¸¸¦ request³ª ¿µ¿ª°´Ã¼·ÎºÎÅÍ ¹Ş¾Æ¿Ã°Ô ÀÖ´Ù¸é ¹Ş¾Æ¿Í data bean °´Ã¼¿¡ ³Ö±â
-		//2. µî·ÏÀÛ¾÷ ¿äÃ»À»À§ÇØ ÇØ´ç Æ®·£Àè¼ÇÀÇ ÀÛ¾÷À» ÇÏ±âÀ§ÇÑ ¼­ºñ½º¸¦ »ı¼ºÇÏ°í ÇØ´ç ¼­ºñ½ºÀÇ »ı¼ºÇØµĞ¸Ş¼Òµå¿¡ µ¥ÀÌÅÍºó°´Ã¼¸¦ ³Ñ°ÜÁÖ°í return Àº booleanÇüÀ¸·Î ¹Ş±â  
+		//1. ì •ë³´ë¥¼ requestë‚˜ ì˜ì—­ê°ì²´ë¡œë¶€í„° ë°›ì•„ì˜¬ê²Œ ìˆë‹¤ë©´ ë°›ì•„ì™€ data bean ê°ì²´ì— ë„£ê¸°
+		//2. ë“±ë¡ì‘ì—… ìš”ì²­ì„ìœ„í•´ í•´ë‹¹ íŠ¸ëœì­ì…˜ì˜ ì‘ì—…ì„ í•˜ê¸°ìœ„í•œ ì„œë¹„ìŠ¤ë¥¼ ìƒì„±í•˜ê³  í•´ë‹¹ ì„œë¹„ìŠ¤ì˜ ìƒì„±í•´ë‘”ë©”ì†Œë“œì— ë°ì´í„°ë¹ˆê°ì²´ë¥¼ ë„˜ê²¨ì£¼ê³  return ì€ booleaní˜•ìœ¼ë¡œ ë°›ê¸°  
 		
 		RecipeLoginFormService recipeLoginFormService
 		=new RecipeLoginFormService();
-		boolean loginSuccess=recipeLoginFormService.login(/*»ç¿ëÀÚ°¡ ÀÔ·ÂÇß´ø Á¤º¸µéÀÌ µç µ¥ÀÌÅÍºó*/);
-		ActionForward forward = null;//¸Ş¼Òµå¿¡¼­ ÃÖÁ¾ÀûÀ¸·Î ¹İÈ¯ÇÒ Æ÷¿öµå°ªÀ» ÀúÀåÇÒ ³ğ
+		boolean loginSuccess=recipeLoginFormService.login(/*ì‚¬ìš©ìê°€ ì…ë ¥í–ˆë˜ ì •ë³´ë“¤ì´ ë“  ë°ì´í„°ë¹ˆ*/);
+		ActionForward forward = null;//ë©”ì†Œë“œì—ì„œ ìµœì¢…ì ìœ¼ë¡œ ë°˜í™˜í•  í¬ì›Œë“œê°’ì„ ì €ì¥í•  ë†ˆ
 		if(loginSuccess){
-			//¼º°ø½Ã ·¹½ÃÇÇÈ¨ÆäÀÌÁö ¸ŞÀÎÈ­¸é º¸¿©ÁÖ±â
+			//ì„±ê³µì‹œ ë ˆì‹œí”¼í™ˆí˜ì´ì§€ ë©”ì¸í™”ë©´ ë³´ì—¬ì£¼ê¸°
 			forward = new ActionForward();
-			forward.setRedirect(true);//Æ÷¿öµù ¹æ½ÄÀ» ¸®´ÙÀÌ·¢Æ®·ÎÇÏ°Ù´Ù.
-			forward.setUrl("¸ŞÀÎÈ­¸é.bo");
+			forward.setRedirect(true);//í¬ì›Œë”© ë°©ì‹ì„ ë¦¬ë‹¤ì´ë™íŠ¸ë¡œí•˜ê²Ÿë‹¤.
+			forward.setUrl("ë©”ì¸í™”ë©´.bo");
 		}
 		else{
-			//°æ°íÃ¢ ¶ç¿ì°í, ±Û¾²±â Ã¢ ´Ù½Ã ¶ç¿öÁÖ±â
-			response.setContentType("text/html;charset=UTF-8");//¸¶ÀÎµåÅ¸ÀÔÀº text/html·Î
+			//ê²½ê³ ì°½ ë„ìš°ê³ , ê¸€ì“°ê¸° ì°½ ë‹¤ì‹œ ë„ì›Œì£¼ê¸°
+			response.setContentType("text/html;charset=UTF-8");//ë§ˆì¸ë“œíƒ€ì…ì€ text/htmlë¡œ
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('¾ÆÀÌµğ,ºñ¹Ğ¹øÈ£°¡ Æ²·È½À´Ï´Ù.')");
-			out.println("history.back()");//ÀÌÀü url ·Î µ¹¾Æ°¡±â
+			out.println("alert('ì•„ì´ë””,ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë ¸ìŠµë‹ˆë‹¤.')");
+			out.println("history.back()");//ì´ì „ url ë¡œ ëŒì•„ê°€ê¸°
 			out.println("</script>");
 		}
 		
