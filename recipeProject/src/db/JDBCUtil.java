@@ -13,14 +13,14 @@ public class JDBCUtil {
 	 public static Connection getConnection() {
 		 Connection con = null;
 	     //Java Naming and Directory Interface
-	     //ÀÚ¹Ù ÇÃ·§Æû¿¡¼­ ÀÚ¿ø¿¡ ¸íÄªÀ» ºÎ¿©ÇÏ´Â ±â´ÉÀ» Á¦°øÇÏ´Â ÀÎÅÍÆäÀÌ½º
+	     //ìë°” í”Œë«í¼ì—ì„œ ìì›ì— ëª…ì¹­ì„ ë¶€ì—¬í•˜ëŠ” ê¸°ëŠ¥ì„ ì œê³µí•˜ëŠ” ì¸í„°í˜ì´ìŠ¤
 		 
 		 try{
 	      Context initCtx = new InitialContext();
-	      //ÅèÄÏ ÀÚÃ¼ÀÇ ÄÁÅØ½ºÆ®
+	      //í†°ì¼“ ìì²´ì˜ ì»¨í…ìŠ¤íŠ¸
 	      
 	      Context envCtx = (Context) initCtx.lookup("java:comp/env");
-	      //ÄÁÅ×ÀÌ³Ê¿¡¼­ ¸®¼Ò½º Á¤ÀÇ¿¡ °üÇÑ ÄÁÅØ½ºÆ®
+	      //ì»¨í…Œì´ë„ˆì—ì„œ ë¦¬ì†ŒìŠ¤ ì •ì˜ì— ê´€í•œ ì»¨í…ìŠ¤íŠ¸
 	      
 	      DataSource ds = (DataSource)envCtx.lookup("jdbc/xe");
 	      con = ds.getConnection();

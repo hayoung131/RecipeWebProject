@@ -1,36 +1,117 @@
 package dao;
 
+import static db.JDBCUtil.close;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import vo.Board;
 
 public class RecipeDAO {
 	/*
-	Àü¿ª º¯¼ö¸¦ »ç¿ëÇÏÁö ¾Ê°í °´Ã¼¸¦ ÇÏ³ª¸¸ »ı¼º ÇÏµµ·Ï ÇÏ¸ç, »ı¼ºµÈ °´Ã¼¸¦ ¾îµğ¿¡¼­µçÁö ÂüÁ¶ÇÒ ¼ö ÀÖµµ·Ï ÇÏ´Â ÆĞÅÏ
-	¾ÖÇÃ¸®ÄÉÀÌ¼ÇÀÌ ½ÃÀÛµÉ ¶§ ¾î¶² Å¬·¡½º°¡ ÃÖÃÊ ÇÑ¹ø¸¸ ¸Ş¸ğ¸®¸¦ ÇÒ´çÇÏ°í(Static) ±× ¸Ş¸ğ¸®¿¡ ÀÎ½ºÅÏ½º¸¦ ¸¸µé¾î »ç¿ëÇÏ´Â µğÀÚÀÎÆĞÅÏ.
-	»ı¼ºÀÚ°¡ ¿©·¯ Â÷·Ê È£ÃâµÇ´õ¶óµµ ½ÇÁ¦·Î »ı¼ºµÇ´Â °´Ã¼´Â ÇÏ³ª°í ÃÖÃÊ »ı¼º ÀÌÈÄ¿¡ È£ÃâµÈ »ı¼ºÀÚ´Â ÃÖÃÊ¿¡ »ı¼ºÇÑ °´Ã¼¸¦ ¹İÈ¯ÇÑ´Ù. 
-	(ÀÚ¹Ù¿¡¼± »ı¼ºÀÚ¸¦ private·Î ¼±¾ğÇØ¼­ »ı¼º ºÒ°¡ÇÏ°Ô ÇÏ°í getInstance()·Î ¹Ş¾Æ¾²±âµµ ÇÔ)
-	=> ½Ì±ÛÅæ ÆĞÅÏÀº ´Ü ÇÏ³ªÀÇ ÀÎ½ºÅÏ½º¸¦ »ı¼ºÇØ »ç¿ëÇÏ´Â µğÀÚÀÎ ÆĞÅÏÀÌ´Ù.
+	ì „ì—­ ë³€ìˆ˜ë¥¼ ì‚¬ìš©í•˜ì§€ ì•Šê³  ê°ì²´ë¥¼ í•˜ë‚˜ë§Œ ìƒì„± í•˜ë„ë¡ í•˜ë©°, ìƒì„±ëœ ê°ì²´ë¥¼ ì–´ë””ì—ì„œë“ ì§€ ì°¸ì¡°í•  ìˆ˜ ìˆë„ë¡ í•˜ëŠ” íŒ¨í„´
+	ì• í”Œë¦¬ì¼€ì´ì…˜ì´ ì‹œì‘ë  ë•Œ ì–´ë–¤ í´ë˜ìŠ¤ê°€ ìµœì´ˆ í•œë²ˆë§Œ ë©”ëª¨ë¦¬ë¥¼ í• ë‹¹í•˜ê³ (Static) ê·¸ ë©”ëª¨ë¦¬ì— ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“¤ì–´ ì‚¬ìš©í•˜ëŠ” ë””ìì¸íŒ¨í„´.
+	ìƒì„±ìê°€ ì—¬ëŸ¬ ì°¨ë¡€ í˜¸ì¶œë˜ë”ë¼ë„ ì‹¤ì œë¡œ ìƒì„±ë˜ëŠ” ê°ì²´ëŠ” í•˜ë‚˜ê³  ìµœì´ˆ ìƒì„± ì´í›„ì— í˜¸ì¶œëœ ìƒì„±ìëŠ” ìµœì´ˆì— ìƒì„±í•œ ê°ì²´ë¥¼ ë°˜í™˜í•œë‹¤. 
+	(ìë°”ì—ì„  ìƒì„±ìë¥¼ privateë¡œ ì„ ì–¸í•´ì„œ ìƒì„± ë¶ˆê°€í•˜ê²Œ í•˜ê³  getInstance()ë¡œ ë°›ì•„ì“°ê¸°ë„ í•¨)
+	=> ì‹±ê¸€í†¤ íŒ¨í„´ì€ ë‹¨ í•˜ë‚˜ì˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ìƒì„±í•´ ì‚¬ìš©í•˜ëŠ” ë””ìì¸ íŒ¨í„´ì´ë‹¤.
 	*/
 	
 	private Connection con;
-	/*¿ÜºÎÅ¬·¡½º¿¡¼­ BoardDAO º¯¼ö¿¡ Á÷Á¢Á¢±ÙÇÏÁö¸øÇÏ°Ô privateÀ¸·Î ÁöÁ¤ÇØÁØ°Í
-	*				Å¬·¡½º¸í	º¯¼ö¸í	 = new ¸Ş¼Òµå()
-	* ¹Û¿¡¼­´Â BoardDAO() »ı¼ºÀÚ·Î °´Ã¼ »ı¼º ¸øÇÏ°Ô ¸·¾Æµ×À¸´Ï, ¿ä ¾È¿¡¼­ °´Ã¼ »ı¼ºÇÏ°í ±×°É getInstance() ¸Ş¼Òµå¸¦
-	* ÅëÇØ¼­¸¸ °´Ã¼¸¦ °¡Á®°¥ ¼ö ÀÖµµ·ÏÇØµĞ°Í.
+	/*ì™¸ë¶€í´ë˜ìŠ¤ì—ì„œ BoardDAO ë³€ìˆ˜ì— ì§ì ‘ì ‘ê·¼í•˜ì§€ëª»í•˜ê²Œ privateìœ¼ë¡œ ì§€ì •í•´ì¤€ê²ƒ
+	*				í´ë˜ìŠ¤ëª…	ë³€ìˆ˜ëª…	 = new ë©”ì†Œë“œ()
+	* ë°–ì—ì„œëŠ” BoardDAO() ìƒì„±ìë¡œ ê°ì²´ ìƒì„± ëª»í•˜ê²Œ ë§‰ì•„ë’€ìœ¼ë‹ˆ, ìš” ì•ˆì—ì„œ ê°ì²´ ìƒì„±í•˜ê³  ê·¸ê±¸ getInstance() ë©”ì†Œë“œë¥¼
+	* í†µí•´ì„œë§Œ ê°ì²´ë¥¼ ê°€ì ¸ê°ˆ ìˆ˜ ìˆë„ë¡í•´ë‘”ê²ƒ.
 	*/
 	private RecipeDAO() {
- 		//¿ÜºÎ Å¬·¡½º¿¡¼­ »ı¼ºÀÚ¸¦ ÀÌ¿ëÇØ °´Ã¼¸¦ »ı¼ºÇÒ ¼ö ¾øµµ·Ï »ı¼ºÀÚÀÇ Á¢±ÙÁ¦ÇÑÀ» privateÀ¸·Î ¼³Á¤ÇÏ°í
+ 		//ì™¸ë¶€ í´ë˜ìŠ¤ì—ì„œ ìƒì„±ìë¥¼ ì´ìš©í•´ ê°ì²´ë¥¼ ìƒì„±í•  ìˆ˜ ì—†ë„ë¡ ìƒì„±ìì˜ ì ‘ê·¼ì œí•œì„ privateìœ¼ë¡œ ì„¤ì •í•˜ê³ 
  	}
 	private static RecipeDAO instance = new RecipeDAO();
 	public static RecipeDAO getInstance() {
         return instance;
-        /*½Ì±ÛÅæÆĞÅÏ : Æ¯Á¤Å¬·¡½º ±â´É»ç¿ë½Ã ¸Å¹ø Å¬·¡½º°´Ã¼ ¸Å¹ø ´Ù »ı¼ºÇÏ´Â°Ô¾Æ´Ï¶ó 
-         * Ã³À½¸¸ »ı¼ºÇÏ°í Èü¿¡ÀÖ´Â°É °øÀ¯ÇØ¼­ ´ÙÀ½¿£ »ı¼º¾ÈÇÏ°íµµ °¡´ÉÇÏ°Ô....
-         * getInstance()¸Ş¼Òµå¸¦ ÅëÇØ¼­¸¸..
-         *¿ÜºÎ¿¡¼­ ÇÏ³ª¸¸ »ı¼ºÇÏµµ·Ï ÇÔ... */
+        /*ì‹±ê¸€í†¤íŒ¨í„´ : íŠ¹ì •í´ë˜ìŠ¤ ê¸°ëŠ¥ì‚¬ìš©ì‹œ ë§¤ë²ˆ í´ë˜ìŠ¤ê°ì²´ ë§¤ë²ˆ ë‹¤ ìƒì„±í•˜ëŠ”ê²Œì•„ë‹ˆë¼ 
+         * ì²˜ìŒë§Œ ìƒì„±í•˜ê³  í™ì—ìˆëŠ”ê±¸ ê³µìœ í•´ì„œ ë‹¤ìŒì—” ìƒì„±ì•ˆí•˜ê³ ë„ ê°€ëŠ¥í•˜ê²Œ....
+         * getInstance()ë©”ì†Œë“œë¥¼ í†µí•´ì„œë§Œ..
+         *ì™¸ë¶€ì—ì„œ í•˜ë‚˜ë§Œ ìƒì„±í•˜ë„ë¡ í•¨... */
     }
 	
 	public void setConnection(Connection con) {
 		// TODO Auto-generated method stub
 		this.con = con;
 	}
+	
+	public int selectArticleCount()
+		    throws Exception {
+		        PreparedStatement pstmt = null;
+		        ResultSet rs = null;
+
+		        int x=0;
+
+		        try {
+		            
+		            pstmt = con.prepareStatement
+		            		("select count(*) from board");
+		            rs = pstmt.executeQuery();
+
+		            if (rs.next()) {
+		               x= rs.getInt(1);
+					}
+		        } catch(Exception ex) {
+		            ex.printStackTrace();
+		        } finally {
+		            close(rs);
+		            close(pstmt);
+		        }
+				return x;
+		    }
+	
+	public List<Board> selectArticleList(int start, int end)
+		    throws Exception {
+		        Statement stmt = null;
+		        ResultSet rs = null;
+		        List<Board> articleList=null;
+		        PreparedStatement pstmt = null;
+		        try {
+		            
+		            pstmt = con.prepareStatement(
+		"select list2.* from(select  list1.*  " +
+		"from(select *  from board order by ref desc, re_step asc)list1) " +
+		"list2 limit ?,?");
+		            pstmt.setInt(1, start-1);
+					pstmt.setInt(2, end);
+		            rs = pstmt.executeQuery();
+		   
+		                if (rs.next()) {
+		                int i=0;
+		                articleList = new ArrayList<Board>(end);
+		                do{
+		                  Board article= new Board();
+		      article.setNum(rs.getInt("num"));
+		      article.setWriter(rs.getString("writer"));
+		                  article.setEmail(rs.getString("email"));
+		                  article.setSubject(rs.getString("subject"));
+		                  article.setPasswd(rs.getString("passwd"));
+		         article.setReg_date(rs.getTimestamp("reg_date"));
+		      article.setReadcount(rs.getInt("readcount"));
+		                  article.setRef(rs.getInt("ref"));
+		                  article.setRe_step(rs.getInt("re_step"));
+		      article.setRe_level(rs.getInt("re_level"));
+		                  article.setContent(rs.getString("content"));
+		         article.setIp(rs.getString("ip")); 
+		      
+		                  articleList.add(article);
+		                  i++;
+		       }while(rs.next()&& i<end);
+		   }
+		        } catch(Exception ex) {
+		            ex.printStackTrace();
+		        } finally {
+		           close(rs);
+		           close(pstmt);
+		        }
+		  return articleList;
+		    }
+	
+	
+	
 }

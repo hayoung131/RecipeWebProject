@@ -9,18 +9,18 @@ import static db.JDBCUtil.*;
 
 public class RecipeLoginFormService {
 
-	public boolean login(/* ¹ÞÀº µ¥ÀÌÅÍºó*/) {
-		// ¸ðµ¨2¿¡¼­ Æ®·£Àè¼Ç ´ÜÀ§´Â ¼­ºñ½ºÅ¬·¡½º¿¡¼­ Ã³¸®ÇØÁà¾ßÇÔ.
+	public boolean login(/* ë°›ì€ ë°ì´í„°ë¹ˆ*/) {
+		// ëª¨ë¸2ì—ì„œ íŠ¸ëžœìž­ì…˜ ë‹¨ìœ„ëŠ” ì„œë¹„ìŠ¤í´ëž˜ìŠ¤ì—ì„œ ì²˜ë¦¬í•´ì¤˜ì•¼í•¨.
 		boolean loginSuccess = false;
 		
-		//1.db¿¬°á
+		//1.dbì—°ê²°
 		Connection con = getConnection();
 		
-		//. ½ÇÁ¦ sql³Ñ±æ RecipeDAO »ý¼ºÇÏ±â
+		//. ì‹¤ì œ sqlë„˜ê¸¸ RecipeDAO ìƒì„±í•˜ê¸°
 		RecipeDAO recipeDAO=RecipeDAO.getInstance();
 		recipeDAO.setConnection(con);
 /*		if(insertCount > 0){
-			//insert ¼º°øÇÑ°Í
+			//insert ì„±ê³µí•œê²ƒ
 			loginSuccess = true;
 			commit(con);
 		}

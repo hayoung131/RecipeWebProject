@@ -14,7 +14,7 @@ import action.RecipeLoginFormAction;
 import vo.ActionForward;
 
 
-@WebServlet("*.bo")//¸¶Áö¸· urlÀÌ *.bo ·Î ³¡³ª´Â ¿äÃ»À» ¸ÅÇÎÇÏ´Â ¼­ºí¸´À¸·Î ÁöÁ¤ÇÏ´Â ºÎºĞÀÓ. 
+@WebServlet("*.bo")//ë§ˆì§€ë§‰ urlì´ *.bo ë¡œ ëë‚˜ëŠ” ìš”ì²­ì„ ë§¤í•‘í•˜ëŠ” ì„œë¸”ë¦¿ìœ¼ë¡œ ì§€ì •í•˜ëŠ” ë¶€ë¶„ì„. 
 
 public class RecipeFrontController extends HttpServlet{
 	static final long serialVersionUID=1L;
@@ -26,24 +26,24 @@ public class RecipeFrontController extends HttpServlet{
 	
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 	
-		//1. ¿äÃ» ÆÄ¾Ç(·©Å·º¸±â ¿äÃ»ÀÎÁö, ¸¶ÀÌÆäÀÌÁö ¿äÃ»ÀÎÁö µîµî)
+		//1. ìš”ì²­ íŒŒì•…(ë­í‚¹ë³´ê¸° ìš”ì²­ì¸ì§€, ë§ˆì´í˜ì´ì§€ ìš”ì²­ì¸ì§€ ë“±ë“±)
 		String requestURI=request.getRequestURI();
-		//¿äÃ» URL : http://localhost:8088/project/boardWriteForm.bo
-		//requestURI : ¾ÖÇÃ¸®ÄÉÀÌ¼ÇÀÌ¸§ºÎÅÍ ¸¶Áö¸·±îÁö ÀúÀåµÊ /project/boardWriteForm.bo
+		//ìš”ì²­ URL : http://localhost:8088/project/boardWriteForm.bo
+		//requestURI : ì• í”Œë¦¬ì¼€ì´ì…˜ì´ë¦„ë¶€í„° ë§ˆì§€ë§‰ê¹Œì§€ ì €ì¥ë¨ /project/boardWriteForm.bo
 		String contextPath=request.getContextPath();
-		//contextPath : /project ÀÌ°Ô ³Ñ¾î¿È
+		//contextPath : /project ì´ê²Œ ë„˜ì–´ì˜´
 		
 		String command=requestURI.substring(contextPath.length());
-		/*ÀÎµ¦½ººÎÅÍ ¸¶Áö¸· ÀÎµ¦½º±îÁö Ãâ·ÂÇØ¶ó  /project ¸¦ ÁáÀ¸´Ï±î 8¹ø¤Š indexºÎÅÍ
-		 * index´Â 0ºÎÅÍ Ä«¿îÆ®µÊ µû¶ó¼­ /boardWriteForm.bo  */
+		/*ì¸ë±ìŠ¤ë¶€í„° ë§ˆì§€ë§‰ ì¸ë±ìŠ¤ê¹Œì§€ ì¶œë ¥í•´ë¼  /project ë¥¼ ì¤¬ìœ¼ë‹ˆê¹Œ 8ë²ˆì¨° indexë¶€í„°
+		 * indexëŠ” 0ë¶€í„° ì¹´ìš´íŠ¸ë¨ ë”°ë¼ì„œ /boardWriteForm.bo  */
 		
-		//2.¿äÃ»¿¡ ÇØ´çÇÏ´Â ºñÁö´Ï½º ·ÎÁ÷ È£Ãâ
-		Action action =null;//´ÙÇü¼º ÀÌ¿ëÇÏ¿© ÀÎÅÍÆäÀÌ½º ¸¸µé±â ctrl+1´©¸£¸é create interface Å¬¸¯ ÀÌÁ¦ ºñÁö´Ï½º¸ğµ¨ ¸¸µé°ÅÀÓ ÀÎÅÍÆäÀÌ½º·Î
-		ActionForward forward=null;//ActionÈ£ÃâµÇ¸é ActionForward°¡ ¹İÈ¯ÀÌ µÇ´Ï ÀÌ°É ÀúÀåÇÒ°÷.
+		//2.ìš”ì²­ì— í•´ë‹¹í•˜ëŠ” ë¹„ì§€ë‹ˆìŠ¤ ë¡œì§ í˜¸ì¶œ
+		Action action =null;//ë‹¤í˜•ì„± ì´ìš©í•˜ì—¬ ì¸í„°í˜ì´ìŠ¤ ë§Œë“¤ê¸° ctrl+1ëˆ„ë¥´ë©´ create interface í´ë¦­ ì´ì œ ë¹„ì§€ë‹ˆìŠ¤ëª¨ë¸ ë§Œë“¤ê±°ì„ ì¸í„°í˜ì´ìŠ¤ë¡œ
+		ActionForward forward=null;//Actioní˜¸ì¶œë˜ë©´ ActionForwardê°€ ë°˜í™˜ì´ ë˜ë‹ˆ ì´ê±¸ ì €ì¥í• ê³³.
 		
-		//3. ¿äÃ»º° Ã³¸®
-		if(command.equals("/recipeLoginFrom.bo")) {//¸¸¾à ·Î±×ÀÎ ¿äÃ»ÀÌ ³Ñ¾î¿Ô´Ù¸é ?
-			action=new RecipeLoginFormAction();//¿ä ¸ğµ¨¿¡¼­ Ã³¸®ÇÏ°Ù´Ù! Áï ÀÌ action Å¬·¡½º¿¡¼­ Ã³¸®ÇÏ°Ú´Ù.ctrl+1 create class-ÆĞÅ°Áö¸í action ÁÖ°í »ı¼ºÇÏ±â
+		//3. ìš”ì²­ë³„ ì²˜ë¦¬
+		if(command.equals("/recipeLoginFrom.bo")) {//ë§Œì•½ ë¡œê·¸ì¸ ìš”ì²­ì´ ë„˜ì–´ì™”ë‹¤ë©´ ?
+			action=new RecipeLoginFormAction();//ìš” ëª¨ë¸ì—ì„œ ì²˜ë¦¬í•˜ê²Ÿë‹¤! ì¦‰ ì´ action í´ë˜ìŠ¤ì—ì„œ ì²˜ë¦¬í•˜ê² ë‹¤.ctrl+1 create class-íŒ¨í‚¤ì§€ëª… action ì£¼ê³  ìƒì„±í•˜ê¸°
 			try {
 				forward=action.execute(request,response);
 			}catch(Exception e) {
@@ -52,12 +52,12 @@ public class RecipeFrontController extends HttpServlet{
 		}
 		//else if
 		
-		//4. ºäÆäÀÌÁö·Î Æ÷¿öµù. È­¸é¿¡ ¶ç¿öÁÖ´ÂºÎºĞ
-		if(forward != null) {//nullÀÌ ¾Æ´Ï´Ù? ¿äÃ»Ã³¸®°¡ Á¦´ë·Î µÆ´Ù´Â ÀÇ¹Ì
-			if(forward.isRedirect()) {//¸®´ÙÀÌ·ºÆ®¹æ½Ä
+		//4. ë·°í˜ì´ì§€ë¡œ í¬ì›Œë”©. í™”ë©´ì— ë„ì›Œì£¼ëŠ”ë¶€ë¶„
+		if(forward != null) {//nullì´ ì•„ë‹ˆë‹¤? ìš”ì²­ì²˜ë¦¬ê°€ ì œëŒ€ë¡œ ëë‹¤ëŠ” ì˜ë¯¸
+			if(forward.isRedirect()) {//ë¦¬ë‹¤ì´ë ‰íŠ¸ë°©ì‹
 				response.sendRedirect(forward.getUrl());
 			}
-			else {//µğ½ºÆĞÄ¡¹æ½Ä ±âº»ÀÌ ÀÌ¹æ½Ä, request, response°¡ °øÀ¯µÊ.
+			else {//ë””ìŠ¤íŒ¨ì¹˜ë°©ì‹ ê¸°ë³¸ì´ ì´ë°©ì‹, request, responseê°€ ê³µìœ ë¨.
 				RequestDispatcher dispatcher=request.getRequestDispatcher(forward.getUrl());
 				dispatcher.forward(request, response);
 			}
@@ -65,13 +65,13 @@ public class RecipeFrontController extends HttpServlet{
 	}
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doProcess(request,response);//getÀ¸·Î request°¡ ¿Àµç
+		doProcess(request,response);//getìœ¼ë¡œ requestê°€ ì˜¤ë“ 
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		doProcess(request,response);//post·Î request°¡ ¿Àµç doProcess()ÇÔ¼ö¿¡¼­ ÇØ°áÇØ¶ó
+		doProcess(request,response);//postë¡œ requestê°€ ì˜¤ë“  doProcess()í•¨ìˆ˜ì—ì„œ í•´ê²°í•´ë¼
 	}
 
 }
