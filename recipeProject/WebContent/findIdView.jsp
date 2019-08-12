@@ -109,7 +109,7 @@
 
           <a href="signupForm.jsp">회원가입</a>
           <a href="findPwdForm.jsp">비밀번호 찾기</a>
-          <a href="rankingList.jsp">비회원 접속</a>
+          <a href="recipeRankingList.bo">비회원 접속</a>
         </p>
   
     </div>

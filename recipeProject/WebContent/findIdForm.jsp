@@ -106,7 +106,7 @@
 
     <div class="form">
       <h2>아이디 찾기</h2>
-      <form method="get" class="findId-form" action="recipeFindIdForm.bo">
+      <form method="post" class="findId-form" action="recipeFindIdForm.bo">
        											     
           <label for="findId-name" id="name">이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</label>
           <input type="text" placeholder="이름을 입력해주세요" id="findId-name" name="name"/>
@@ -121,7 +121,7 @@
           <a href="loginForm.jsp">로그인</a>
           <a href="signupForm.jsp">회원가입</a>
           <a href="findPwdForm.jsp">비밀번호 찾기</a>
-          <a href="boardList.bo">비회원 접속</a>
+          <a href="recipeRankingList.bo">비회원 접속</a>
         </p>
       </form>
     </div>

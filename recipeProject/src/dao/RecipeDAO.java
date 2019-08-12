@@ -8,6 +8,7 @@ import java.util.List;
 
 import vo.Board;
 import vo.FindIdInfo;
+import vo.LoginInfo;
 
 public class RecipeDAO {
 	/*
@@ -144,5 +145,33 @@ public class RecipeDAO {
 			}
 			return id;
 		}
+
+	public boolean compareLoginInfo(LoginInfo loginInfo) throws Exception{
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		boolean loginPossible=false;
+		try {
+			pstmt=con.prepareStatement(
+					"select user_id "+
+					" from user "+
+					" where user_id=? and user_pw=? "
+					);
+			pstmt.setString(1, loginInfo.getId());
+			pstmt.setString(2, loginInfo.getPwd());
+			
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {//로그인정보와 db상의 정보가 일치한단의미
+				loginPossible=true;
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			close(rs);
+			close(pstmt);
+		}
+		return loginPossible;
+	}
 		
 	}

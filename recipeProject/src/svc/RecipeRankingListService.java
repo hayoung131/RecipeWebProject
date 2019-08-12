@@ -6,7 +6,7 @@ import java.util.List;
 
 import dao.RecipeDAO;
 import vo.Board;
-public class RecipeBoardListService {
+public class RecipeRankingListService {
 
 	public int getArticleCount() throws Exception {
 		// TODO Auto-generated method stub

@@ -5,12 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import svc.RecipeBoardListService;
+import svc.RecipeRankingListService;
 import vo.ActionForward;
 import vo.Board;
 import vo.PageInfo;
 
-public class RecipeBoardListAction implements Action {
+public class RecipeRankingListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -32,8 +32,8 @@ public class RecipeBoardListAction implements Action {
 		    //해당 페이지에 첫번째로 출력되는 글의 번호
 
 		    List<Board> articleList = null;
-		    RecipeBoardListService boardListService
-		    = new RecipeBoardListService();
+		    RecipeRankingListService boardListService
+		    = new RecipeRankingListService();
 		    
 		    count = boardListService.getArticleCount();
 		    if (count > 0) {
