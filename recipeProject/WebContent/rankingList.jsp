@@ -1,5 +1,5 @@
 <%@page import="vo.PageInfo"%>
-<%@page import="vo.Board"%>
+<%@page import="vo.Recipe"%>
 <%@ page contentType = "text/html; charset=UTF-8" %>
 <%@ page import = "java.util.List" %>
 <%@ page import = "java.text.SimpleDateFormat" %>
@@ -12,8 +12,9 @@
 %>
 
 <%
-     List<Board> articleList = (List<Board>)request.getAttribute("articleList");
+     List<Recipe> articleList = (List<Recipe>)request.getAttribute("articleList");
      PageInfo pageInfo = (PageInfo)request.getAttribute("pageInfo");
+     
      int number = pageInfo.getNumber();
      int count = pageInfo.getCount();
      int startPage = pageInfo.getStartPage();
@@ -36,9 +37,7 @@
 <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
-<body>
-
-<%@ include file="topMenu.jsp" %>
+<%@ include file="/topMenu.jsp" %>
 <center>
 
 <%-- <b>글목록(전체 글:<%=count%>)</b> --%>
@@ -61,30 +60,28 @@
 </table>
 
 <%  } else {    %>
-<table class="table table-striped table-sm " style ="margin-left: auto; margin-right: auto; 
-margin-top:15px; text-align:center; width: 800px; font-size: 10pt"> 
+<table class="table table-striped " style ="margin-left: auto; margin-right: auto; 
+margin-top:70px; text-align:center; width: 1140px; font-size: 13pt"> 
     
     <colgroup>
-		<col width="15%">
-		<col width="40%">
-		<col width="15%">
-		<col width="15%">
 		<col width="10%">
+		<col width="65%">
+		<col width="10%">
+		<col width="15%">
 	</colgroup>
     
     <thead class="thead-dark">
     <tr> 
-      <th align="center"  width="50"  >번 호</th> 
-      <th align="center"  width="250" >제   목</th> 
-      <th align="center"  width="100" >작성자</th>
-      <th align="center"  width="150" >작성일</th> 
-      <th align="center"  width="50" >조 회</th> 
+      <th align="center"  width="50"  >순위</th> 
+      <th align="center"  width="250" >레시피 제목</th> 
+      <th align="center"  width="100" >난이도</th>
+      <th align="center"  width="50" >조회수</th> 
       <!-- <th align="center"  width="100" >IP</th>    --> 
     </tr>
     </thead>
 <%  
         for (int i = 0 ; i < articleList.size() ; i++) {
-          Board article = (Board)articleList.get(i);
+          Recipe article = (Recipe)articleList.get(i);
 %>
    <tr height="30">
     <td align="center"  width="50" > <%=number--%></td>
@@ -100,21 +97,18 @@ margin-top:15px; text-align:center; width: 800px; font-size: 10pt">
 	  <img src="images/level.gif" width="<%=wid%>" height="16">
 	<%}%> --%>
            
-      <a href="boardContent.bo?num=<%=article.getNum()%>&pageNum=<%=currentPage%>">
-           <%=article.getSubject()%></a> 
+      <a href="recipeRankingContent.bo?num=<%=article.getNum()%>&pageNum=<%=currentPage%>">
+           <%=article.getTitle()%></a> 
 <%--           <% if(article.getReadcount()>=20){%>
          <img src="images/hot.gif" border="0"  height="16"><%}%>  --%>
          </td>
          
-         <!-- 작성자 부분 -->
+         <!-- 난이도 부분 -->
     <td align="center"  width="100">
        <%-- <a href="mailto:<%=article.getEmail()%>"> --%> <!-- 그 사람의(작성자의)이메일주소로 링크한거.  -->
-       <%=article.getWriter()%><!-- </a> --></td>
-       
-    <td align="center"  width="150">
-    <%= sdf.format(article.getReg_date())%></td>
+       <%=article.getLevel()%><!-- </a> --></td>
     
-    <td align="center"  width="50"><%=article.getReadcount()%>
+    <td align="center"  width="50"><%=article.getHit_count()%>
     </td>
    <%--  <td align="center" width="100" ><%=article.getIp()%></td> --%>
   </tr>
@@ -129,14 +123,14 @@ margin-top:15px; text-align:center; width: 800px; font-size: 10pt">
     if (count > 0) {
         
         if (startPage > 10) {    %>
-        <a href="boardList.bo?pageNum=<%= startPage - 10 %>">[이전]</a>
+        <a href="recipeRankingList.bo?pageNum=<%= startPage - 10 %>">[이전]</a>
 <%      }
         for (int i = startPage ; i <= endPage ; i++) {  %>
-        <a href="boardList.bo?pageNum=<%= i %>">[<%= i %>]</a>
+        <a href="recipeRankingList.bo?pageNum=<%= i %>">[<%= i %>]</a>
 <%
         }
         if (endPage < pageCount) {  %>
-        <a href="boardList.bo?pageNum=<%= startPage + 10 %>">[다음]</a>
+        <a href="recipeRankingList.bo?pageNum=<%= startPage + 10 %>">[다음]</a>
 <%
         }
     }

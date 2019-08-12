@@ -7,14 +7,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import svc.RecipeRankingListService;
 import vo.ActionForward;
-import vo.Board;
 import vo.PageInfo;
+import vo.Recipe;
 
 public class RecipeRankingListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		 int pageSize = 15;//한 페이지당 출력되는 글의 개수
+		 int pageSize = 12;//한 페이지당 출력되는 글의 개수
 		 String pageNum = request.getParameter("pageNum");//언제 request 영역에 공유된거임..;
 		    if (pageNum == null) {//아.. 공유된게 없다면 null이 들어올거고,, 그런경우 1로 셋팅하는구나.
 		        pageNum = "1";
@@ -31,13 +31,13 @@ public class RecipeRankingListAction implements Action {
 		    int number=0;
 		    //해당 페이지에 첫번째로 출력되는 글의 번호
 
-		    List<Board> articleList = null;
-		    RecipeRankingListService boardListService
+		    List<Recipe> articleList = null;
+		    RecipeRankingListService rankingListService
 		    = new RecipeRankingListService();
 		    
-		    count = boardListService.getArticleCount();
+		    count = rankingListService.getArticleCount();
 		    if (count > 0) {
-		        articleList = boardListService.getArticles(startRow, pageSize);
+		        articleList = rankingListService.getArticles(startRow, pageSize);
 		    }
 
 			number=count-(currentPage-1)*pageSize;
