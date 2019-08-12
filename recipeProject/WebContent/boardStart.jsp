@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href = "boardList.bo">메인화면으로 가기</a>
+<a href = "recipeRankingList.bo">메인화면으로 가기</a>
 </body>
 </html>
 
