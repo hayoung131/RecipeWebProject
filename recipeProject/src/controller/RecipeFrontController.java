@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import action.RecipeBoardListAction;
 import action.RecipeLoginFormAction;
 import vo.ActionForward;
 
@@ -47,6 +48,15 @@ public class RecipeFrontController extends HttpServlet{
 			try {
 				forward=action.execute(request,response);
 			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else if(command.equals("/boardList.bo")){//만약 글쓰기 요청이 넘어왔다면 ?
+			action = new RecipeBoardListAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
