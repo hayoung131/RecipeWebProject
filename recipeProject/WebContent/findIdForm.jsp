@@ -106,14 +106,14 @@
 
     <div class="form">
       <h2>아이디 찾기</h2>
-      <form class="findId-form">
-       
+      <form method="get" class="findId-form" action="recipeFindIdForm.bo">
+       											     
           <label for="findId-name" id="name">이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</label>
-          <input type="text" placeholder="이름을 입력해주세요" id="findId-name"/>
+          <input type="text" placeholder="이름을 입력해주세요" id="findId-name" name="name"/>
         
         <div>
           <label for="findId-phone">휴대폰번호</label>
-          <input type="text" placeholder="-를 제외한 폰번호를 입력하세요." id="findId-phone"/>
+          <input type="text" placeholder="-를 제외한 폰번호를 입력하세요." id="findId-phone" name="phoneNumber"/>
         </div>
          <input type="submit" id="idBtn" class="btn btn-success" value="아이디 찾기"></input>
 
@@ -121,7 +121,7 @@
           <a href="loginForm.jsp">로그인</a>
           <a href="signupForm.jsp">회원가입</a>
           <a href="findPwdForm.jsp">비밀번호 찾기</a>
-          <a href="">비회원 접속</a>
+          <a href="boardList.bo">비회원 접속</a>
         </p>
       </form>
     </div>

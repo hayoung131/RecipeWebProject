@@ -129,7 +129,7 @@ label{
           <a href="loginForm.jsp">로그인</a>
           <a href="signupForm.jsp">회원가입</a>
           <a href="findIdForm.jsp">아이디 찾기</a>
-          <a href="">비회원 접속</a>
+          <a href="boardList.bo">비회원 접속</a>
         </p>
       </form>
     </div>

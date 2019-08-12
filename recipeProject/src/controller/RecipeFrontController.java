@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import action.RecipeBoardListAction;
+import action.RecipeFindIdFormAction;
+import action.RecipeFindIdViewAction;
 import action.RecipeLoginFormAction;
 import vo.ActionForward;
 
@@ -19,16 +22,18 @@ import vo.ActionForward;
 
 public class RecipeFrontController extends HttpServlet{
 	static final long serialVersionUID=1L;
-	
+	private final static Logger logger=Logger.getGlobal();
 	public RecipeFrontController() {
 		super();
 		String s="Hello";
+		System.out.print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	}
 	
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 	
 		//1. 요청 파악(랭킹보기 요청인지, 마이페이지 요청인지 등등)
 		String requestURI=request.getRequestURI();
+		System.out.print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+requestURI);
 		//요청 URL : http://localhost:8088/project/boardWriteForm.bo
 		//requestURI : 애플리케이션이름부터 마지막까지 저장됨 /project/boardWriteForm.bo
 		String contextPath=request.getContextPath();
@@ -37,7 +42,7 @@ public class RecipeFrontController extends HttpServlet{
 		String command=requestURI.substring(contextPath.length());
 		/*인덱스부터 마지막 인덱스까지 출력해라  /project 를 줬으니까 8번쨰 index부터
 		 * index는 0부터 카운트됨 따라서 /boardWriteForm.bo  */
-		
+		System.out.print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+command+"!!!!!!!!!!!!!!!!!!");
 		//2.요청에 해당하는 비지니스 로직 호출
 		Action action =null;//다형성 이용하여 인터페이스 만들기 ctrl+1누르면 create interface 클릭 이제 비지니스모델 만들거임 인터페이스로
 		ActionForward forward=null;//Action호출되면 ActionForward가 반환이 되니 이걸 저장할곳.
@@ -60,8 +65,31 @@ public class RecipeFrontController extends HttpServlet{
 				e.printStackTrace();
 			}
 		}
-		//else if
+		else if(command.equals("/recipeFindIdForm.bo")) {
+			action=new RecipeFindIdFormAction();
+			try {
+				String a=request.getParameter("name");
+				String b=request.getParameter("phoneNumber");
+				
+				System.out.print("%%%%%%%%%"+a);
+				System.out.print("%%%%%%%%%"+b);
+				forward=action.execute(request,response);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else if(command.equals("/recipeFindIdView.bo")) {
+			action=new RecipeFindIdViewAction();
+			try {
+				forward=action.execute(request,response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
+
+	
 		//4. 뷰페이지로 포워딩. 화면에 띄워주는부분
 		if(forward != null) {//null이 아니다? 요청처리가 제대로 됐다는 의미
 			if(forward.isRedirect()) {//리다이렉트방식

@@ -22,7 +22,7 @@ public class JDBCUtil {
 	      Context envCtx = (Context) initCtx.lookup("java:comp/env");
 	      //컨테이너에서 리소스 정의에 관한 컨텍스트
 	      
-	      DataSource ds = (DataSource)envCtx.lookup("jdbc/sample");
+	      DataSource ds = (DataSource)envCtx.lookup("jdbc/xe");
 	      con = ds.getConnection();
 	      con.setAutoCommit(false);
 		 }
