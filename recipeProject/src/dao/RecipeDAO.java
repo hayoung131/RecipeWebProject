@@ -14,6 +14,7 @@ import vo.NewPwd;
 import vo.Ingredient;
 import vo.LoginInfo;
 import vo.Recipe;
+import vo.SignupInfo;
 
 
 public class RecipeDAO {
@@ -315,6 +316,41 @@ public class RecipeDAO {
 			 */			close(pstmt);
 		}
 		return changeSuccess;
+	}
+
+	public int saveMemberInfo(SignupInfo signupInfo) throws Exception{
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		int successSignup=0;
+		try {
+			pstmt=con.prepareStatement(
+				"insert into "+
+				"user(user_id,user_name,user_pw,user_phone,find_question,find_answer,material_exclude) "+
+				"values(?,?,?,?,?,?,?);"
+				);
+			pstmt.setString(1,signupInfo.getId());
+			pstmt.setString(2,signupInfo.getName());
+			pstmt.setString(3,signupInfo.getPwd());
+			pstmt.setString(4,signupInfo.getPhone());
+			pstmt.setInt(5,signupInfo.getFindQuestion());
+			pstmt.setString(6,signupInfo.getFindAnswer());
+			pstmt.setString(7,signupInfo.getExceptIngredients());
+			System.out.print("\n***********sql:  "+pstmt+"\n");
+			successSignup=pstmt.executeUpdate();
+			
+			if(successSignup>0) {
+				System.out.print("\n***********sql   :  "+successSignup+"\n");
+			}
+			else {
+				successSignup=0;
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return successSignup;
 	}
 	
 		

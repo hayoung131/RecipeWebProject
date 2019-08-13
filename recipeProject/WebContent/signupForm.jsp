@@ -11,11 +11,7 @@
 <link rel="stylesheet" type="text/css" href="css/jquery.selectlist.css">
 
 
-<script>
-$('.message a').click(function(){
-   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-});
-</script>
+
 <style>
   .signUp-page {/*로그인 창 작은거 */
   width: 550px;
@@ -115,35 +111,57 @@ textarea{
 </style>
 </head>
 <body>
+<script>
+function checkForm(){
+	var name = document.getElementById("signUp-name");
+	var id = document.getElementById("signUp-id");
+	
+	var dup = document.getElementById("confirm-duplication");//중복확인
+	
+	var pwd= document.getElementById("signUp-pwd");
+	var answer = document.getElementById("signUp-answer");
+	var phone = document.getElementById("signUp-phone");
+
+	if(name.value=='' ||id.value=='' ||pwd.value=='' ||answer.value=='' ||phone.value==''){
+		alert("마지막내용을 제외한 모든 내용을 입력해주세요");
+		return false;
+	}else{ 
+		return true;
+	}
+
+	
+}
+</script>
+
 <div class="signUp-page">
 
     <div class="form">
       <h2>회원가입</h2>
-      <form class="signUp-form">
+      <form class="signUp-form" method="post" action="recipeSignupForm.bo" onSubmit="return checkForm()">
 
-          <label for="signUp-name">이름</label>
-          <input type="text" placeholder="이름을 입력해주세요" id="signUp-name"/>
+          			<label for="signUp-name">이름</label>
+          <input type="text" placeholder="이름을 입력해주세요" id="signUp-name" name="signUp-name"/>
 
 					<label for="signUp-id">아이디</label>
-          <input type="text" placeholder="아이디를 입력해주세요" id="signUp-id" style="width:220px;"/>
-          
+          <input type="text" placeholder="아이디를 입력해주세요" id="signUp-id" style="width:220px;" name="signUp-id"/>
+          <input type='hidden' name='idCheckOn' value='0'/> 
 		  <button type="button" class="btn btn-success" id="confirm-duplication">중복확인</button>
 					<label for="signUp-pwd">비밀번호</label>
-          <input type="text" placeholder="이름을 입력해주세요" id="signUp-pwd"/>
+          <input type="text" placeholder="비밀번호를 입력해주세요" id="signUp-pwd" name="signUp-pwd"/>
 
 					<label for="signUp-phone">휴대폰번호</label>
-					<input type="text" placeholder="-를 제외한 휴대폰번호를 입력해주세요." id="signUp-phone"/>
+		  <input type="text" placeholder="-를 제외한 휴대폰번호를 입력해주세요." id="signUp-phone" name="signUp-phone"/>
 
-          <label for="signUp-question">질문</label>
+          			<label for="signUp-question">질문</label>
           <select id="signUp-question" class="form-control" name="signUp-question">
             <option value="0">기억에 남는 장소는?</option>
             <option value="1">자신의 인생 좌우명은?</option>
             <option value="2">인상 깊게 읽은 책은?</option>
           </select>
-          <input type="text" placeholder="질문에대한 답을 입력해주세요" id="signUp-answer"/>
+          <input type="text" placeholder="질문에대한 답을 입력해주세요" id="signUp-answer" name="signUp-answer"/>
 
 					<label for="exceptIngredients">제외할 재료 설정</label>
-					<textarea name="exceptIngredients"  id="exceptIngredients" rows="2" cols="38" placeholder="레시피를 추천할 때 해당 재료를 제외한 레시피를 검색하여 보여줍니다. ex)새우,게,복숭아"></textarea>
+		  <textarea name="exceptIngredients"  id="exceptIngredients" rows="2" cols="38" placeholder="레시피를 추천할 때 해당 재료를 제외한 레시피를 검색하여 보여줍니다. ex)새우,게,복숭아" ></textarea>
 
 
         <input type="submit" class="btn btn-success" id="signupBtn" value="회원가입"></input>

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import action.RecipeRankingListAction;
+import action.RecipeSignupFormAction;
 import action.RecipeFindIdFormAction;
 import action.RecipeFindPwdFormAction;
 import action.RecipeFindPwdViewAction;
@@ -101,13 +102,20 @@ public class RecipeFrontController extends HttpServlet {
 				 e.printStackTrace(); 
 				 } 
 		}else if(command.equals("/recipeRankingContent.bo")){
-					action = new RecipeRankingContentAction();
-					try {
-						forward = action.execute(request, response);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+			action = new RecipeRankingContentAction();
+			try {
+					forward = action.execute(request, response);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}else if(command.equals("/recipeSignupForm.bo")){
+			action = new RecipeSignupFormAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		 
