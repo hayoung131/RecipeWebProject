@@ -104,6 +104,14 @@ textarea{
   margin:0 0 0 10px;
   text-align: left;
 }
+#signupBtn {
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  font-size: 14px;
+  text-align: center;
+  background: #4CAF50;
+}
 </style>
 </head>
 <body>
@@ -138,7 +146,7 @@ textarea{
 					<textarea name="exceptIngredients"  id="exceptIngredients" rows="2" cols="38" placeholder="레시피를 추천할 때 해당 재료를 제외한 레시피를 검색하여 보여줍니다. ex)새우,게,복숭아"></textarea>
 
 
-        <button type="button" class="btn btn-success">회원가입</button>
+        <input type="submit" class="btn btn-success" id="signupBtn" value="회원가입"></input>
         <p class="message">
           <a href="loginForm.jsp">로그인페이지로 돌아가기</a>
         </p>

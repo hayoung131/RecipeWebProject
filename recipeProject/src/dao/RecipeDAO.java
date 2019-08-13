@@ -8,7 +8,9 @@ import java.util.List;
 
 import vo.Board;
 import vo.FindIdInfo;
+import vo.FindPwdInfo;
 import vo.LoginInfo;
+import vo.NewPwd;
 
 public class RecipeDAO {
 	/*
@@ -173,5 +175,70 @@ public class RecipeDAO {
 		}
 		return loginPossible;
 	}
+
+	public String searchPwd(FindPwdInfo findPwdInfo) throws Exception {
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		String id=null;
+		
+		try {
+			pstmt=con.prepareStatement(
+					"select user_id "+
+					" from user "+
+					" where user_id=? and user_name=? and find_question=? and find_answer=? "
+					);
+			pstmt.setString(1, findPwdInfo.getId());
+			pstmt.setString(2, findPwdInfo.getName());
+			pstmt.setInt(3, findPwdInfo.getFindQuestion());
+			pstmt.setString(4,findPwdInfo.getFindAnswer());
+			/* System.out.print("\n***********sql:  "+pstmt+"\n"); */
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				id=rs.getString("user_id");
+			}
+			else {
+				id="0";
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			close(rs);
+			close(pstmt);
+		}
+		return id;
+	}
+
+	public int savePwd(NewPwd newPwd) throws Exception{
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		int changeSuccess=0;
+		try {
+			pstmt=con.prepareStatement("update user set user_pw=? where user_id=?");
+			pstmt.setString(1, newPwd.getNewPwd());
+			pstmt.setString(2, newPwd.getMatchedId());
+			System.out.print("\n***********sql:  "+pstmt+"\n");
+			int a=pstmt.executeUpdate();
+			System.out.print("\n***********sql   :  "+a+"\n");
+			if(a>0) {
+				changeSuccess=a;
+			}else {
+				changeSuccess=0;
+			}
+			
+			/* pstmt.close(); */
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			/*
+			 * // close(rs);
+			 */			close(pstmt);
+		}
+		return changeSuccess;
+	}
+	
 		
 	}

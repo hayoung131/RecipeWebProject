@@ -105,15 +105,15 @@ label{
 
     <div class="form">
       <h2>비밀번호 찾기</h2>
-      <form class="findPwd-form">
+      <form method="post" class="findPwd-form" action="recipeFindPwdForm.bo">
 
-          <label for="findPwd-phone">아이디</label>
-          <input type="text" placeholder="아이디를 입력해주세요" id="findPwd-phone"/>
+          <label for="findPwd-id">아이디</label>
+          <input type="text" placeholder="아이디를 입력해주세요" id="findPwd-id" name="findPwd-id"/>
 
 
 
           <label for="findPwd-name">이름</label>
-          <input type="text" placeholder="이름을 입력해주세요" id="findPwd-name"/>
+          <input type="text" placeholder="이름을 입력해주세요" id="findPwd-name" name="findPwd-name"/>
 
           <label for="findPwd-name">질문</label>
           <select id="findPwd-question" class="form-control" name="findPwd-question">
@@ -122,7 +122,7 @@ label{
             <option value="2">인상 깊게 읽은 책은?</option>
           </select>
           
-          <input type="text" placeholder="질문에대한 답을 입력해주세요" id="findPwd-ans"/>
+          <input type="text" placeholder="질문에대한 답을 입력해주세요" id="findPwd-ans" name="findPwd-ans"/>
 
         <input type="submit" id="pwdBtn" class="btn btn-success" value="비밀번호 찾기"></input>
         <p class="message">

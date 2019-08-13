@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import action.Action;
 import action.RecipeRankingListAction;
 import action.RecipeFindIdFormAction;
-
+import action.RecipeFindPwdFormAction;
+import action.RecipeFindPwdViewAction;
 import action.RecipeLoginFormAction;
 import vo.ActionForward;
 
@@ -81,7 +82,27 @@ public class RecipeFrontController extends HttpServlet {
 			 }catch(Exception e) { 
 				 e.printStackTrace(); 
 				 } 
-			 }
+		}else if(command.equals("/recipeFindPwdForm.bo")) { 
+			 action=new RecipeFindPwdFormAction(); 
+			 try { 
+				/*
+				 * String b=request.getParameter("findPwd-name");
+				 * System.out.print("\n          값값    "+b+"\n");
+				 */
+				 forward=action.execute(request,response);
+			 }catch(Exception e) { 
+				 e.printStackTrace(); 
+				 } 
+		}else if(command.equals("/recipeFindPwdView.bo")) { 
+			 action=new RecipeFindPwdViewAction(); 
+			 try { 
+				 String b=request.getParameter("matchedId");
+				 System.out.print("\n          matchedId값값    "+b+"\n");
+				 forward=action.execute(request,response);
+			 }catch(Exception e) { 
+				 e.printStackTrace(); 
+				 } 
+		}
 		 
 
 		// 4. 뷰페이지로 포워딩. 화면에 띄워주는부분
