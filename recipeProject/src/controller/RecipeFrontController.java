@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,14 +15,13 @@ import action.RecipeFindIdFormAction;
 import action.RecipeFindPwdFormAction;
 import action.RecipeFindPwdViewAction;
 import action.RecipeLoginFormAction;
+import action.RecipeRankingContentAction;
 import vo.ActionForward;
 
 @WebServlet("*.bo") // 마지막 url이 *.bo 로 끝나는 요청을 매핑하는 서블릿으로 지정하는 부분임.
 
 public class RecipeFrontController extends HttpServlet {
 	static final long serialVersionUID = 1L;
-	private final static Logger logger = Logger.getGlobal();
-
 	public RecipeFrontController() {
 		super();
 	}
@@ -102,7 +100,16 @@ public class RecipeFrontController extends HttpServlet {
 			 }catch(Exception e) { 
 				 e.printStackTrace(); 
 				 } 
+		}else if(command.equals("/recipeRankingContent.bo")){
+					action = new RecipeRankingContentAction();
+					try {
+						forward = action.execute(request, response);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 		}
+
 		 
 
 		// 4. 뷰페이지로 포워딩. 화면에 띄워주는부분

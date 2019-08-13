@@ -11,6 +11,10 @@ import vo.FindIdInfo;
 import vo.FindPwdInfo;
 import vo.LoginInfo;
 import vo.NewPwd;
+import vo.Ingredient;
+import vo.LoginInfo;
+import vo.Recipe;
+
 
 public class RecipeDAO {
 	/*
@@ -54,7 +58,7 @@ public class RecipeDAO {
 		        try {
 		            
 		            pstmt = con.prepareStatement
-		            		("select count(*) from board");
+		            		("select count(*) from recipes");
 		            rs = pstmt.executeQuery();
 
 		            if (rs.next()) {
@@ -69,17 +73,17 @@ public class RecipeDAO {
 				return x;
 		    }
 	
-	public List<Board> selectArticleList(int start, int end)
+	public List<Recipe> selectArticleList(int start, int end)
 		    throws Exception {
 		        Statement stmt = null;
 		        ResultSet rs = null;
-		        List<Board> articleList=null;
+		        List<Recipe> articleList=null;
 		        PreparedStatement pstmt = null;
 		        try {
 		            
 		            pstmt = con.prepareStatement(
 		"select list2.* from(select  list1.*  " +
-		"from(select *  from board order by ref desc, re_step asc)list1) " +
+		"from(select *  from recipes order by num desc)list1) " +
 		"list2 limit ?,?");
 		            pstmt.setInt(1, start-1);
 					pstmt.setInt(2, end);
@@ -87,25 +91,20 @@ public class RecipeDAO {
 		   
 		                if (rs.next()) {
 		                int i=0;
-		                articleList = new ArrayList<Board>(end);
+		                articleList = new ArrayList<Recipe>(end);
 		                do{
-		                  Board article= new Board();
-					      article.setNum(rs.getInt("num"));
-					      article.setWriter(rs.getString("writer"));
-		                  article.setEmail(rs.getString("email"));
-		                  article.setSubject(rs.getString("subject"));
-		                  article.setPasswd(rs.getString("passwd"));
-					      article.setReg_date(rs.getTimestamp("reg_date"));
-					      article.setReadcount(rs.getInt("readcount"));
-		                  article.setRef(rs.getInt("ref"));
-		                  article.setRe_step(rs.getInt("re_step"));
-		                  article.setRe_level(rs.getInt("re_level"));
-		                  article.setContent(rs.getString("content"));
-		                  article.setIp(rs.getString("ip")); 
+		                  Recipe article= new Recipe();
+		                  article.setNum(rs.getInt("num"));
+		                  article.setTitle(rs.getString("title"));
+		                  article.setHit_count(rs.getString("hit_count"));
+		                  article.setLevel(rs.getString("level"));
+		                  article.setTime(rs.getString("time"));
+		                  article.setCooking_step(rs.getString("cooking_step"));
+		      
 		                  articleList.add(article);
 		                  i++;
-		                }while(rs.next()&& i<end);
-		                }
+		       }while(rs.next()&& i<end);
+		   }
 		        } catch(Exception ex) {
 		            ex.printStackTrace();
 		        } finally {
@@ -114,6 +113,84 @@ public class RecipeDAO {
 		        }
 		  return articleList;
 		    }
+	
+	public Recipe selectRecipeInfo(int num)
+    	    throws Exception {
+    	        PreparedStatement pstmt = null;
+    	        ResultSet rs = null;
+    	        Recipe information = null;
+    	        try {
+
+    	            pstmt = con.prepareStatement(
+    	            	"select * from recipes where num = ?");
+    	            pstmt.setInt(1, num);
+    	            rs = pstmt.executeQuery();
+
+    	            if (rs.next()) {
+    	                information = new Recipe();
+    	                information.setNum(rs.getInt("num"));
+    	                information.setTitle(rs.getString("title"));
+    	                information.setHit_count(rs.getString("hit_count"));
+    	                information.setLevel(rs.getString("level"));
+    	                information.setTime(rs.getString("time"));
+    	                information.setCooking_step(rs.getString("cooking_step")); 
+    				}
+    	        } catch(Exception ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(rs);
+    	            close(pstmt);
+    	        }
+    			return information;
+    	    }
+	
+	public List<Ingredient> selectRecipeIngredient(int num)
+    	    throws Exception {
+    	        PreparedStatement pstmt = null;
+    	        ResultSet rs = null;
+    	        List<Ingredient> informationList = null;
+    	        try {
+    	        	int x = 0;
+    	        	
+    	        	pstmt = con.prepareStatement
+    	            		("select count(*) from ingredient");
+    	            rs = pstmt.executeQuery();
+
+    	            if (rs.next()) {
+    	               x= rs.getInt(1);
+    				}
+
+    	            pstmt = con.prepareStatement(
+    	            	"select * from ingredient where num = ?");
+    	            pstmt.setInt(1, num);
+    	            rs = pstmt.executeQuery();
+
+    	            if (rs.next()) {
+    	            	int i=0;
+    	            	informationList = new ArrayList<Ingredient>(x);
+    	            	
+    	            	do {
+    	            		Ingredient information = new Ingredient();
+    	            		
+    	            		information.setNum(rs.getInt("num"));
+        	                information.setIngredient_id(rs.getInt("ingredient_id"));
+        	                information.setMeasu(rs.getString("measu"));
+        	                information.setAmount(rs.getString("amount"));
+        	                information.setSearching_ingredient(rs.getString("searching_ingredient"));
+    	            	
+        	                informationList.add(information);
+        	                i++;
+    	            	}while(rs.next()&& i<x);
+    	                
+    				}
+    	        } catch(Exception ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(rs);
+    	            close(pstmt);
+    	        }
+    			return informationList;
+    	    }
 
 	public String searchId(FindIdInfo findIdInfo) 
 		throws Exception{
