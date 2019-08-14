@@ -12,12 +12,26 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-
-
 <meta charset="UTF-8">
-
 <title>Insert title here</title>
 
+<%!static String id="";%>
+<%
+id=(String)session.getAttribute("loginId");
+System.out.print("\n session id: "+id+"\n");
+%>
+<script>
+	var id='<%=id%>';
+	function loginCheck(){
+		if(id==null || id.equals("")){//비회원 접속상태
+			alert(id);
+			alert("로그인이 필요한 서비스입니다.");
+			return false;
+		}
+		else
+			return true;
+	}
+</script>
 </head>
 <body>
 
@@ -39,9 +53,9 @@
       <li class="nav-item dropdown" style="font-size: 10pt">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">마이페이지</a>
         <div class="dropdown-menu" aria-labelledby="dropdown03">
-          <a class="dropdown-item" href="#">회원정보</a>
-          <a class="dropdown-item" href="#">즐겨찾기</a>
-          <a class="dropdown-item" href="#">제외할 재료 설정</a>
+          <a class="dropdown-item" href="confirmPwd.jsp" onclick="return loginCheck();">회원정보</a>
+          <a class="dropdown-item" href="#" onclick="return loginCheck();">즐겨찾기</a>
+          <a class="dropdown-item" href="#" onclick="return loginCheck();">제외할 재료 설정</a>
         </div>
       </li>
       <li class="nav-item" style="padding-top: 5px;">
