@@ -35,9 +35,12 @@ System.out.print("\n session id: "+id+"\n");
 </head>
 <body>
 
-
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">레시피를 부탁해</a>
+<div class="jumbotron text-center mb-0" style="padding-bottom:20px; padding-top: 20px;" >
+        <h1>레시피를 부탁해</h1>
+        <p>냠냠봇에게 레시피를 물어 보세요!</p>
+    </div>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark" >
+  <a class="navbar-brand" href="recipeRankingList.bo"><h4>레시피를 부탁해</h4></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -45,21 +48,21 @@ System.out.print("\n session id: "+id+"\n");
   <div class="collapse navbar-collapse" id="navbarsExample03">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#" style="font-size: 10pt"> 레시피 랭킹<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="recipeRankingList.bo" style="font-size: 13pt"> 레시피 랭킹<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" style="font-size: 10pt">챗봇</a>
+        <a class="nav-link" href="#" style="font-size: 13pt">챗봇</a>
       </li>
-      <li class="nav-item dropdown" style="font-size: 10pt">
+      <li class="nav-item dropdown" style="font-size: 13pt">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">마이페이지</a>
         <div class="dropdown-menu" aria-labelledby="dropdown03">
           <a class="dropdown-item" href="confirmPwd.jsp" onclick="return loginCheck();">회원정보</a>
-          <a class="dropdown-item" href="#" onclick="return loginCheck();">즐겨찾기</a>
+          <a class="dropdown-item" href="recipeMpFavoriteList.bo" onclick="return loginCheck();">즐겨찾기</a>
           <a class="dropdown-item" href="#" onclick="return loginCheck();">제외할 재료 설정</a>
         </div>
       </li>
       <li class="nav-item" style="padding-top: 5px;">
-        <a class="nav-link" href="#" style="font-size: 7pt">로그아웃</a>
+        <a class="nav-link" href="#" style="font-size: 10pt">로그아웃</a>
       </li>
 
     </ul>

@@ -58,6 +58,7 @@ public class RecipeRankingListAction implements Action {
 			        endPage = startPage + pageBlock-1;
 			        if (endPage > pageCount) endPage = pageCount;
 			 }
+
 			 //이제 속성으로 공유해야하니까 포워딩해야됨
 			 request.setAttribute("articleList", articleList);
 			 //페이징 정보를 저장하는 클래스를 설계하고 객체 만들고 그걸 공유하는게 훨씬 편하니 클래스 설계하자.

@@ -11,7 +11,11 @@
 <link rel="stylesheet" type="text/css" href="css/jquery.selectlist.css">
 
 
-
+<script>
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+</script>
 <style>
   .signUp-page {/*로그인 창 작은거 */
   width: 550px;

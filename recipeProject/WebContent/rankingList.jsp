@@ -39,7 +39,7 @@
 </head>
 
 <%@ include file="/topMenu.jsp" %>
-<center>
+<center style="margin-bottom: 30px;">
 
 <%-- <b>글목록(전체 글:<%=count%>)</b> --%>
 <%-- <table width="700">
@@ -97,7 +97,7 @@ margin-top:70px; text-align:center; width: 1140px; font-size: 13pt">
 	<%}else{%>
 	  <img src="images/level.gif" width="<%=wid%>" height="16">
 	<%}%> --%>
-           
+        <!-- 제목부분임 -->   
       <a href="recipeRankingContent.bo?num=<%=article.getNum()%>&pageNum=<%=currentPage%>">
            <%=article.getTitle()%></a> 
 <%--           <% if(article.getReadcount()>=20){%>

@@ -23,18 +23,19 @@ public class RecipeRankingContentAction implements Action {
 	// TODO Auto-generated method stub
 	 int num = Integer.parseInt(request.getParameter("num"));
 	   String pageNum = request.getParameter("pageNum");
-	   
+	   String check_num = "0";
 	   List<Ingredient> ingredientList = null;
 
-	   RecipeRankingContentService RecipeBoardContentService
+	   RecipeRankingContentService recipeRankingContentService
 	   = new RecipeRankingContentService();
 	   
-	   Recipe information = RecipeBoardContentService.getArticle(num);
-	   ingredientList = RecipeBoardContentService.getIngredientList(num);
+	   Recipe information = recipeRankingContentService.getArticle(num);
+	   ingredientList = recipeRankingContentService.getIngredientList(num);
 	   
 	   request.setAttribute("pageNum", pageNum);
 	   request.setAttribute("information", information);
 	   request.setAttribute("ingredientList", ingredientList);
+	   request.setAttribute("check_num", check_num);
 	   
 	   ActionForward forward = new ActionForward();
 	   forward.setUrl("/recipeInfo.jsp");

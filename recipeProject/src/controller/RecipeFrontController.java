@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,12 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import action.RecipeAddFavoritesAction;
 import action.RecipeRankingListAction;
 import action.RecipeSignupFormAction;
+import action.recipeMpFavotiteDeleteProAction;
 import action.RecipeFindIdFormAction;
 import action.RecipeFindPwdFormAction;
 import action.RecipeFindPwdViewAction;
 import action.RecipeLoginFormAction;
+import action.RecipeMpFavoriteContentAction;
+import action.RecipeMpFavoriteListAction;
 import action.RecipeRankingContentAction;
 import vo.ActionForward;
 
@@ -23,6 +28,8 @@ import vo.ActionForward;
 
 public class RecipeFrontController extends HttpServlet {
 	static final long serialVersionUID = 1L;
+	private final static Logger logger = Logger.getGlobal();
+
 	public RecipeFrontController() {
 		super();
 	}
@@ -108,6 +115,8 @@ public class RecipeFrontController extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+
+
 		}else if(command.equals("/recipeSignupForm.bo")){
 			action = new RecipeSignupFormAction();
 			try {
@@ -117,8 +126,51 @@ public class RecipeFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-
-		 
+			else if(command.equals("/recipeMpFavoriteContent.bo")){
+			action = new RecipeMpFavoriteContentAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(command.equals("/recipeMpFavotiteDeletePro.bo")){
+			action = new recipeMpFavotiteDeleteProAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(command.equals("/recipeAddFavorites.bo")){
+					action = new RecipeAddFavoritesAction();
+					try {
+						forward = action.execute(request, response);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+		 else if(command.equals("/recipeMpFavoriteList.bo")){
+			action = new RecipeMpFavoriteListAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			else if(command.equals("/recipeMpFavotiteDeletePro.bo")){
+			action = new recipeMpFavotiteDeleteProAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 		// 4. 뷰페이지로 포워딩. 화면에 띄워주는부분
 		if (forward != null) {// null이 아니다? 요청처리가 제대로 됐다는 의미

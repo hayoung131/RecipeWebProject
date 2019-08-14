@@ -20,7 +20,18 @@
 <%@ include file="/topMenu.jsp" %>
 <%
 
+	
+	String check_num = (String)request.getAttribute("check_num");
+	
 	List<Ingredient> ingredientList = (List<Ingredient>)request.getAttribute("ingredientList");
+	String message = (String)request.getAttribute("message");
+	 
+	if(check_num.equals("1")){
+	 %> 
+	 <script>alert('<%=message%>');</script>
+	<%
+	 }
+	 
 	try{
 		Recipe information = (Recipe)request.getAttribute("information");
 		String pageNum = (String)request.getAttribute("pageNum");
@@ -31,9 +42,10 @@
 		String hit_count =  information.getHit_count();
 		String time = information.getTime();
 		String cooking_step = information.getCooking_step();
-		
-		String star = "images/star1.png";
-%>
+		String img = information.getImg();
+		String status = information.getStatus();
+		%>
+
 <body>
 <center>
 <!-- 전체 내용을 감싸는 div -->
@@ -54,8 +66,8 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=title%></th>
 		<th style="text-align:right; font-size: 13pt; padding-bottom: 12px;">조회수&nbsp;<%=hit_count %></th>
 		<th style="padding-bottom: 10px;">
-			<a href="recipeAddFavorites.bo?num=<%=information.getNum()%>">
-			<img src=<%=star %> width="25px" height="25px" >
+			<a href="recipeAddFavorites.bo?num=<%=information.getNum()%>&status=<%=information.getStatus()%>&pageNum=<%=pageNum%>">															
+			<img src=<%=img %> width="25px" height="25px" >
 			</a>
 		</th>
 	</tr>
@@ -151,7 +163,7 @@
 
 <!-- 조리순서 -->
 <div>
-<div style="text-align: left; margin-top: 30px">
+<div style="text-align: left; margin-top: 30px; margin-bottom: 30px;">
 	<button type="button" class="btn btn-sm btn-dark btn-primary" style="width: 180px;" disabled>조리순서</button>
 </div>
 <div style="margin: 20px; width: 840px; margin-left: 180px;">

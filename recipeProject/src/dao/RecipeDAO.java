@@ -74,6 +74,33 @@ public class RecipeDAO {
 				return x;
 		    }
 	
+	
+	public int selectArticleCountFavorite()
+		    throws Exception {
+		        PreparedStatement pstmt = null;
+		        ResultSet rs = null;
+
+		        int x=0;
+
+		        try {
+		            
+		            pstmt = con.prepareStatement
+		            		("select count(*) from favorite where status = 'on'");
+		            rs = pstmt.executeQuery();
+
+		            if (rs.next()) {
+		               x= rs.getInt(1);
+					}
+		        } catch(Exception ex) {
+		            ex.printStackTrace();
+		        } finally {
+		            close(rs);
+		            close(pstmt);
+		        }
+				return x;
+		    }
+	
+	
 	public List<Recipe> selectArticleList(int start, int end)
 		    throws Exception {
 		        Statement stmt = null;
@@ -115,17 +142,59 @@ public class RecipeDAO {
 		  return articleList;
 		    }
 	
+	
+	public List<Recipe> selectArticleListFavorite(int start, int end)
+		    throws Exception {
+		        Statement stmt = null;
+		        ResultSet rs = null;
+		        List<Recipe> articleList=null;
+		        PreparedStatement pstmt = null;
+		        try {
+		            
+		            pstmt = con.prepareStatement(
+		"select list2.* from(select  list1.*  " +
+		"from(select *  from recipes order by num desc)list1) " +
+		"list2 inner join favorite as f where list2.num=f.num and f.status='on' limit ?,? ");
+		            pstmt.setInt(1, start-1);
+					pstmt.setInt(2, end);
+		            rs = pstmt.executeQuery();
+		   
+		                if (rs.next()) {
+		                int i=0;
+		                articleList = new ArrayList<Recipe>(end);
+		                do{
+		                  Recipe article= new Recipe();
+		                  article.setNum(rs.getInt("num"));
+		                  article.setTitle(rs.getString("title"));
+		                  article.setHit_count(rs.getString("hit_count"));
+		                  article.setLevel(rs.getString("level"));
+		                  article.setTime(rs.getString("time"));
+		                  article.setCooking_step(rs.getString("cooking_step"));
+		      
+		                  articleList.add(article);
+		                  i++;
+		       }while(rs.next()&& i<end);
+		   }
+		        } catch(Exception ex) {
+		            ex.printStackTrace();
+		        } finally {
+		           close(rs);
+		           close(pstmt);
+		        }
+		  return articleList;
+		    }
+	
+	
 	public Recipe selectRecipeInfo(int num)
     	    throws Exception {
     	        PreparedStatement pstmt = null;
     	        ResultSet rs = null;
     	        Recipe information = null;
     	        try {
-
-    	            pstmt = con.prepareStatement(
-    	            	"select * from recipes where num = ?");
-    	            pstmt.setInt(1, num);
-    	            rs = pstmt.executeQuery();
+    	        	pstmt = con.prepareStatement("select * from favorite as f inner join recipes as r"
+    	        			+ " on f.num = r.num where r.num = ?");
+    	        	pstmt.setInt(1, num);
+    	        	rs = pstmt.executeQuery();
 
     	            if (rs.next()) {
     	                information = new Recipe();
@@ -134,7 +203,9 @@ public class RecipeDAO {
     	                information.setHit_count(rs.getString("hit_count"));
     	                information.setLevel(rs.getString("level"));
     	                information.setTime(rs.getString("time"));
-    	                information.setCooking_step(rs.getString("cooking_step")); 
+    	                information.setCooking_step(rs.getString("cooking_step"));
+    	                information.setImg(rs.getString("img"));
+    	                information.setStatus(rs.getString("status"));
     				}
     	        } catch(Exception ex) {
     	            ex.printStackTrace();
@@ -352,6 +423,58 @@ public class RecipeDAO {
 		}
 		return successSignup;
 	}
+	public int UpdateFavoritesOn(int num, String img, String status) 
+			throws Exception {
+		
+			PreparedStatement pstmt = null;
+	        Recipe information = null;
+	        int b =0;
+        
+		try {
+
+            pstmt = con.prepareStatement(
+            	"update favorite set img = ?,status = ? where num = ?");
+            pstmt.setString(1, img);
+            pstmt.setString(2, status);
+            pstmt.setInt(3, num);
+            int a = pstmt.executeUpdate();
+            
+            if(a>0) {
+            	System.out.println(pstmt+"수정되었습니다.");
+            	b=a;
+            }else {
+            	System.out.println("수정실패.");
+            	b=0;
+            }
+            		
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        } finally {
+           close(pstmt);
+           
+        }
+		
+		return b;
+	}
+
 	
+	public int deleteFavorite(int num) throws Exception {
+			PreparedStatement pstmt = null;
+	        ResultSet rs= null;
+
+	        int x=-1;
+	        try {
+	        	
+				pstmt = con.prepareStatement("update favorite set img = 'images/star1.png', status = 'off' where num = ?");
+                pstmt.setInt(1, num);
+                x = pstmt.executeUpdate();
+					
+	        } catch(Exception ex) {
+	            ex.printStackTrace();
+	        } finally {
+	           close(pstmt);
+	        }
+			return x;
+	}
 		
 	}
