@@ -16,7 +16,11 @@ public class RecipeSignupFormAction implements Action {
 		boolean successSignup=false;
 		ActionForward forward=null;
 		SignupInfo signupInfo = new SignupInfo();
-		signupInfo.setExceptIngredients(request.getParameter("exceptIngredients"));
+		
+		String exceptIngre = request.getParameter("exceptIngredients");
+		exceptIngre = exceptIngre.replaceAll(" ", "");
+		String[] exceptIngredients=exceptIngre.split(",");
+		signupInfo.setExceptIngredients(exceptIngredients);
 		signupInfo.setFindAnswer(request.getParameter("signUp-answer"));
 		signupInfo.setFindQuestion(Integer.parseInt(request.getParameter("signUp-question")));
 		signupInfo.setId(request.getParameter("signUp-id"));

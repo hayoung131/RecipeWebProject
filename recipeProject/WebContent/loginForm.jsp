@@ -93,7 +93,7 @@
         <input type="text" placeholder="Id" name="id"/>
         <input type="password" placeholder="password" name="password"/>
         <input type="submit" value="login" id="login">
-        <p class="message"><a href="signupForm.jsp">회원가입</a><a href="findIdForm.jsp" style="padding:0;">아이디</a>/<a href="findPwdForm.jsp" style="padding:0;">비밀번호 찾기</a><a href="recipeRankingList.bo">비회원 접속</a></p>
+        <p class="message"><a href='signupForm.jsp'>회원가입</a><a href="findIdForm.jsp" style="padding:0;">아이디</a>/<a href="findPwdForm.jsp" style="padding:0;">비밀번호 찾기</a><a href="recipeRankingList.bo">비회원 접속</a></p>
       </form>
     </div>
   </div>

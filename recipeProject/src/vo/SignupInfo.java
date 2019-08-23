@@ -7,7 +7,7 @@ public class SignupInfo {
 	private String phone;
 	private int findQuestion;//질문의 value값이 들어오게됨
 	private String findAnswer;
-	private String exceptIngredients;
+	private String[] exceptIngredients;
 	public String getName() {
 		return name;
 	}
@@ -44,10 +44,10 @@ public class SignupInfo {
 	public void setFindAnswer(String findAnswer) {
 		this.findAnswer = findAnswer;
 	}
-	public String getExceptIngredients() {
+	public String[] getExceptIngredients() {
 		return exceptIngredients;
 	}
-	public void setExceptIngredients(String exceptIngredients) {
+	public void setExceptIngredients(String[] exceptIngredients) {
 		this.exceptIngredients = exceptIngredients;
 	}
 	

@@ -396,8 +396,8 @@ public class RecipeDAO {
 		try {
 			pstmt=con.prepareStatement(
 				"insert into "+
-				"user(user_id,user_name,user_pw,user_phone,find_question,find_answer,material_exclude) "+
-				"values(?,?,?,?,?,?,?);"
+				"user(user_id,user_name,user_pw,user_phone,find_question,find_answer) "+
+				"values(?,?,?,?,?,?);"
 				);
 			pstmt.setString(1,signupInfo.getId());
 			pstmt.setString(2,signupInfo.getName());
@@ -405,10 +405,19 @@ public class RecipeDAO {
 			pstmt.setString(4,signupInfo.getPhone());
 			pstmt.setInt(5,signupInfo.getFindQuestion());
 			pstmt.setString(6,signupInfo.getFindAnswer());
-			pstmt.setString(7,signupInfo.getExceptIngredients());
+			
+			
 			System.out.print("\n***********sql:  "+pstmt+"\n");
 			successSignup=pstmt.executeUpdate();
 			
+			String[] exceptList=signupInfo.getExceptIngredients();
+			
+			for(int i=0;i<exceptList.length;i++) {
+				pstmt=con.prepareStatement("insert into dislike_ingredient(user_id,ingredient) values(?,?);");
+				pstmt.setString(1, signupInfo.getId());
+				pstmt.setString(2,exceptList[i]);
+				pstmt.executeUpdate();
+			}
 			if(successSignup>0) {
 				System.out.print("\n***********sql   :  "+successSignup+"\n");
 			}
