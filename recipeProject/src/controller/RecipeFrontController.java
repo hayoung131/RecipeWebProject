@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import action.RecipeAddFavoritesAction;
+import action.RecipeConfirmPwdAction;
 import action.RecipeRankingListAction;
 import action.RecipeSignupFormAction;
 import action.recipeMpFavotiteDeleteProAction;
@@ -19,6 +20,7 @@ import action.RecipeFindIdFormAction;
 import action.RecipeFindPwdFormAction;
 import action.RecipeFindPwdViewAction;
 import action.RecipeLoginFormAction;
+import action.RecipeModMemInfoAction;
 import action.RecipeMpFavoriteContentAction;
 import action.RecipeMpFavoriteListAction;
 import action.RecipeRankingContentAction;
@@ -164,6 +166,22 @@ public class RecipeFrontController extends HttpServlet {
 		}
 			else if(command.equals("/recipeMpFavotiteDeletePro.bo")){
 			action = new recipeMpFavotiteDeleteProAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(command.equals("/recipeConfirmPwd.bo")){
+			action = new RecipeConfirmPwdAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(command.equals("/recipeModMemInfo.bo")){
+			action = new RecipeModMemInfoAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {

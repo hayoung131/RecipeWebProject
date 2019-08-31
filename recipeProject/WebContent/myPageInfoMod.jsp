@@ -1,3 +1,4 @@
+<%@page import="vo.MemberInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -17,7 +18,7 @@
 		height:900px;
 	  padding: 0;/*네모 박스가 상단으로부터 얼마나 떨어지는지*/
 		margin-left: -450px;
- 		margin-top: -250px;
+ 		margin-top: -150px;
 		position: absolute;
 		left: 50%;
 		top: 50%;
@@ -26,7 +27,7 @@
 	  background: #EAEAEA;
 	  max-width: 900px;/*이부분 분경하면 수정정보 창 크기 조절됨*/
 	  padding: 20px 20px 20px 30px;/*박스 내부의 요소들과 간격*/
-	  height:540px;/*이거 바꿔야 박스크기 바뀜*/
+	  height:520px;/*이거 바꿔야 박스크기 바뀜*/
 	  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 	}
 	.form input {
@@ -80,7 +81,7 @@
 	  padding-top: 10px;
 	}
 
-	#mod-question{
+	#mod_question{
 	  margin:0 0 15px 0;
 	  width:333.5px;
 	}
@@ -95,44 +96,80 @@
 	  border-bottom:1px solid;
 	}
 	</style>
+<%session.setAttribute("user_id","hayoung131");%>
+<%
+	MemberInfo memberInfo=(MemberInfo)request.getAttribute("memberInfo");
+	String id=(String)session.getAttribute("user_id");
+	String name=memberInfo.getName();
+	String phone=memberInfo.getPhoneNum();
+	int question=memberInfo.getQuestion();
+	String answer=memberInfo.getAnswer();
+%>
+<script>
+$(document).ready(function() {
+	var question="<%=question%>";
+   $("#mod_question").val(question).prop("selected",true);
+});
+window.onload = function() {
+	
+	document.getElementById('modBtn').onclick = function() {
+		var phone=document.getElementById("mod_phone").value;
+		var answer=document.getElementById("mod_answer").value;
+		var currentPwd=document.getElementById("current_pwd").value;
+		var newPwd=document.getElementById("new_pwd").value;
+		if(phone=='' || phone.length!=11 || isNaN(phone)!=false){//공백이거나 11자리가 아니거나 숫자가아니면
+			alert("휴대폰번호 숫자 11자리를 입력해주세요.");     
+			return false;
+		}
+		else if(answer==''){
+			alert("힌트 질문에대한 답을 작성해주세요.")
+			return false;
+		}
+		else if(currentPwd=='' ^ newPwd=='' && currentPwd != newPwd){
+			alert("비밀번호 변경을 원하시면 현재비밀번호와 다른 새비밀번호를 모두 입력해주세요");
+			return false;
+		}
+		else{
+			document.getElementById('frm').submit();
+			return true;
+		}
+		 
+		}; 
+};
 
+</script>
 </head>
 <body>
-<%@ include file="/topMenu.jsp" %>
+<%@include file="/topMenu.jsp"%>
 <div class="myPage-menu">
 
 		<div class="form">
 			<h2>회원정보 수정</h2>
-			<form class="mod-form">
-
-					<label for="mod-name">이름</label>
-					<input type="text" placeholder="이름" id="mod-name" readOnly/>
-
-					<label for="mod-id">아이디</label>
-					<input type="text" placeholder="아이디" id="mod-id" readOnly/>
-
-					<label for="mod-pwd">비밀번호</label>
-					<input type="text" placeholder="*********" id="mod-pwd" />
-
-					<label for="mod-phone">휴대폰번호</label>
-					<input type="text" placeholder="01012341234" id="mod-phone"/ >
-
-					<label for="mod-question">질문</label>
-					<select id="mod-question" class="form-control" name="mod-question">
-			            <option value="0">기억에 남는 장소는?</option>
-			            <option value="1">자신의 인생 좌우명은?</option>
-			            <option value="2">인상 깊게 읽은 책은?</option>
-			        </select>
-
-
-					<label></label>
-					<input type="text" placeholder="집이최고얌" id="mod-answer" />
-
-					<label for="exceptIngredients">제외할 재료 설정</label>
-					<textarea name="exceptIngredients"  id="exceptIngredients" rows="1" cols="41" placeholder="새우,게,복숭아"></textarea>
-
-
-				<input type="submit" class="btn btn-dark" id="modBtn" value="수정하기"/>
+			<form class="mod-form" id="frm" action="recipeModMemInfo.bo" method="post">
+				<label for="mod_name">이름</label>
+				<input type="text" placeholder="<%=name%>" id="mod_name" readOnly/>
+	
+				<label for="mod_id">아이디</label>
+				<input type="text" placeholder="<%=id%>" id="mod_id" readOnly/>
+	
+				<label for="mod_pwd">현재 비밀번호</label>
+				<input type="text" id="current_pwd" name="current_pwd"/>
+				
+				<label for="mod_NewPwd">새 비밀번호</label>
+				<input type="text" id="new_pwd" name="new_pwd"/>
+				<label for="mod-phone">휴대폰번호</label>
+				<input type="text" id="mod_phone" name="mod_phone" value="<%=phone%>"/>
+	
+				<label for="mod_question">질문</label>
+				<select id="mod_question" class="form-control" name="mod_question">
+		            <option value="0">기억에 남는 장소는?</option>
+		            <option value="1">자신의 인생 좌우명은?</option>
+		            <option value="2">인상 깊게 읽은 책은?</option>
+		        </select>
+				<label></label>
+				<input type="text" value="<%=answer%>" id="mod_answer" name="mod_answer"/>
+				
+				<input type="button" class="btn btn-dark" id="modBtn" value="수정하기"/>
 			</form>
 		</div>
 	</div>

@@ -10,6 +10,8 @@ import vo.Board;
 import vo.FindIdInfo;
 import vo.FindPwdInfo;
 import vo.LoginInfo;
+import vo.MemberInfo;
+import vo.ModInfo;
 import vo.NewPwd;
 import vo.Ingredient;
 import vo.LoginInfo;
@@ -484,6 +486,127 @@ public class RecipeDAO {
 	           close(pstmt);
 	        }
 			return x;
+	}
+
+	public MemberInfo confirmAndGetMemInfo(LoginInfo loginInfo) throws Exception{
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		MemberInfo memberInfo=new MemberInfo();
+		
+		try {
+			pstmt=con.prepareStatement("select user_id from user where user_id=? and user_pw=?");
+			pstmt.setString(1, loginInfo.getId());
+			pstmt.setString(2, loginInfo.getPwd());
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {//해당 id와 pw가 일치하는 아이디가 있다는 의미
+				pstmt=con.prepareStatement("select user_name, user_phone,find_question,find_answer from user where user_id=?");
+				pstmt.setString(1, loginInfo.getId());
+				System.out.println("query:  "+pstmt);
+				rs=pstmt.executeQuery();
+				if(rs.next()) {
+					System.out.println("이름,폰,qNum,답변 : " + rs.getString("user_name")+"             "+rs.getString("user_phone")+"             "+rs.getInt("find_question")+"             "+rs.getString("find_answer"));
+					memberInfo.setConfirm(true);
+					memberInfo.setName(rs.getString("user_name"));
+					memberInfo.setPhoneNum(rs.getString("user_phone"));
+					memberInfo.setQuestion(rs.getInt("find_question"));
+					memberInfo.setAnswer(rs.getString("find_answer"));
+					
+				}
+			}else {
+				memberInfo.setConfirm(false);
+				System.out.println("###정보가져오기 실패###");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		return memberInfo;
+	}
+
+	public boolean confirmPwd(ModInfo modInfo) throws Exception{
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		boolean confirmSuccess=false;
+		
+		try {
+			pstmt=con.prepareStatement("select user_id from user where user_id=? and user_pw=?");
+			pstmt.setString(1, modInfo.getId());
+			pstmt.setString(2, modInfo.getCurrent_pwd());
+			System.out.print("\n***********sql:  "+pstmt+"\n");
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {//아이디가 존재한단의미
+				confirmSuccess=true;
+			}else {
+				confirmSuccess=false;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		return confirmSuccess;
+	}
+
+	public boolean modMemInfo(ModInfo modInfo) throws Exception{
+		PreparedStatement pstmt=null;
+		boolean modSuccess=false;
+		ResultSet rs=null;
+		MemberInfo memberInfo=new MemberInfo();
+		String query="update user set user_phone=?, find_question=?, find_answer=?";
+		try {
+			//pstmt=con.prepareStatement();
+			if(modInfo.getCurrent_pwd() !="") {//비밀번호도 변경하겠다는 의미
+				query +=", user_pw=? ";
+			}
+			query+="where user_id=?";
+			
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1, modInfo.getMod_phone());
+			pstmt.setInt(2, modInfo.getMod_question());
+			pstmt.setString(3, modInfo.getMod_answer());
+			if(modInfo.getCurrent_pwd() !="") {
+				pstmt.setString(4, modInfo.getNew_pwd());
+				pstmt.setString(5, modInfo.getId());
+			}else{
+				pstmt.setString(4, modInfo.getId());
+			}
+			System.out.print("\n***********sql:  "+pstmt+"\n");
+			int result=pstmt.executeUpdate();
+			
+			if(result>0) {//업뎃 성공했단의미
+				System.out.println("업뎃 성공-DAO");
+				modSuccess=true;
+			}else {
+				System.out.println("업뎃 실패-DAO");
+				modSuccess=false;
+			}
+			if(modSuccess){
+				pstmt=con.prepareStatement("select user_name, user_phone,find_question,find_answer from user where user_id=?");
+				pstmt.setString(1, modInfo.getId());
+				System.out.println("query:  "+pstmt);
+				rs=pstmt.executeQuery();
+				if(rs.next()) {
+					System.out.println("이름,폰,qNum,답변 : " + rs.getString("user_name")+"             "+rs.getString("user_phone")+"             "+rs.getInt("find_question")+"             "+rs.getString("find_answer"));
+					memberInfo.setConfirm(true);
+					memberInfo.setName(rs.getString("user_name"));
+					memberInfo.setPhoneNum(rs.getString("user_phone"));
+					memberInfo.setQuestion(rs.getInt("find_question"));
+					memberInfo.setAnswer(rs.getString("find_answer"));
+				}
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		return modSuccess;
 	}
 		
 	}

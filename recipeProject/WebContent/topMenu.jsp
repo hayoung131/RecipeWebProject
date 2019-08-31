@@ -17,7 +17,7 @@
 
 <%!static String id="";%>
 <%
-id=(String)session.getAttribute("loginId");
+id=(String)session.getAttribute("user_id");
 System.out.print("\n session id: "+id+"\n");
 %>
 <script>

@@ -11,7 +11,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="css/jquery.selectlist.css">
 
-<% String id=(String)session.getAttribute("loginId");%>
+<% 
+session.setAttribute("user_id", "hayoung131");
+String id=(String)session.getAttribute("user_id");%>
 <style>
 	.form-inline{
 		/* position: absolute; */
@@ -34,29 +36,29 @@
 	  margin:0 0 150px 0;
 	}
 	#confirm{
-	margin-left:72px;
+	margin-left:30px;
 	background:#353535;
 	border: 0;
 	}
+
 </style>
 
 </head>
 <body>
 <%@ include file="/topMenu.jsp" %>
 <div>
-
-<form class="form-inline">
-<h3>개인정보 보호를 위해 비밀번호를 재입력해주세요</h3>
-  <div class="form-group mb-2">
-    <label for="staticEmail2" class="sr-only">Email</label>
-    <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com">
-  </div>
-  <div class="form-group mx-sm-3 mb-2">
-    <label for="inputPassword2" class="sr-only">Password</label>
-    <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
-  </div>
-  <button type="submit" class="btn btn-primary mb-2" id="confirm">Confirm identity</button>
-</form>
+  <form class="form-inline" action="recipeConfirmPwd.bo" method="post">
+	<h3>개인정보 보호를 위해 비밀번호를 재입력해주세요</h3>
+	  <div class="form-group mb-2">
+	   	<label for="staticEmail2" class="sr-only">Email</label>
+	    <input type="text" readonly class="form-control-plaintext" id="staticEmail2" name="confirmId" value="<%=id%>" style="margin-left:25px;">
+	  </div>
+	  <div class="form-group mx-sm-3 mb-2">
+	    <label for="inputPassword2" class="sr-only">Password</label>
+	    <input type="password" class="form-control" id="inputPassword2" name="confirmPwd" placeholder="Password">
+	  </div>
+	  <button type="submit" class="btn btn-primary mb-2" id="confirm">Confirm identity</button>
+  </form>
 </div>
 </body>
 </html>
