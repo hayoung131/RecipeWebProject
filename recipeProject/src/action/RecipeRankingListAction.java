@@ -17,9 +17,9 @@ public class RecipeRankingListAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 
 		HttpSession session=request.getSession();
-		String id = "dpwls0947";
-		session.setAttribute("user_id", id);
-		
+//		String id = "dpwls0947";
+//		session.setAttribute("user_id", id);
+//		
 		
 		int pageSize = 12;//한 페이지당 출력되는 글의 개수
 		 String pageNum = request.getParameter("pageNum");//언제 request 영역에 공유된거임..;

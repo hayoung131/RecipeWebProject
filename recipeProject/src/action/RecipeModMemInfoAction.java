@@ -40,6 +40,7 @@ public class RecipeModMemInfoAction implements Action {
 			if(checkPwd==true) {
 				successMod=recipeModMemInfoService.modMemInfo(modInfo);
 			}else {
+				System.out.println("비밀번호가 일치합니다-action.confirmPwd");
 				//경고창 띄우고, 글쓰기 창 다시 띄워주기
 				response.setContentType("text/html;charset=UTF-8");//마인드타입은 text/html로
 				PrintWriter out = response.getWriter();
@@ -58,7 +59,7 @@ public class RecipeModMemInfoAction implements Action {
 			out.println("<script>");
 			out.println("alert('수정 완료')");
 			out.println("</script>");
-			forward.setUrl("/loginForm.jsp");
+			forward.setUrl("/confirmPwd.jsp");
 		}
 		else {
 			//경고창 띄우고, 글쓰기 창 다시 띄워주기

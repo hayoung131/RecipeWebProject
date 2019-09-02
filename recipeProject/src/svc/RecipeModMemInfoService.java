@@ -19,14 +19,9 @@ public class RecipeModMemInfoService {
 		//실제 sql넘길 RecipeDAO 생성하기
 		RecipeDAO recipeDAO=RecipeDAO.getInstance();
 		recipeDAO.setConnection(con);
-		boolean check=recipeDAO.confirmPwd(modInfo);
-		if(check==true) {
-			System.out.println("비밀번호가 일치합니다-service.confirmPwd");
-			return modMemInfo(modInfo);//수정 성공여부
-		}else {
-			System.out.println("비밀번호가 일치하지않습니다.-service.confirmPwd");
-			return false;	//비밀번호 불일치
-		}
+		boolean check=recipeDAO.confirmPwd(modInfo);//비밀번호가 일치한단부분
+		return check;	//비밀번호 불일치/일치여부 반환
+
 	}
 
 	public boolean modMemInfo(ModInfo modInfo) throws Exception {
