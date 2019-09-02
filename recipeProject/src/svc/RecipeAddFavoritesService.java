@@ -11,38 +11,38 @@ import vo.Recipe;
 
 public class RecipeAddFavoritesService {
 
-	public Recipe SelectRecipeInfo(int num) throws Exception{
-		
-		Connection con = getConnection();
-		RecipeDAO recipeDAO = RecipeDAO.getInstance();
-		recipeDAO.setConnection(con);
-		
-		Recipe information = recipeDAO.selectRecipeInfo(num);
-		close(con);
-		
-		return information;
-	}
+//	public Recipe SelectRecipeInfo(int num) throws Exception{
+//		
+//		Connection con = getConnection();
+//		RecipeDAO recipeDAO = RecipeDAO.getInstance();
+//		recipeDAO.setConnection(con);
+//		
+//		Recipe information = recipeDAO.selectRecipeInfo(num);
+//		close(con);
+//		
+//		return information;
+//	}
 	
-public boolean UpdateOn(int num, String img, String status) throws Exception{
-		
-		boolean registSuccess = false;
-		Connection con = getConnection();
-		RecipeDAO recipeDAO = RecipeDAO.getInstance();
-		recipeDAO.setConnection(con);
-		
-		int check = recipeDAO.UpdateFavoritesOn(num,img,status);
-		
-		if(check > 0) {
-			
-			registSuccess = true;
-			commit(con);
-			
-		}else {
-			rollback(con);
-		}	
-		close(con);
-		return registSuccess;
-	}
+//public boolean UpdateOn(int num, String img, String status) throws Exception{
+//		
+//		boolean registSuccess = false;
+//		Connection con = getConnection();
+//		RecipeDAO recipeDAO = RecipeDAO.getInstance();
+//		recipeDAO.setConnection(con);
+//		
+//		int check = recipeDAO.UpdateFavoritesOn(num,img,status);
+//		
+//		if(check > 0) {
+//			
+//			registSuccess = true;
+//			commit(con);
+//			
+//		}else {
+//			rollback(con);
+//		}	
+//		close(con);
+//		return registSuccess;
+//	}
 	
 	public List<Ingredient> getIngredientList(int num) throws Exception {
 		// TODO Auto-generated method stub
@@ -55,6 +55,47 @@ public boolean UpdateOn(int num, String img, String status) throws Exception{
 		close(con);
 		return ingredientList;
 	}
-	
+
+	public boolean deleteBookmark(int num, String id)throws Exception {
+		Connection con = getConnection();
+		RecipeDAO recipeDAO = RecipeDAO.getInstance();
+		recipeDAO.setConnection(con);
+		boolean registSuccess=false;
+		int ckBm = recipeDAO.deleteBookmark(num,id);
+		
+		if(ckBm > 0) {
+			
+			registSuccess = true;
+			commit(con);
+			
+		}else {
+			rollback(con);
+		}	
+		close(con);
+		
+		return registSuccess;
+	}
+
+	public boolean addBookmark(int num, String id)throws Exception  {
+		
+		Connection con = getConnection();
+		RecipeDAO recipeDAO = RecipeDAO.getInstance();
+		recipeDAO.setConnection(con);
+		boolean registSuccess=false;
+		
+		int ckBm = recipeDAO.insertBookmark(num, id);
+		
+		if(ckBm > 0) {
+			
+			registSuccess = true;
+			commit(con);
+			
+		}else {
+			rollback(con);
+		}	
+		close(con);
+		
+		return registSuccess;
+	}
 
 }

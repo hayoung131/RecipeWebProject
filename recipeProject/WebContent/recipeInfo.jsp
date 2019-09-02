@@ -1,6 +1,7 @@
 <%@page import="vo.Recipe"%>
 <%@page import="vo.Ingredient"%>
-<%@ page import = "java.util.List" %>
+<%@ page import = "java.util.List"%>
+<%@page import ="java.text.*"%> 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -19,34 +20,48 @@
 </head>
 <%@ include file="/topMenu.jsp" %>
 <%
+	DecimalFormat format = new DecimalFormat("0.0");%>
 
-	
-	String check_num = (String)request.getAttribute("check_num");
+<% 	String check_num = (String)request.getAttribute("check_num");
 	
 	List<Ingredient> ingredientList = (List<Ingredient>)request.getAttribute("ingredientList");
 	String message = (String)request.getAttribute("message");
-	 
-	if(check_num.equals("1")){
-	 %> 
-	 <script>alert('<%=message%>');</script>
-	<%
-	 }
-	 
-	try{
+	
+	String check = null;
+	check = (String)request.getAttribute("check");
+	if(check!=null){
+	if(check.equals("1")){
+%>
+		<script>alert('즐겨찾기에 추가되었습니다.');</script>
+		<%}
+	if(check.equals("2")){
+			%><script>alert('즐겨찾기가 해제되었습니다.');</script><% }
+	}	 
+		try{
+		
 		Recipe information = (Recipe)request.getAttribute("information");
-		String pageNum = (String)request.getAttribute("pageNum");
+		String[] cooking_steps = (String[])request.getAttribute("cooking_steps");
+		
 		
 		int num = information.getNum();
-		String title = information.getTitle();
-		String level =  information.getLevel();
-		String hit_count =  information.getHit_count();
-		String time = information.getTime();
-		String cooking_step = information.getCooking_step();
-		String img = information.getImg();
-		String status = information.getStatus();
-		%>
+		String title = information.getCooking_title();
+		String level =  information.getCooking_level();
+		int hit_count =  information.getHit_standard();
+		String time = information.getCooking_time();
+		String tip = information.getCooking_tips();
+		boolean isBookmark = information.isBookmark();
+		String img = null;
+	
+	if(isBookmark){
+		img = "images/star2.png";
+
+		}else{
+			img = "images/star1.png";
+		}
+	%>
 
 <body>
+
 <center>
 <!-- 전체 내용을 감싸는 div -->
 <div style="margin-top:60px; margin-bottom:10px; padding-top:10px; padding-bottom:5px; width:1140px;">
@@ -66,8 +81,8 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=title%></th>
 		<th style="text-align:right; font-size: 13pt; padding-bottom: 12px;">조회수&nbsp;<%=hit_count %></th>
 		<th style="padding-bottom: 10px;">
-			<a href="recipeAddFavorites.bo?num=<%=information.getNum()%>&status=<%=information.getStatus()%>&pageNum=<%=pageNum%>">															
-			<img src=<%=img %> width="25px" height="25px" >
+			<a href="recipeAddFavorites.bo?num=<%=information.getNum()%>&isBookmark=<%=information.isBookmark()%>&user_id=<%=information.isBookmark()%>">														
+			<img src=<%=img %> width="25px" height="25px">
 			</a>
 		</th>
 	</tr>
@@ -108,11 +123,15 @@
 <%
 	for(int i = 0; i< ingredientList.size(); i++){
 		Ingredient ingredient = (Ingredient)ingredientList.get(i);
-	
+		
 %>
 	  <li class="list-group-item d-flex justify-content-between align-items-center" style="font-size: 11pt">
 	    <%=ingredient.getSearching_ingredient() %>
-	    <span class="badge" style="font-size: 11pt"><%=ingredient.getAmount()%><%=ingredient.getMeasu()%></span>
+	     <%
+	    
+	    	%> 
+	    	<span class="badge" style="font-size: 11pt"><%=ingredient.getAmount()%><%=ingredient.getMeasu()%></span>
+	     
 	  </li>
 	  <%} %>
 	</ul>
@@ -127,12 +146,15 @@
 <%
 	for(int i = 0; i<6; i++){
 		Ingredient ingredient = (Ingredient)ingredientList.get(i);
-	
+		
 %>
 	  <li class="list-group-item d-flex justify-content-between align-items-center" style="font-size: 11pt">
 	    <%=ingredient.getSearching_ingredient() %>
 	    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-	    <span class="badge" style="font-size: 11pt"><%=ingredient.getAmount()%><%=ingredient.getMeasu()%></span>
+	    <%
+	    		
+	    		 %><span class="badge" style="font-size: 11pt"><%=ingredient.getAmount()%><%=ingredient.getMeasu()%></span>
+	    
 	  </li>
 	  <%} %>
 	</ul>
@@ -142,25 +164,29 @@
 <%
 	for(int i = 6; i<ingredientList.size(); i++){
 		Ingredient ingredient = (Ingredient)ingredientList.get(i);
-	
-%>	
-	<li class="list-group-item d-flex justify-content-between align-items-center" style="font-size: 11pt">
+		
+%>
+	  <li class="list-group-item d-flex justify-content-between align-items-center" style="font-size: 11pt">
 	    <%=ingredient.getSearching_ingredient() %>
 	    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-	    <span class="badge" style="font-size: 11pt"><%=ingredient.getAmount()%><%=ingredient.getMeasu()%></span>
+	    <%
+	
+	    		
+	    		 %><span class="badge" style="font-size: 11pt"><%=ingredient.getAmount()%><%=ingredient.getMeasu()%></span>
+	   
 	  </li>
 	  <%} %>
 	</ul>
 	</div>
 	
 </div>
-
+</div>
 <%
 	}
 %>
 
-</div>
 
+</div>
 <!-- 조리순서 -->
 <div>
 <div style="text-align: left; margin-top: 30px; margin-bottom: 30px;">
@@ -171,23 +197,27 @@
 	<table class="table table-striped">
 
 	  <tbody>
+<%
+		for(int i = 0; i< cooking_steps.length;i++){
+%>
 	    <tr>
-	      <td>1. 먼저 새송이 버섯 3동은 밑동을 제거하고 일정한 두께로 잘라 줍니다. 대파와 청양고추는 쫑쫑 썰어줍니다.</td>
+	      <td><%=cooking_steps[i]%></td>
 	    </tr>
-	    <tr>
-	      <td>2. 간장 ST, 올리고당2T, 물2T, 다진마늘1T, 참기름1T를 섞어 주신뒤 썰어놓은 청양고추, 대파를 섞어줍니다.</td>
-	    </tr>
-	    <tr>
-	      <td>1. 먼저 새송이 버섯 3동은 밑동을 제거하고 일정한 두께로 잘라 줍니다. 대파와 청양고추는 쫑쫑 썰어줍니다.</td>
-	    </tr>
-	    <tr>
-	      <td>2. 간장 ST, 올리고당2T, 물2T, 다진마늘1T, 참기름1T를 섞어 주신뒤 썰어놓은 청양고추, 대파를 섞어줍니다.</td>
-	    </tr>
+<%
+		}
+%>
 	  </tbody>
 	</table>
+	<!-- 팁 -->
+	<div style="border-radius: 10px; margin-top:30px; background-color:#4C4C4C; padding-left : 10px; text-align: center;">
+	<dl class="row" style="margin-top: 15px; margin-bottom: 15px; padding-top: 10px;">
+	  <dt class="col-sm-1" style="color: white;">* tip</dt>
+  		<dd class="col-sm-10" style="color: white;"><%=tip %></dd>
+</dl>
+</div>
+</div>
+</div>
 
-</div>
-</div>
 </div>
 <%
  }catch(Exception e){} 

@@ -3,26 +3,24 @@ package vo;
 public class Recipe {
 	
 	private int num;
-	private String title;
-	private String hit_count;
-	private String level;
-	private String time;
-	private String cooking_step;
-	private String img;
-	private String status;
+	private String cooking_title;
+	private String cooking_tips;
+	private String cooking_time;
+	private String cooking_level;
+	private int hit_standard;
+	private boolean isBookmark;
 	
-	
-	public String getImg() {
-		return img;
+	public boolean isBookmark() {
+		return isBookmark;
 	}
-	public void setImg(String img) {
-		this.img = img;
+	public void setBookmark(boolean isBookmark) {
+		this.isBookmark = isBookmark;
 	}
-	public String getStatus() {
-		return status;
+	public int getHit_standard() {
+		return hit_standard;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setHit_standard(int hit_standard) {
+		this.hit_standard = hit_standard;
 	}
 	public int getNum() {
 		return num;
@@ -30,35 +28,30 @@ public class Recipe {
 	public void setNum(int num) {
 		this.num = num;
 	}
-	public String getTitle() {
-		return title;
+	public String getCooking_title() {
+		return cooking_title;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setCooking_title(String cooking_title) {
+		this.cooking_title = cooking_title;
 	}
-	public String getHit_count() {
-		return hit_count;
+	public String getCooking_tips() {
+		return cooking_tips;
 	}
-	public void setHit_count(String hit_count) {
-		this.hit_count = hit_count;
+	public void setCooking_tips(String cooking_tips) {
+		this.cooking_tips = cooking_tips;
 	}
-	public String getLevel() {
-		return level;
+	public String getCooking_time() {
+		return cooking_time;
 	}
-	public void setLevel(String level) {
-		this.level = level;
+	public void setCooking_time(String cooking_time) {
+		this.cooking_time = cooking_time;
 	}
-	public String getTime() {
-		return time;
+	public String getCooking_level() {
+		return cooking_level;
 	}
-	public void setTime(String time) {
-		this.time = time;
-	}
-	public String getCooking_step() {
-		return cooking_step;
-	}
-	public void setCooking_step(String cooking_step) {
-		this.cooking_step = cooking_step;
+	public void setCooking_level(String cooking_level) {
+		this.cooking_level = cooking_level;
 	}
 
+	
 }

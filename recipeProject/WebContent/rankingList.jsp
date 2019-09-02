@@ -5,24 +5,20 @@
 <%@ page import = "java.text.SimpleDateFormat" %>
 
 
-<%!
-   
-    SimpleDateFormat sdf = 
-        new SimpleDateFormat("yyyy-MM-dd HH:mm");
-%>
+<%!SimpleDateFormat sdf = 
+        new SimpleDateFormat("yyyy-MM-dd HH:mm");%>
 
 <%
-     List<Recipe> articleList = (List<Recipe>)request.getAttribute("articleList");
+	List<Recipe> articleList = (List<Recipe>)request.getAttribute("articleList");
      PageInfo pageInfo = (PageInfo)request.getAttribute("pageInfo");
      
-     int number = pageInfo.getNumber();
+     int number = pageInfo.getNumber()+1;
      int count = pageInfo.getCount();
      int startPage = pageInfo.getStartPage();
      int endPage = pageInfo.getEndPage();
      int pageCount = pageInfo.getPageCount();
      int currentPage = pageInfo.getCurrentPage();
 %>
-
 <html>
 <head>
 
@@ -51,7 +47,7 @@
 
 
 <%
-    if (count == 0) {
+	if (count == 0) {
 %>
 <table width="700" border="1" cellpadding="0" cellspacing="0">
 <tr>
@@ -60,7 +56,9 @@
     </td>
 </table>
 
-<%  } else {    %>
+<%
+	} else {
+%>
 <table class="table table-striped " style ="margin-left: auto; margin-right: auto; 
 margin-top:70px; text-align:center; width: 1140px; font-size: 13pt"> 
     
@@ -80,12 +78,12 @@ margin-top:70px; text-align:center; width: 1140px; font-size: 13pt">
       <!-- <th align="center"  width="100" >IP</th>    --> 
     </tr>
     </thead>
-<%  
-        for (int i = 0 ; i < articleList.size() ; i++) {
+<%
+	for (int i = 0 ; i < articleList.size() ; i++) {
           Recipe article = (Recipe)articleList.get(i);
 %>
    <tr height="30">
-    <td align="center"  width="50" > <%=number--%></td>
+    <td align="center"  width="50" > <%=number++%></td>
     <td  width="250" >
 	<%-- <%
 	      int wid=0; 
@@ -99,7 +97,7 @@ margin-top:70px; text-align:center; width: 1140px; font-size: 13pt">
 	<%}%> --%>
         <!-- 제목부분임 -->   
       <a href="recipeRankingContent.bo?num=<%=article.getNum()%>&pageNum=<%=currentPage%>">
-           <%=article.getTitle()%></a> 
+           <%=article.getCooking_title() %></a> 
 <%--           <% if(article.getReadcount()>=20){%>
          <img src="images/hot.gif" border="0"  height="16"><%}%>  --%>
          </td>
@@ -107,9 +105,9 @@ margin-top:70px; text-align:center; width: 1140px; font-size: 13pt">
          <!-- 난이도 부분 -->
     <td align="center"  width="100">
        <%-- <a href="mailto:<%=article.getEmail()%>"> --%> <!-- 그 사람의(작성자의)이메일주소로 링크한거.  -->
-       <%=article.getLevel()%><!-- </a> --></td>
+       <%=article.getCooking_level()%><!-- </a> --></td>
     
-    <td align="center"  width="50"><%=article.getHit_count()%>
+    <td align="center"  width="50"><%=article.getHit_standard()%>
     </td>
    <%--  <td align="center" width="100" ><%=article.getIp()%></td> --%>
   </tr>

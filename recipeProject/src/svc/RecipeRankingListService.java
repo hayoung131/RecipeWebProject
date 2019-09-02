@@ -8,7 +8,7 @@ import dao.RecipeDAO;
 import vo.Recipe;
 public class RecipeRankingListService {
 
-	public int getArticleCount() throws Exception {
+	/*public int getArticleCount() throws Exception {
 		// TODO Auto-generated method stub
 		Connection con = getConnection();
 		RecipeDAO boardDAO = RecipeDAO.getInstance();
@@ -17,7 +17,7 @@ public class RecipeRankingListService {
 		int articleCount = boardDAO.selectArticleCount();
 		close(con);
 		return articleCount;
-	}
+	}*/
 
 	public List<Recipe> getArticles(int startRow, int pageSize) throws Exception {
 		// TODO Auto-generated method stub
@@ -29,6 +29,8 @@ public class RecipeRankingListService {
 		close(con);
 		return articleList;
 	}
+	
+	
 
 }
 
