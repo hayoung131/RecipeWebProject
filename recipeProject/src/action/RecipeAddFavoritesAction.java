@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import svc.RecipeAddFavoritesService;
 import svc.RecipeRankingContentService;
@@ -18,62 +19,36 @@ public class RecipeAddFavoritesAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		
+int num = Integer.parseInt(request.getParameter("num"));
 		
-		String img = null;
-		String status= null;
-		String message = null;
-		String change_status= null;
-		List<Ingredient> ingredientList = null;
-		Recipe information = new Recipe();
-		String check_num = "1";
-		boolean registSuccess = false;
+		HttpSession session=request.getSession(); //아이디 값을 불러옴.
+		String id = (String)session.getAttribute("user_id");
 		
-		int num = Integer.parseInt(request.getParameter("num"));
-		status = request.getParameter("status");
-		String pageNum = request.getParameter("pageNum");
-	   
-
-		RecipeAddFavoritesService recipeAddFavoritesService 
-		= new RecipeAddFavoritesService();
-	   
-		ingredientList = recipeAddFavoritesService.getIngredientList(num);
-	   	
-		if(status.equals("off")) {
-			
-			img = "'images/star2.png'";
-			change_status = "on";
-			message = "즐겨찾기에 추가되었습니다.";
-			
-			registSuccess = recipeAddFavoritesService.UpdateOn(num,img,change_status);
-			
-			
-		}else if(status.equals("on")) {
-			
-			img = "'images/star1.png'";
-			change_status = "off";
-			message = "즐겨찾기가 해제되었습니다.";
-			
-			registSuccess = recipeAddFavoritesService.UpdateOn(num,img,change_status);
+		String check = request.getParameter("isBookmark");
+		String isBookmark = "false";
+		
+		RecipeAddFavoritesService chatRecipeAddFavoritesService
+	    = new RecipeAddFavoritesService();
+		
+		boolean changeBookmark=false;
+		
+		ActionForward forward = new ActionForward();
+		
+		if (check.equals("true")) { //트루이면 즐겨찾기 해제함
+			isBookmark = "false";
+			changeBookmark = chatRecipeAddFavoritesService.deleteBookmark(num,id);
+		}else if (check.equals("false")) {
+			isBookmark = "true"; //펄스면 즐겨찾기함. 트루로 바꾸면서 ㅇㅇ
+			changeBookmark = chatRecipeAddFavoritesService.addBookmark(num,id);
 		}
-		
-		ActionForward forward = null;
-		
-		if(registSuccess) {
-		information=recipeAddFavoritesService.SelectRecipeInfo(num);
-		
-		request.setAttribute("pageNum", pageNum);
-		request.setAttribute("information", information);
-		request.setAttribute("ingredientList", ingredientList);
-		request.setAttribute("message", message);
-		request.setAttribute("check_num", check_num);
-		
-		response.setContentType("text/html; charset=UTF-8");
 
-		forward = new ActionForward();
 		
-		forward.setUrl("/recipeInfo.jsp");
-		
-		}
+			request.setAttribute("num", num);
+			request.setAttribute("bookmarkAlert", isBookmark);
+			
+			response.setContentType("text/html; charset=UTF-8");
+			
+		    forward.setUrl("/recipeRankingContent.bo");
 		
 		return forward;
 	}

@@ -107,13 +107,14 @@ public class RecipeDAO {
 		    throws Exception {
 		        Statement stmt = null;
 		        ResultSet rs = null;
+		        ResultSet rss = null;
 		        List<Recipe> articleList=null;
 		        PreparedStatement pstmt = null;
 		        try {
 		            
 		            pstmt = con.prepareStatement(
 		"select list2.* from(select  list1.*  " +
-		"from(select *  from recipes order by num desc)list1) " +
+		"from(select *  from mainrecipe order by importance desc limit 0,50)list1) " +
 		"list2 limit ?,?");
 		            pstmt.setInt(1, start-1);
 					pstmt.setInt(2, end);
@@ -124,13 +125,19 @@ public class RecipeDAO {
 		                articleList = new ArrayList<Recipe>(end);
 		                do{
 		                  Recipe article= new Recipe();
-		                  article.setNum(rs.getInt("num"));
-		                  article.setTitle(rs.getString("title"));
-		                  article.setHit_count(rs.getString("hit_count"));
-		                  article.setLevel(rs.getString("level"));
-		                  article.setTime(rs.getString("time"));
-		                  article.setCooking_step(rs.getString("cooking_step"));
-		      
+		                  article.setNum(rs.getInt("recipe_id"));
+		                  int numm = rs.getInt("recipe_id");
+		                  article.setCooking_title(rs.getString("cooking_title"));
+		                  article.setCooking_level(rs.getString("cooking_level"));
+		                  article.setCooking_time(rs.getString("cooking_time"));
+
+		                  pstmt = con.prepareStatement("select hit_standard from comments where recipe_id = ?");
+		                  pstmt.setInt(1, numm);
+		                  rss = pstmt.executeQuery();
+		                  if (rss.next()) {
+		                	  article.setHit_standard(rss.getInt("hit_standard"));
+		  		    	}
+		                  
 		                  articleList.add(article);
 		                  i++;
 		       }while(rs.next()&& i<end);
@@ -166,7 +173,7 @@ public class RecipeDAO {
 		                articleList = new ArrayList<Recipe>(end);
 		                do{
 		                  Recipe article= new Recipe();
-		                  article.setNum(rs.getInt("num"));
+		                  article.setNum(rs.getInt("num")); //이부분 아직 안바꿈
 		                  article.setTitle(rs.getString("title"));
 		                  article.setHit_count(rs.getString("hit_count"));
 		                  article.setLevel(rs.getString("level"));
@@ -187,35 +194,57 @@ public class RecipeDAO {
 		    }
 	
 	
-	public Recipe selectRecipeInfo(int num)
+	public Recipe selectRecipeInfo(int num,String id)
     	    throws Exception {
-    	        PreparedStatement pstmt = null;
-    	        ResultSet rs = null;
-    	        Recipe information = null;
-    	        try {
-    	        	pstmt = con.prepareStatement("select * from favorite as f inner join recipes as r"
-    	        			+ " on f.num = r.num where r.num = ?");
-    	        	pstmt.setInt(1, num);
-    	        	rs = pstmt.executeQuery();
 
-    	            if (rs.next()) {
-    	                information = new Recipe();
-    	                information.setNum(rs.getInt("num"));
-    	                information.setTitle(rs.getString("title"));
-    	                information.setHit_count(rs.getString("hit_count"));
-    	                information.setLevel(rs.getString("level"));
-    	                information.setTime(rs.getString("time"));
-    	                information.setCooking_step(rs.getString("cooking_step"));
-    	                information.setImg(rs.getString("img"));
-    	                information.setStatus(rs.getString("status"));
-    				}
-    	        } catch(Exception ex) {
-    	            ex.printStackTrace();
-    	        } finally {
-    	            close(rs);
-    	            close(pstmt);
-    	        }
-    			return information;
+		PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    Recipe information = null;
+	    try {
+	    	information = new Recipe();
+	    	
+	    	//해당 아이디에 레시피가 즐겨찾기로 등록되어있나 확인하는거임.
+	    	pstmt = con.prepareStatement("select recipe_id from bookmark where recipe_id =? and user_id = ?");
+	    	pstmt.setInt(1, num);
+	    	pstmt.setString(2, id);
+	    	rs = pstmt.executeQuery();
+	    	
+	    	if(rs.next()) {
+	    		information.setBookmark(true); //즐겨찾기 설정이 되어있다면
+	    	}else{
+	    		information.setBookmark(false); //설정이 안되어있다면
+	    	}
+	    	
+	    	
+	    	pstmt = con.prepareStatement("select * from mainrecipe where recipe_id = ?");
+	    	pstmt.setInt(1, num);
+	    	rs = pstmt.executeQuery();
+	    	
+	    	//제목 난이도 시간 팁 등 정보 저장
+	        if (rs.next()) {
+	        	
+	        	information.setCooking_title(rs.getString("cooking_title"));
+	        	information.setCooking_level(rs.getString("cooking_level"));
+	        	information.setCooking_time(rs.getString("cooking_time"));
+	        	information.setCooking_tips(rs.getString("cooking_tips"));
+	        	information.setNum(rs.getInt("recipe_id"));
+			}
+	        //조회수는 따른 테이블이라 따로 가져와서 저장
+	        pstmt = con.prepareStatement("select hit_standard from comments where recipe_id = ?");
+	    	pstmt.setInt(1, num);
+	    	rs = pstmt.executeQuery();
+	    	
+	    	if (rs.next()) {
+	    		information.setHit_standard(rs.getInt("hit_standard"));
+	    	}
+
+	    } catch(Exception ex) {
+	        ex.printStackTrace();
+	    } finally {
+	        close(rs);
+	        close(pstmt);
+	    }
+	    return information;
     	    }
 	
 	public List<Ingredient> selectRecipeIngredient(int num)
@@ -227,43 +256,89 @@ public class RecipeDAO {
     	        	int x = 0;
     	        	
     	        	pstmt = con.prepareStatement
-    	            		("select count(*) from ingredient");
+    	            		("select count(*) from recipe_ingredient where recipe_id = ? and amount != '' ");
+    	        	 pstmt.setInt(1, num);
     	            rs = pstmt.executeQuery();
 
     	            if (rs.next()) {
     	               x= rs.getInt(1);
-    				}
+    	    			}
 
     	            pstmt = con.prepareStatement(
-    	            	"select * from ingredient where num = ?");
+    	            	"select * from recipe_ingredient where recipe_id = ? and amount != '' ");
     	            pstmt.setInt(1, num);
     	            rs = pstmt.executeQuery();
-
+    	            
+    	            informationList = new ArrayList<Ingredient>(x);
     	            if (rs.next()) {
     	            	int i=0;
-    	            	informationList = new ArrayList<Ingredient>(x);
+    	            	
     	            	
     	            	do {
     	            		Ingredient information = new Ingredient();
     	            		
-    	            		information.setNum(rs.getInt("num"));
-        	                information.setIngredient_id(rs.getInt("ingredient_id"));
-        	                information.setMeasu(rs.getString("measu"));
-        	                information.setAmount(rs.getString("amount"));
-        	                information.setSearching_ingredient(rs.getString("searching_ingredient"));
-    	            	
-        	                informationList.add(information);
-        	                i++;
+    	            		information.setNum(rs.getInt("recipe_id"));
+    	                   information.setIngredient_id(rs.getInt("ingredient_id"));
+    	                   information.setMeasu(rs.getString("measu"));
+    	                   
+    	                   information.setAmount(rs.getString("amount"));
+    	                   if(rs.getString("amount")=="")
+    	                   	System.out.println("재료들의 양이 없니??:");
+    	                   System.out.println("재료들의 양:"+information.getAmount()+"무야-------------");
+    	                   information.setSearching_ingredient(rs.getString("searching_ingredient"));
+    	        	
+    	                   informationList.add(information);
+    	                   i++;
     	            	}while(rs.next()&& i<x);
     	                
-    				}
+    	    			}
+    	            //으휴~~~!~!~!~!~!~~~~~디비 병신!!!!!!!
+    	            
+    	            pstmt = con.prepareStatement
+    	             		("select count(*) from recipe_ingredient where recipe_id = ? and amount = '' ");
+    	         	 pstmt.setInt(1, num);
+    	             rs = pstmt.executeQuery();
+
+    	             if (rs.next()) {
+    	                x= rs.getInt(1);
+    	    			}
+    	            
+    	            pstmt = con.prepareStatement(
+    	                 	"select * from recipe_ingredient where recipe_id = ? and amount = '' ");
+    	                 pstmt.setInt(1, num);
+    	                 rs = pstmt.executeQuery();
+
+    	                 if (rs.next()) {
+    	                 	int i=0;
+    	               
+    	                 	
+    	                 	do {
+    	                 		Ingredient information = new Ingredient();
+    	                 		
+    	                 		information.setNum(rs.getInt("recipe_id"));
+    	                        information.setIngredient_id(rs.getInt("ingredient_id"));
+    	                        information.setMeasu(rs.getString("measu"));
+    	                        information.setAmount(" ");
+    	                        information.setSearching_ingredient(rs.getString("searching_ingredient"));
+    	             	
+    	                        informationList.add(information);
+    	                        i++;
+    	                 	}while(rs.next()&& i<x);
+    	                     
+    	        			}
+    	            
+    	            
+    	            
+    	            
     	        } catch(Exception ex) {
     	            ex.printStackTrace();
     	        } finally {
     	            close(rs);
     	            close(pstmt);
     	        }
-    			return informationList;
+    	        
+
+    	    		return informationList;
     	    }
 
 	public String searchId(FindIdInfo findIdInfo) 
@@ -607,6 +682,95 @@ public class RecipeDAO {
 			close(rs);
 		}
 		return modSuccess;
+	}
+
+	public int deleteBookmark(int num, String id) throws Exception {
+		
+		PreparedStatement pstmt = null;
+		
+		String[] informationList = null;
+		int a=0;
+		
+		try {
+			
+			pstmt = con.prepareStatement("delete from bookmark where user_id = ? and recipe_id=?");
+			pstmt.setString(1, id);
+			pstmt.setInt(2, num);
+			a = pstmt.executeUpdate();
+		 	
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			
+			close(pstmt);
+		}
+		
+		return a;
+	}
+
+	public String[] selectCooking_step(int num) throws Exception {
+		
+		PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String[] informationList = null;
+	    try {
+	    	int x = 0;
+	    	
+	    	pstmt = con.prepareStatement
+	        		("select count(*) from recipe_steps where recipe_id = ?");
+	    	 pstmt.setInt(1, num);
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	           x= rs.getInt(1);
+				}
+
+	        pstmt = con.prepareStatement(
+	        	"select * from recipe_steps where recipe_id = ?");
+	        pstmt.setInt(1, num);
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	        	int i=0;
+	        	informationList = new String[x];
+	        	
+	        	do {
+	        		informationList[i] = rs.getString("cooking_steps");
+		                i++;
+	        	}while(rs.next()&& i<x);
+	            
+				}
+	    } catch(Exception ex) {
+	        ex.printStackTrace();
+	    } finally {
+	        close(rs);
+	        close(pstmt);
+	    }
+
+
+		return informationList;
+	}
+
+	public int insertBookmark(int num,String id) throws Exception {
+		
+		PreparedStatement pstmt = null;
+		
+		String[] informationList = null;
+		int a=0;
+		try {
+			
+			pstmt=con.prepareStatement("insert into bookmark (recipe_id,user_id) values (?,?) ");
+			pstmt.setInt(1, num);
+		 	pstmt.setString(2, id);
+			a = pstmt.executeUpdate();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+		
+		    close(pstmt);
+		}
+		return a;
 	}
 		
 	}
