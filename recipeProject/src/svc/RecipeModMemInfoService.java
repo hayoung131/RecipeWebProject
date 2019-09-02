@@ -1,7 +1,9 @@
 package svc;
 
 import static db.JDBCUtil.close;
+import static db.JDBCUtil.commit;
 import static db.JDBCUtil.getConnection;
+import static db.JDBCUtil.rollback;
 
 import java.sql.Connection;
 
@@ -35,8 +37,13 @@ public class RecipeModMemInfoService {
 		RecipeDAO recipeDAO=RecipeDAO.getInstance();
 		recipeDAO.setConnection(con);
 		boolean successMod=recipeDAO.modMemInfo(modInfo);
+		
+		if(successMod) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
 		close(con);
 		return successMod;
 	}
-
 }
