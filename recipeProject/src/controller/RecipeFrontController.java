@@ -20,6 +20,7 @@ import action.RecipeFindIdFormAction;
 import action.RecipeFindPwdFormAction;
 import action.RecipeFindPwdViewAction;
 import action.RecipeLoginFormAction;
+import action.RecipeLogoutAction;
 import action.RecipeModMemInfoAction;
 import action.RecipeMpFavoriteContentAction;
 import action.RecipeMpFavoriteListAction;
@@ -182,6 +183,14 @@ public class RecipeFrontController extends HttpServlet {
 			}
 		}else if(command.equals("/recipeModMemInfo.bo")){
 			action = new RecipeModMemInfoAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(command.equals("/recipeLogout.bo")){
+			action = new RecipeLogoutAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {

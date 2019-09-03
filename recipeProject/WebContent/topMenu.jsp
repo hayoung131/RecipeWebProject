@@ -14,7 +14,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
 
+</style>
 <%!static String id="";%>
 <%
 id=(String)session.getAttribute("user_id");
@@ -22,15 +24,29 @@ System.out.print("\n session id -top Menu에서 ..: "+id+"\n");
 %>
 <script>
 	var id='<%=id%>';
+	window.onload=function(){
+		if(id=="null" ||id=="비회원"){
+			$("#loginBtn").show();
+			$("#signupBtn").show();
+		}
+		else{
+			$("#logoutBtn").show();
+		}
+	}
+	
 	function loginCheck(){
-		if(id==null || id.equals("")){//비회원 접속상태
-			alert(id);
+		if(id=="null" || id=="비회원"){//비회원 접속상태
 			alert("로그인이 필요한 서비스입니다.");
 			return false;
 		}
 		else
 			return true;
 	}
+<%-- 	function logout(){
+		<%session.removeAttribute("user_id");%>
+		var aa=(String)session.getAttribute("user_id");
+		alert(aa);
+	} --%>
 </script>
 </head>
 <body>
@@ -62,7 +78,9 @@ System.out.print("\n session id -top Menu에서 ..: "+id+"\n");
         </div>
       </li>
       <li class="nav-item" style="padding-top: 5px;">
-        <a class="nav-link" href="#" style="font-size: 10pt">로그아웃</a>
+      	<a class="nav-link" href="recipeLogout.bo" style="font-size: 10pt;float:left;display:none;" id="logoutBtn">로그아웃</a>
+      	<a class="nav-link" href="loginForm.jsp" style="font-size: 10pt;float:left;display:none" id="loginBtn" >로그인</a>
+        <a class="nav-link" href="signupForm.jsp" style="font-size: 10pt;float:left;display:none" id="signupBtn">회원가입</a>
       </li>
 
     </ul>
