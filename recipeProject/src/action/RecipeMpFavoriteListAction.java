@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import svc.RecipeMpFavoriteListService;
 import vo.ActionForward;
@@ -14,7 +15,11 @@ public class RecipeMpFavoriteListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		 int pageSize = 11;//한 페이지당 출력되는 글의 개수
+		 
+		HttpSession session=request.getSession(); //아이디 값을 불러옴.
+		String id = (String)session.getAttribute("user_id");
+		
+		int pageSize = 12;//한 페이지당 출력되는 글의 개수
 		 String pageNum = request.getParameter("pageNum");//언제 request 영역에 공유된거임..;
 		    if (pageNum == null) {//아.. 공유된게 없다면 null이 들어올거고,, 그런경우 1로 셋팅하는구나.
 		        pageNum = "1";
@@ -36,15 +41,15 @@ public class RecipeMpFavoriteListAction implements Action {
 		    RecipeMpFavoriteListService recipeMpFavoriteListService
 		    = new RecipeMpFavoriteListService();
 		    
-		    count = recipeMpFavoriteListService.getArticleCount();
+		    count = recipeMpFavoriteListService.getArticleCount(id);
 		    if (count > 0) {
-		        articleList = recipeMpFavoriteListService.getArticles(startRow, pageSize);
+		        articleList = recipeMpFavoriteListService.getArticles(startRow, pageSize,id);
 		    }
 
 			number=count-(currentPage-1)*pageSize;
 			//총 글의 개수 : 132
 			//현재 페이지 : 1
-			//글번호 : 132 -  (1 - 1) * 10
+			//글번호 : 132 -  (1 - 1) * 10 이부분을 랭킹에서는 카운트에서 안빼고 그대로 보내면됨.!!!!!!!!!1
 			int pageCount = 0;
 			int startPage = 0;
 			int endPage = 0;

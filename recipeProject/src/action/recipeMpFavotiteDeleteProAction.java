@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import svc.RecipeMpFavotiteDeleteProService;
 import vo.ActionForward;
@@ -14,6 +15,9 @@ public class recipeMpFavotiteDeleteProAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		
+		
+		HttpSession session=request.getSession(); //아이디 값을 불러옴.
+		String id = (String)session.getAttribute("user_id");
 		
 		String [] num_arr = request.getParameterValues("num");
 		
@@ -33,8 +37,8 @@ public class recipeMpFavotiteDeleteProAction implements Action {
 		RecipeMpFavotiteDeleteProService recipeMpFavotiteDeleteProService
 		= new RecipeMpFavotiteDeleteProService();
 		
-		for (int i =0; i<num.length;i++) {
-		removeSuccess = recipeMpFavotiteDeleteProService.removeArticle(num[i]);
+		for (int i =0; i<num.length;i++) { //num = 레시피아이디
+		removeSuccess = recipeMpFavotiteDeleteProService.removeArticle(num[i],id);
 		}
 		ActionForward forward = null;
 		if(removeSuccess){

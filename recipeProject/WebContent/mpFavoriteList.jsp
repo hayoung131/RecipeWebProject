@@ -5,14 +5,11 @@
 <%@ page import = "java.text.SimpleDateFormat" %>
 
 
-<%!
-   
-    SimpleDateFormat sdf = 
-        new SimpleDateFormat("yyyy-MM-dd HH:mm");
-%>
+<%!SimpleDateFormat sdf = 
+        new SimpleDateFormat("yyyy-MM-dd HH:mm");%>
 
 <%
-     List<Recipe> articleList = (List<Recipe>)request.getAttribute("articleList");
+	List<Recipe> articleList = (List<Recipe>)request.getAttribute("articleList");
      PageInfo pageInfo = (PageInfo)request.getAttribute("pageInfo");
      
      int number = pageInfo.getNumber();
@@ -50,16 +47,18 @@
 
 
 <%
-    if (count == 0) {
+	if (count == 0) {
 %>
 <table width="700" border="1" cellpadding="0" cellspacing="0">
 <tr>
     <td align="center">
-    게시판에 저장된 글이 없습니다.
+    즐겨찾기에 추가한 레시피가 없습니다.
     </td>
 </table>
 
-<%  } else {    %>
+<%
+	} else {
+%>
 <div class="container">
 <div class="row">
 <div class="col">
@@ -86,8 +85,8 @@ margin-top:70px; text-align:center; width: 1140px; font-size: 13pt">
       <!-- <th align="center"  width="100" >IP</th>    --> 
     </tr>
     </thead>
-<%  
-        for (int i = 0 ; i < articleList.size() ; i++) {
+<%
+	for (int i = 0 ; i < articleList.size() ; i++) {
           Recipe article = (Recipe)articleList.get(i);
 %>
    <tr height="30">
@@ -105,7 +104,7 @@ margin-top:70px; text-align:center; width: 1140px; font-size: 13pt">
 	<%}%> --%>
         <!-- 제목부분임 -->   
       <a href="recipeMpFavoriteContent.bo?num=<%=article.getNum()%>&pageNum=<%=currentPage%>">
-           <%=article.getTitle()%></a> 
+           <%=article.getCooking_title()%></a> 
 <%--           <% if(article.getReadcount()>=20){%>
          <img src="images/hot.gif" border="0"  height="16"><%}%>  --%>
          </td>
@@ -113,9 +112,9 @@ margin-top:70px; text-align:center; width: 1140px; font-size: 13pt">
          <!-- 난이도 부분 -->
     <td align="center" >
        <%-- <a href="mailto:<%=article.getEmail()%>"> --%> <!-- 그 사람의(작성자의)이메일주소로 링크한거.  -->
-       <%=article.getLevel()%><!-- </a> --></td>
+       <%=article.getCooking_level()%><!-- </a> --></td>
     
-    <td align="center"  ><%=article.getHit_count()%>
+    <td align="center"  ><%=article.getHit_standard()%>
     </td>
    <%--  <td align="center" width="100" ><%=article.getIp()%></td> --%>
    	<td align="center" >
@@ -131,7 +130,7 @@ margin-top:70px; text-align:center; width: 1140px; font-size: 13pt">
     <td colspan="5" style="text-align: right; height: 45px;">
     
 	<input class="btn btn-secondary btn-sm active" role="button" aria-pressed="true" 
-	style="text-align: right;" type="submit" value="선택삭제" > 
+	style="text-align: right;" type="submit" value="선택삭제" >
 	
 	</td>
     </tr>

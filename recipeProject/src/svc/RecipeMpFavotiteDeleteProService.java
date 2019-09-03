@@ -11,7 +11,7 @@ import dao.RecipeDAO;
 
 public class RecipeMpFavotiteDeleteProService {
 	
-	public boolean removeArticle(int num) throws Exception {
+	public boolean removeArticle(int num,String id) throws Exception {
 		// TODO Auto-generated method stub
 		boolean removeSuccess = false;
 		
@@ -19,7 +19,7 @@ public class RecipeMpFavotiteDeleteProService {
 		RecipeDAO recipeDAO = RecipeDAO.getInstance();
 		recipeDAO.setConnection(con);
 		
-		int deleteCount = recipeDAO.deleteFavorite(num);
+		int deleteCount = recipeDAO.deleteFavorite(num, id);
 		
 		if(deleteCount > 0){
 			commit(con);

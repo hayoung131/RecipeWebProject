@@ -12,13 +12,13 @@ import vo.Recipe;
 
 public class RecipeMpFavoriteContentService {
 
-	public Recipe getArticle(int num) throws Exception {
+	public Recipe getArticle(int num,String id) throws Exception {
 		// TODO Auto-generated method stub
 		Connection con = getConnection();
 		RecipeDAO recipeDAO = RecipeDAO.getInstance();
 		recipeDAO.setConnection(con);
 		
-		Recipe information = recipeDAO.selectRecipeInfo(num);
+		Recipe information = recipeDAO.selectRecipeInfo(num ,id);
 		close(con);
 		return information;
 	}
@@ -33,6 +33,20 @@ public class RecipeMpFavoriteContentService {
 		
 		close(con);
 		return ingredientList;
+	}
+
+	public String[] getCooking_steps(int num) throws Exception{
+		
+		Connection con = getConnection();
+		RecipeDAO recipeDAO= RecipeDAO.getInstance();
+		recipeDAO.setConnection(con);
+		System.out.println("조리과정 잘 받았니????");
+		String[] cooking_step = recipeDAO.selectCooking_step(num);
+		System.out.println("잘 받았니??????????" + cooking_step[0]);
+		
+		close(con);
+		return cooking_step;
+		
 	}
 
 

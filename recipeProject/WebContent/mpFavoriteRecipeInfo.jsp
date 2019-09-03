@@ -19,33 +19,26 @@
 </head>
 <%@ include file="/topMenu.jsp" %>
 <%
-
-	
 	String check_num = (String)request.getAttribute("check_num");
 	
 	List<Ingredient> ingredientList = (List<Ingredient>)request.getAttribute("ingredientList");
 	String message = (String)request.getAttribute("message");
-	 
-	if(check_num.equals("1")){
-		 %> 
-		 <script>alert('<%=message%>');</script>
-		<%
-		 }
-	 
-	try{
-		
-		Recipe information = (Recipe)request.getAttribute("information");
-		String pageNum = (String)request.getAttribute("pageNum");
-		
-		int num = information.getNum();
-		String title = information.getTitle();
-		String level =  information.getLevel();
-		String hit_count =  information.getHit_count();
-		String time = information.getTime();
-		String cooking_step = information.getCooking_step();
-		String img = information.getImg();
-		String status = information.getStatus();
-
+			 
+			try{
+				
+				Recipe information = (Recipe)request.getAttribute("information");
+				String pageNum = (String)request.getAttribute("pageNum");
+				String[] cooking_steps = (String[])request.getAttribute("cooking_steps");
+				
+				int num = information.getNum();
+				String title = information.getCooking_title();
+				String level =  information.getCooking_level();
+				int hit_count =  information.getHit_standard();
+				String time = information.getCooking_time();
+				String tip = information.getCooking_tips();
+				boolean isBookmark = information.isBookmark();
+				String img = "images/star2.png";
+				
 		%>
 
 <body>
@@ -72,7 +65,7 @@
 		<th style="text-align:right; font-size: 13pt; padding-bottom: 12px;">조회수&nbsp;<%=hit_count %></th>
 		<th style="padding-bottom: 10px;">
 															
-			<img src=<%=img %> width="25px" height="25px" >
+			<img src=<%=img %> width="25px" height="25px" >  <!-- //비활성화 되어있음 -->
 			
 		</th>
 	</tr>
@@ -176,21 +169,24 @@
 	<table class="table table-striped">
 
 	  <tbody>
+<%
+		for(int i = 0; i< cooking_steps.length;i++){
+%>
 	    <tr>
-	      <td>1. 먼저 새송이 버섯 3동은 밑동을 제거하고 일정한 두께로 잘라 줍니다. 대파와 청양고추는 쫑쫑 썰어줍니다.</td>
+	      <td><%=cooking_steps[i]%></td>
 	    </tr>
-	    <tr>
-	      <td>2. 간장 ST, 올리고당2T, 물2T, 다진마늘1T, 참기름1T를 섞어 주신뒤 썰어놓은 청양고추, 대파를 섞어줍니다.</td>
-	    </tr>
-	    <tr>
-	      <td>1. 먼저 새송이 버섯 3동은 밑동을 제거하고 일정한 두께로 잘라 줍니다. 대파와 청양고추는 쫑쫑 썰어줍니다.</td>
-	    </tr>
-	    <tr>
-	      <td>2. 간장 ST, 올리고당2T, 물2T, 다진마늘1T, 참기름1T를 섞어 주신뒤 썰어놓은 청양고추, 대파를 섞어줍니다.</td>
-	    </tr>
+<%
+		}
+%>
 	  </tbody>
 	</table>
-
+	<!-- 팁 -->
+	<div style="border-radius: 10px; margin-top:30px; background-color:#4C4C4C; padding-left : 10px; text-align: center;">
+	<dl class="row" style="margin-top: 15px; margin-bottom: 15px; padding-top: 10px;">
+	  <dt class="col-sm-1" style="color: white;">* tip</dt>
+  		<dd class="col-sm-10" style="color: white;"><%=tip %></dd>
+</dl>
+</div>
 </div>
 </div>
 </div>

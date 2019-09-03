@@ -77,7 +77,7 @@ public class RecipeDAO {
 		    }
 	
 	
-	public int selectArticleCountFavorite()
+	public int selectArticleCountFavorite(String id)
 		    throws Exception {
 		        PreparedStatement pstmt = null;
 		        ResultSet rs = null;
@@ -87,7 +87,8 @@ public class RecipeDAO {
 		        try {
 		            
 		            pstmt = con.prepareStatement
-		            		("select count(*) from favorite where status = 'on'");
+		            		("select count(*) from bookmark where user_id = ?");
+		            pstmt.setString(1, id);
 		            rs = pstmt.executeQuery();
 
 		            if (rs.next()) {
@@ -152,43 +153,53 @@ public class RecipeDAO {
 		    }
 	
 	
-	public List<Recipe> selectArticleListFavorite(int start, int end)
+	public List<Recipe> selectArticleListFavorite(int start, int end, String id)
 		    throws Exception {
 		        Statement stmt = null;
 		        ResultSet rs = null;
 		        List<Recipe> articleList=null;
 		        PreparedStatement pstmt = null;
+		        ResultSet rss = null;
+		        
 		        try {
 		            
 		            pstmt = con.prepareStatement(
-		"select list2.* from(select  list1.*  " +
-		"from(select *  from recipes order by num desc)list1) " +
-		"list2 inner join favorite as f where list2.num=f.num and f.status='on' limit ?,? ");
-		            pstmt.setInt(1, start-1);
-					pstmt.setInt(2, end);
+		"select * from bookmark b inner join mainrecipe m on b.recipe_id = m.recipe_id where b.user_id = ? limit ?,? ");
+		            
+		            pstmt.setString(1, id);
+		            pstmt.setInt(2, start-1);
+					pstmt.setInt(3, end);
 		            rs = pstmt.executeQuery();
 		   
 		                if (rs.next()) {
 		                int i=0;
 		                articleList = new ArrayList<Recipe>(end);
 		                do{
-		                  Recipe article= new Recipe();
-		                  article.setNum(rs.getInt("num")); //이부분 아직 안바꿈
-		                  article.setTitle(rs.getString("title"));
-		                  article.setHit_count(rs.getString("hit_count"));
-		                  article.setLevel(rs.getString("level"));
-		                  article.setTime(rs.getString("time"));
-		                  article.setCooking_step(rs.getString("cooking_step"));
-		      
-		                  articleList.add(article);
-		                  i++;
+			                  Recipe article= new Recipe();
+			                  article.setNum(rs.getInt("recipe_id"));
+			                  int numm = rs.getInt("recipe_id");
+			                  article.setCooking_title(rs.getString("cooking_title"));
+			                  article.setCooking_level(rs.getString("cooking_level"));
+			                  article.setCooking_time(rs.getString("cooking_time"));
+			      
+			                  pstmt = con.prepareStatement("select hit_standard from comments where recipe_id = ?");
+			                  pstmt.setInt(1, numm);
+			                  rss = pstmt.executeQuery();
+			                  if (rss.next()) {
+			                	  article.setHit_standard(rss.getInt("hit_standard"));
+			  		    	}
+			                  
+			                  articleList.add(article);
+			                  i++;
+			                  
 		       }while(rs.next()&& i<end);
 		   }
 		        } catch(Exception ex) {
 		            ex.printStackTrace();
 		        } finally {
-		           close(rs);
-		           close(pstmt);
+		        	close(rss);
+					close(rs);
+					close(pstmt);
 		        }
 		  return articleList;
 		    }
@@ -544,24 +555,25 @@ public class RecipeDAO {
 	}
 
 	
-	public int deleteFavorite(int num) throws Exception {
-			PreparedStatement pstmt = null;
-	        ResultSet rs= null;
+	public int deleteFavorite(int num,String id) throws Exception {
+		PreparedStatement pstmt = null;
+        ResultSet rs= null;
 
-	        int x=-1;
-	        try {
-	        	
-				pstmt = con.prepareStatement("update favorite set img = 'images/star1.png', status = 'off' where num = ?");
-                pstmt.setInt(1, num);
-                x = pstmt.executeUpdate();
-					
-	        } catch(Exception ex) {
-	            ex.printStackTrace();
-	        } finally {
-	           close(pstmt);
-	        }
-			return x;
-	}
+        int x=-1;
+        try {
+        	
+			pstmt = con.prepareStatement("delete from bookmark where recipe_id = ? and user_id = ?");
+            pstmt.setInt(1, num);
+            pstmt.setString(2, id);
+            x = pstmt.executeUpdate();
+				
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        } finally {
+           close(pstmt);
+        }
+		return x;
+}
 
 	public MemberInfo confirmAndGetMemInfo(LoginInfo loginInfo) throws Exception{
 		PreparedStatement pstmt=null;
