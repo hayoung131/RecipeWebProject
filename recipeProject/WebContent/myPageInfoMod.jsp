@@ -96,7 +96,7 @@
 	  border-bottom:1px solid;
 	}
 	</style>
-<%session.setAttribute("user_id","hayoung131");%>
+
 <%
 	MemberInfo memberInfo=(MemberInfo)request.getAttribute("memberInfo");
 	String id=(String)session.getAttribute("user_id");

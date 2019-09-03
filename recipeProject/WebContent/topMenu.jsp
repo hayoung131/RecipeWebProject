@@ -18,7 +18,7 @@
 <%!static String id="";%>
 <%
 id=(String)session.getAttribute("user_id");
-System.out.print("\n session id: "+id+"\n");
+System.out.print("\n session id -top Menu에서 ..: "+id+"\n");
 %>
 <script>
 	var id='<%=id%>';
