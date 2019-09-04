@@ -39,8 +39,8 @@ $('.message a').click(function(){
   background: #f2f2f2;
   width: 68%;
   border: 0;
-  margin: 0 0 15px;/*위 좌우 아래*/
-  padding: 15px;
+  margin: 0 0 13px;/*위 좌우 아래*/
+  padding: 13px;
   /* box-sizing: border-box; /*이건 모하는놈이지*/ */
   font-size: 14px;
   /* float:right; */
@@ -122,14 +122,24 @@ function checkForm(){
 	
 	var dup = document.getElementById("confirm-duplication");//중복확인
 	
-	var pwd= document.getElementById("signUp-pwd");
+	var pwd1= document.getElementById("signUp-pwd");
+	var pwd2 = document.getElementById("signUp-pwd-re");
 	var answer = document.getElementById("signUp-answer");
 	var phone = document.getElementById("signUp-phone");
 
-	if(name.value=='' ||id.value=='' ||pwd.value=='' ||answer.value=='' ||phone.value==''){
+	if(name.value=='' ||id.value=='' ||pwd1.value=='' ||pwd2.value=='' ||answer.value=='' ||phone.value==''){
 		alert("마지막내용을 제외한 모든 내용을 입력해주세요");
 		return false;
-	}else{ 
+	}
+	else if(phone.value=='' || phone.value.length!=11 || isNaN(phone.value)!=false){//공백이거나 11자리가 아니거나 숫자가아니면
+		alert(phone.value.length);
+		alert("휴대폰번호 숫자 11자리를 입력해주세요.");     
+		return false;
+	}
+	else if(pwd1.value != pwd2.value){
+		alert("패스워드가 동일하지 않습니다.");
+		return false;
+	}else{
 		return true;
 	}
 
@@ -152,6 +162,9 @@ function checkForm(){
 		  <button type="button" class="btn btn-success" id="confirm-duplication">중복확인</button>
 					<label for="signUp-pwd">비밀번호</label>
           <input type="text" placeholder="비밀번호를 입력해주세요" id="signUp-pwd" name="signUp-pwd"/>
+          			<label for="newPwd-re">새 비밀번호 확인</label>
+          <input type="password" placeholder="비밀번호를 다시 입력하세요" id="signUp-pwd-re" name="signUp-pwd-re"/>
+          
 
 					<label for="signUp-phone">휴대폰번호</label>
 		  <input type="text" placeholder="-를 제외한 휴대폰번호를 입력해주세요." id="signUp-phone" name="signUp-phone"/>

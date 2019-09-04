@@ -113,6 +113,7 @@ $(document).ready(function() {
 window.onload = function() {
 	
 	document.getElementById('modBtn').onclick = function() {
+		alert("여기까진 들어오나");
 		var phone=document.getElementById("mod_phone").value;
 		var answer=document.getElementById("mod_answer").value;
 		var currentPwd=document.getElementById("current_pwd").value;

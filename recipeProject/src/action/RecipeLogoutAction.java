@@ -19,6 +19,22 @@ public class RecipeLogoutAction implements Action {
 		forward.setUrl("/logout.jsp");
 		forward.setRedirect(false);
 		
+		StringBuilder content = new StringBuilder();
+		content.append("<!DOCTYPE html>");
+		content.append("<html lang=\"ko\">");
+		content.append("	<head>");
+		content.append("		<meta charset=\"UTF-8\">");
+		content.append("		<script type=\"text/javascript\">");
+		content.append("		</script>");
+		content.append("	</head>");
+		content.append("	<body>");
+		content.append("		<script>");
+		content.append("			alert(\"로그아웃 되었습니다.\");");
+		content.append("		</script>");
+		content.append("	</body>");
+		content.append("</html>");
+		
+		
 		return forward;
 	}
 }

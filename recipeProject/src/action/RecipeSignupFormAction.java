@@ -32,16 +32,8 @@ public class RecipeSignupFormAction implements Action {
 		successSignup = recipeSignupFormService.signUp(signupInfo);
 		
 		if(successSignup) {
-			//해당 아이디가 존재한단 의미
-			response.setContentType("text/html;charset=UTF-8");//마인드타입은 text/html로
-			PrintWriter out = response.getWriter();
-			out.println("<script>");
-			out.println("setTimeout(function() {alert('회원가입되었습니다! 환영합니다>__<');}, 3000)");
-			out.println("history.back()");//이전 url 로 돌아가기
-			out.println("</script>");
-			//이게 안먹히네...짜증
 			forward=new ActionForward();
-			forward.setUrl("/loginForm.jsp");
+			forward.setUrl("/alertSignUp.jsp");
 			
 		}
 		else {
