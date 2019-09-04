@@ -15,6 +15,7 @@ import action.RecipeAddFavoritesAction;
 import action.RecipeConfirmPwdAction;
 import action.RecipeRankingListAction;
 import action.RecipeSignupFormAction;
+import action.RecipehateIngreListAction;
 import action.recipeMpFavotiteDeleteProAction;
 import action.RecipeFindIdFormAction;
 import action.RecipeFindPwdFormAction;
@@ -22,6 +23,7 @@ import action.RecipeFindPwdViewAction;
 import action.RecipeLoginFormAction;
 import action.RecipeLogoutAction;
 import action.RecipeModMemInfoAction;
+import action.RecipeMpDeleteIngreAction;
 import action.RecipeMpFavoriteContentAction;
 import action.RecipeMpFavoriteListAction;
 import action.RecipeRankingContentAction;
@@ -191,6 +193,22 @@ public class RecipeFrontController extends HttpServlet {
 			}
 		}else if(command.equals("/recipeLogout.bo")){
 			action = new RecipeLogoutAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(command.equals("/hateIngreList.bo")){
+			action = new RecipehateIngreListAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(command.equals("/mpDeleteExcludeIngre.bo")){
+			action = new RecipeMpDeleteIngreAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
