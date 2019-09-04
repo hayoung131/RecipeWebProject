@@ -784,5 +784,111 @@ public class RecipeDAO {
 		}
 		return a;
 	}
+
+	public String[] selectHateIngre(String user_id) throws Exception {
 		
+		PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String [] hateIngreList = null;
+	    int x = 0;
+		
+	    try {
+	    	pstmt = con.prepareStatement
+	        		("select count(*) from dislike_ingredient where user_id = ?");
+	    	pstmt.setString(1, user_id);
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	        	
+	        	x= rs.getInt(1);
+	        	
+				}
+	        hateIngreList = new String[x];
+	        
+	        pstmt = con.prepareStatement
+	        		("select ingredient from dislike_ingredient where user_id = ?");
+	    	pstmt.setString(1, user_id);
+	        rs = pstmt.executeQuery();
+	        if(rs.next()) {
+	        	int i =0;
+	        	
+		        do {
+		        	hateIngreList[i] = rs.getString("ingredient");
+		        	i++;
+		        }while(rs.next() && i<x);
+	        	
+	        }	
+	    } catch(Exception ex) {
+	        ex.printStackTrace();
+	    } finally {
+	        close(rs);
+	        close(pstmt);
+	    }
+	    
+		return hateIngreList;
+	}
+
+	public boolean deleteIngre(String user_id, String[] checkedHateIngre) throws Exception {
+		
+		
+		PreparedStatement pstmt = null;
+        
+        boolean check = false;
+
+        int x=-1;
+        try {
+        	for(int i = 0; i<checkedHateIngre.length;i++) {
+				pstmt = con.prepareStatement("delete from dislike_ingredient where user_id = ? and ingredient = ?");
+	            pstmt.setString(1,user_id);
+	            pstmt.setString(2, checkedHateIngre[i]);
+	            x = pstmt.executeUpdate();
+        	}
+            if(x>0)
+            	check = true;
+            
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        } finally {
+           close(pstmt);
+        }
+		return check;
+		
+		
+	}
+
+	public boolean insertIngre(String user_id, String[] addIngre)throws Exception {
+		
+		
+		PreparedStatement pstmt = null;
+        
+        boolean check = false;
+
+        int x=-1;
+        try {
+        	for(int i = 0; i<addIngre.length;i++) {
+				pstmt = con.prepareStatement("insert into dislike_ingredient (user_id,ingredient) values(?,?)");
+	            pstmt.setString(1,user_id);
+	            pstmt.setString(2, addIngre[i]);
+	            x = pstmt.executeUpdate();
+        	}
+            if(x>0)
+            	check = true;
+            
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        } finally {
+           close(pstmt);
+        }
+		return check;
+		
+		
+	}
+		
+	
+	
+	
+	
+	
+	
+	
 	}

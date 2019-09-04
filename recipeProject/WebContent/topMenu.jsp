@@ -74,7 +74,7 @@ System.out.print("\n session id -top Menu에서 ..: "+id+"\n");
         <div class="dropdown-menu" aria-labelledby="dropdown03">
           <a class="dropdown-item" href="confirmPwd.jsp" onclick="return loginCheck();">회원정보</a>
           <a class="dropdown-item" href="recipeMpFavoriteList.bo" onclick="return loginCheck();">즐겨찾기</a>
-          <a class="dropdown-item" href="#" onclick="return loginCheck();">제외할 재료 설정</a>
+          <a class="dropdown-item" href="hateIngreList.bo" onclick="return loginCheck();">제외할 재료 설정</a>
         </div>
       </li>
       <li class="nav-item" style="padding-top: 5px;">
