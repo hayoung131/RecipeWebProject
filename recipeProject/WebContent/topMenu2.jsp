@@ -7,14 +7,13 @@
 <head>
 
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-</script>
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ --><meta charset="UTF-8">
 
+<title>Insert title here</title>
 <%!static String id="";%>
 <%
 id=(String)session.getAttribute("user_id");
@@ -49,10 +48,7 @@ System.out.print("\n session id -top Menu에서 ..: "+id+"\n");
 </head>
 <body>
 
-<div class="jumbotron text-center mb-0" style="padding-bottom:20px; padding-top: 20px;" >
-        <h1>레시피를 부탁해</h1>
-        <p>냠냠봇에게 레시피를 물어 보세요!</p>
-    </div>
+
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark" >
   <a class="navbar-brand" href="recipeRankingList.bo"><h4>레시피를 부탁해</h4></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +56,7 @@ System.out.print("\n session id -top Menu에서 ..: "+id+"\n");
   </button>
 
   <div class="collapse navbar-collapse" id="navbarsExample03">
-    <ul class="navbar-nav mr-auto">
+     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" href="recipeRankingList.bo" style="font-size: 13pt"> 레시피 랭킹<span class="sr-only">(current)</span></a>
       </li>
@@ -115,6 +111,7 @@ display: inline-table;">
 		</td> -->
 		
 		<!-- <td width="20%"> -->
+
 <%
 if(session.getAttribute("session_id")==null){//null 이라는 것은 로그인 안했다는 뜻
 %>	
