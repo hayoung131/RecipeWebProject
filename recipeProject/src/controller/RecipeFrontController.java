@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import action.Action2;
 import action.RecipeAddFavoritesAction;
+import action.RecipeCheckIdDuplicationAction;
 import action.RecipeConfirmPwdAction;
 import action.RecipeRankingListAction;
 import action.RecipeSignupFormAction;
@@ -58,6 +60,8 @@ public class RecipeFrontController extends HttpServlet {
 		System.out.print("url 주소 :    " + command + "\n");
 		// 2.요청에 해당하는 비지니스 로직 호출
 		Action action = null;// 다형성 이용하여 인터페이스 만들기 ctrl+1누르면 create interface 클릭 이제 비지니스모델 만들거임 인터페이스로
+		Action2 action2=null;
+		String answer="";
 		ActionForward forward = null;// Action호출되면 ActionForward가 반환이 되니 이걸 저장할곳.
 
 		// 3. 요청별 처리
@@ -215,9 +219,20 @@ public class RecipeFrontController extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}else if(command.equals("/recipeCheckIdDuplication.bo")){
+			action2 = new RecipeCheckIdDuplicationAction();
+			try {
+				answer = action2.execute(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		// 4. 뷰페이지로 포워딩. 화면에 띄워주는부분
+		if(answer != "") {
+			response.getWriter().write(answer);
+		}
 		if (forward != null) {// null이 아니다? 요청처리가 제대로 됐다는 의미
 			if (forward.isRedirect()) {// 리다이렉트방식
 				response.sendRedirect(forward.getUrl());

@@ -9,7 +9,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="css/jquery.selectlist.css">
-
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<meta charset="UTF-8">
 
 <script>
 $('.message a').click(function(){
@@ -116,10 +118,39 @@ textarea{
 </head>
 <body>
 <script>
+
+/* $(document).ready(function(){
+	
+}); */
+
+function confirmDup(){
+	var dupCheck_id=document.getElementById("signUp-id").value;
+	alert(dupCheck_id);
+	
+	if(dupCheck_id==''){
+			alert("아이디를 입력해주세요.");
+			return false;
+	}
+	$.ajax({
+		type:"POST",
+		url: "recipeCheckIdDuplication.bo",
+		data:{dupCheck_id: encodeURIComponent(dupCheck_id)},
+		success: function(data){
+			if(data=="false"){
+				alert("사용가능한 ID입니다.");
+				$('#idCheckOn').val('1');
+			}else{
+				alert("이미 사용중인 ID입니다. 새로운 아이디를 입력해주세요.");
+				$('#signUp-id').val('');
+			}
+			
+		}
+	}); 
+}
 function checkForm(){
 	var name = document.getElementById("signUp-name");
 	var id = document.getElementById("signUp-id");
-	
+	var idCheckOn=document.getElementById("idCheckOn");
 	var dup = document.getElementById("confirm-duplication");//중복확인
 	
 	var pwd1= document.getElementById("signUp-pwd");
@@ -127,7 +158,11 @@ function checkForm(){
 	var answer = document.getElementById("signUp-answer");
 	var phone = document.getElementById("signUp-phone");
 
-	if(name.value=='' ||id.value=='' ||pwd1.value=='' ||pwd2.value=='' ||answer.value=='' ||phone.value==''){
+	if(idCheckOn.value=='0'){
+		alert("아이디 중복체크를 해주세요");
+		return false;
+	}
+	else if(name.value=='' ||id.value=='' ||pwd1.value=='' ||pwd2.value=='' ||answer.value=='' ||phone.value==''){
 		alert("마지막내용을 제외한 모든 내용을 입력해주세요");
 		return false;
 	}
@@ -158,10 +193,10 @@ function checkForm(){
 
 					<label for="signUp-id">아이디</label>
           <input type="text" placeholder="아이디를 입력해주세요" id="signUp-id" style="width:220px;" name="signUp-id"/>
-          <input type='hidden' name='idCheckOn' value='0'/> 
-		  <button type="button" class="btn btn-success" id="confirm-duplication">중복확인</button>
+          <input type='hidden' name='idCheckOn' value='0' id='idCheckOn'/> 
+		  <button type="button" class="btn btn-success" id="confirm-duplication" onclick="confirmDup()">중복확인</button>
 					<label for="signUp-pwd">비밀번호</label>
-          <input type="text" placeholder="비밀번호를 입력해주세요" id="signUp-pwd" name="signUp-pwd"/>
+          <input type="password" placeholder="비밀번호를 입력해주세요" id="signUp-pwd" name="signUp-pwd"/>
           			<label for="newPwd-re">새 비밀번호 확인</label>
           <input type="password" placeholder="비밀번호를 다시 입력하세요" id="signUp-pwd-re" name="signUp-pwd-re"/>
           

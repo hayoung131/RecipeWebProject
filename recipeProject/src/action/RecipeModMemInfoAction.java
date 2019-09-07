@@ -54,12 +54,7 @@ public class RecipeModMemInfoAction implements Action {
 		
 		if(successMod) {
 			forward=new ActionForward();
-			response.setContentType("text/html;charset=UTF-8");//마인드타입은 text/html로
-			PrintWriter out = response.getWriter();
-			out.println("<script>");
-			out.println("alert('수정 완료')");
-			out.println("</script>");
-			forward.setUrl("/confirmPwd.jsp");
+			forward.setUrl("/alertModInfo.jsp");
 		}
 		else {
 			//경고창 띄우고, 글쓰기 창 다시 띄워주기

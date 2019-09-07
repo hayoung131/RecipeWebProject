@@ -883,6 +883,33 @@ public class RecipeDAO {
 		
 		
 	}
+
+	public String checkDup(String dupCheck_id) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String duplicate="false";
+		try {
+			pstmt=con.prepareStatement("select user_id from user where user_id=?");
+			pstmt.setString(1, dupCheck_id);
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				System.out.println("이미 존재하는 아이디임.");
+				String a=rs.getString("user_id");
+				System.out.println("id: "+a);
+				duplicate="true";
+			}else {
+				System.out.println("db에 아이디 없음!! 생성가능!!");
+			}
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		return duplicate;
+	}
 		
 	
 	

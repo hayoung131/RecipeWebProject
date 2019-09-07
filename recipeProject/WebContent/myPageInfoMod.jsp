@@ -108,12 +108,9 @@
 <script>
 $(document).ready(function() {
 	var question="<%=question%>";
-   $("#mod_question").val(question).prop("selected",true);
-});
-window.onload = function() {
-	
+    $("#mod_question").val(question).prop("selected",true);
+   
 	document.getElementById('modBtn').onclick = function() {
-		alert("여기까진 들어오나");
 		var phone=document.getElementById("mod_phone").value;
 		var answer=document.getElementById("mod_answer").value;
 		var currentPwd=document.getElementById("current_pwd").value;
@@ -136,7 +133,11 @@ window.onload = function() {
 		}
 		 
 		}; 
-};
+   
+});
+/* window.onload = function() {
+이방법은 에러가 많으니 쓰지말고 위의방식 사용하자.
+}; */
 
 </script>
 </head>
@@ -154,10 +155,10 @@ window.onload = function() {
 				<input type="text" placeholder="<%=id%>" id="mod_id" readOnly/>
 	
 				<label for="mod_pwd">현재 비밀번호</label>
-				<input type="text" id="current_pwd" name="current_pwd"/>
+				<input type="password" id="current_pwd" name="current_pwd"/>
 				
 				<label for="mod_NewPwd">새 비밀번호</label>
-				<input type="text" id="new_pwd" name="new_pwd"/>
+				<input type="password" id="new_pwd" name="new_pwd"/>
 				<label for="mod-phone">휴대폰번호</label>
 				<input type="text" id="mod_phone" name="mod_phone" value="<%=phone%>"/>
 	
