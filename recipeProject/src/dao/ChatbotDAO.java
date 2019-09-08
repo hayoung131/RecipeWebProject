@@ -188,14 +188,15 @@ public List<SearchResult> selectSearchResult(SearchInformation searchInformation
     	
     	String Title = "s.searching_title like '%"+searchInformation.getTitle()+"%' and ";
     	
-    	
-    	for(int i=0; i< hateIngredients.length; i++) {
-    		
-    		if(i != 0) {
-    			hateIngredient += "and ";
-    		}
-    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
-    		
+    	if(hateIngredients != null && hateIngredients.length == 0) {
+	    	for(int i=0; i< hateIngredients.length; i++) {
+	    		
+	    		if(i != 0) {
+	    			hateIngredient += "and ";
+	    		}
+	    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
+	    		
+	    	}
     	}
     	
     	int i = 0;
@@ -274,13 +275,15 @@ public List<SearchResult> selectSearchResultIm(SearchInformation searchInformati
     	String hateIngredient = "";
     	String Title = "s.searching_title like '%"+searchInformation.getTitle()+"%' and ";
     	
-    	for(int i=0; i< hateIngredients.length; i++) {
-    		
-    		if(i != 0) {
-    			hateIngredient += "and ";
-    		}
-    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
-    		
+    	if(hateIngredients != null && hateIngredients.length == 0) {
+	    	for(int i=0; i< hateIngredients.length; i++) {
+	    		
+	    		if(i != 0) {
+	    			hateIngredient += "and ";
+	    		}
+	    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
+	    		
+	    	}
     	}
     	
     	int i = 0;
@@ -590,13 +593,15 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where ";
 		    	String hateIngredient = "";
 		    	
-		    	for(int i=0; i< hateIngredients.length; i++) {
-		    		
-		    		if(i != 0) {
-		    			hateIngredient += "and ";
-		    		}
-		    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
-		    		
+		    	if(hateIngredients != null && hateIngredients.length == 0) {
+			    	for(int i=0; i< hateIngredients.length; i++) {
+			    		
+			    		if(i != 0) {
+			    			hateIngredient += "and ";
+			    		}
+			    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
+			    		
+			    	}
 		    	}
 		    	
 		    	int i = 0;
@@ -674,16 +679,16 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where ";
 		    	String hateIngredient = "";
 		    	
-		    	
-		    	for(int i=0; i< hateIngredients.length; i++) {
-		    		
-		    		if(i != 0) {
-		    			hateIngredient += "and ";
-		    		}
-		    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
-		    		
+		    	if(hateIngredients != null && hateIngredients.length == 0) {
+			    	for(int i=0; i< hateIngredients.length; i++) {
+			    		
+			    		if(i != 0) {
+			    			hateIngredient += "and ";
+			    		}
+			    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
+			    		
+			    	}
 		    	}
-		    	
 		    	int i = 0;
 		    	do{
 		    		
@@ -749,19 +754,20 @@ public String[] selectCooking_step(int num) throws Exception {
 		    try {
 		    	
 		    	String [] hateIngredients = searchInformation.getHateIngredients();
-		    	String hateIngredient = " and ";
-		    	
-		    	for(int i=0; i< hateIngredients.length; i++) {
-		    		
-		    		if(i != 0) {
-		    			hateIngredient += "and ";
-		    		}
-		    	
-		    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
-		    		
+		    	String hateIngredient = "";
+		    	if(hateIngredients != null && hateIngredients.length == 0) {
+			    	for(int i=0; i< hateIngredients.length; i++) {
+			    		
+			    		if(i != 0) {
+			    			hateIngredient += "and ";
+			    		}
+			    	
+			    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
+			    		
+			    	}
 		    	}
 		    	pstmt = con.prepareStatement("select s.recipe_id, m.cooking_title from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where "
-		    								+ " s.searching_title like '%"+searchInformation.getTitle()+"%'" + hateIngredient);
+		    								+ " s.searching_title like '%"+searchInformation.getTitle()+"%'" + hateIngredient +" limit 0,15");
 		    	
 		    	System.out.println("sql : "+pstmt);
 		    	rs = pstmt.executeQuery();
@@ -948,7 +954,7 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	
 		    	String haveIngredient = " s.ingredient_num - (" ;
 		    	String IngredientSelect = "select s.recipe_id, m.cooking_title, ";
-		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where ";
+		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id ";
 		    
 		    	
 
@@ -1092,7 +1098,7 @@ public String[] selectCooking_step(int num) throws Exception {
 		    try {
 		    	
 		    	pstmt = con.prepareStatement("select s.recipe_id, m.cooking_title from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where "
-		    								+ " s.searching_title like '%"+searchInformation.getTitle()+"%' ");
+		    								+ " s.searching_title like '%"+searchInformation.getTitle()+"%' limit 0,15");
 		    	rs = pstmt.executeQuery();
 		    	System.out.println("sql :"+pstmt);
 		    	if(rs.next()) {

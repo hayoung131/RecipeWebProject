@@ -19,6 +19,7 @@ public class RecipehateIngreListAction implements Action {
 		
 		String [] hateIngreList = recipehateIngreListService.selecthateIngre(user_id);
 		
+		System.out.println("리스트 길이 :" +hateIngreList.length );
 		request.setAttribute("hateIngreList", hateIngreList);
 		ActionForward forward =  new ActionForward();
 		forward.setUrl("/mpHateIngreList.jsp");

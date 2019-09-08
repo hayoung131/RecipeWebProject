@@ -47,23 +47,33 @@ public class RecipeRankingContentAction implements Action {
 		
 	/*		   String check_num = "0";*/
 		HttpSession session=request.getSession(); //아이디 값을 불러옴.
-		String id = (String)session.getAttribute("user_id");
+		String user_id = (String)session.getAttribute("user_id");
 	    List<Ingredient> ingredientList = null;
 	    String [] cooking_steps = null;
 	    
-	    System.out.println("넘겨받은 아이디 : "+id);
+	    System.out.println("넘겨받은 아이디 : "+user_id);
 	    System.out.println("즐겨찾기 추가여부 : "+bookmarkAlert);
 	    
 	    RecipeRankingContentService recipeRankingContentService
 	    = new RecipeRankingContentService();
 	   /////////////////////////////////////////여기부터하세여~~!!!///////////////////
-	    Recipe information = recipeRankingContentService.getArticle(num,id);
+	    Recipe information = recipeRankingContentService.getArticle(num,user_id);
 	    ingredientList = recipeRankingContentService.getIngredientList(num);
 	    System.out.println("잘 받았니"+information.getHit_standard());
 	    
 	    cooking_steps = new String[recipeRankingContentService.getCooking_steps(num).length]; //조리단계 개수 가져오기
 	    cooking_steps = recipeRankingContentService.getCooking_steps(num); //조리단계 데이터 가져오기
 	    System.out.println("잘 받았니"+information.getHit_standard());
+	    String isUser = "no";
+	    if(user_id.equals("비회원")) {
+	    	
+	    	request.setAttribute("isUser", isUser);
+	    	System.out.println("비회원임"+ isUser);
+	    }else {
+	    	isUser = "yes";
+	    	request.setAttribute("isUser", isUser);
+	    	System.out.println("회원임"+ isUser);
+	    }
 	    
 	    request.setAttribute("information", information);
 	    request.setAttribute("ingredientList", ingredientList);

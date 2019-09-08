@@ -9,7 +9,7 @@ public class LastAnswerTag {
 					  "</div>"+
 					  
 					  "<img class='direct-chat-img' src='https://bootdey.com/img/Content/user_1.jpg' alt='Message User Image'>"+
-					  "<div class='direct-chat-text' style=' height:440px; margin-right: 500px; width: 550px;'>"+
+					  "<div class='direct-chat-text' style=' height:440px; margin-right: 500px; max-width: 550px; width : 550px;'>"+
 					  	 "<div style='height:420px; border-radius: 5px; text-align: center; padding-top: 20px; margin-top: 10px;'>"+ 	 
 					  	 
 						"<div class='btn-group btn-group-toggle' data-toggle='buttons' style='float: center; margin-bottom:10px;'>"+

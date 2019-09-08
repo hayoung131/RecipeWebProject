@@ -389,7 +389,7 @@ function f5Event(){
 								src="https://bootdey.com/img/Content/user_1.jpg"
 								alt="Message User Image">
 							<!-- /.direct-chat-img -->
-							<div class="direct-chat-text" style=" margin-right: 500px; min-width: 600px;">
+							<div class="direct-chat-text" style=" margin-right: 500px; max-width: 550px; width : 550px;">
 								안녕 나는 냠냠봇이야! 궁금한 레시피가 있으면 나에게 물어봐줘
 							<div class="question1" style="margin: 10px;">
 								<button id=aaa onclick="submitFunction('1')"

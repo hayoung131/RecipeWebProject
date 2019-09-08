@@ -19,8 +19,11 @@ public class RecipeRankingListAction implements Action {
 		HttpSession session=request.getSession();
 //		String id = "dpwls0947";
 //		session.setAttribute("user_id", id);
-//		
-		
+		String user_id=(String)session.getAttribute("user_id");
+		if(user_id=="null"||user_id==null) {
+			user_id="비회원";
+			session.setAttribute("user_id", "비회원");
+		}
 		int pageSize = 12;//한 페이지당 출력되는 글의 개수
 		 String pageNum = request.getParameter("pageNum");//언제 request 영역에 공유된거임..;
 		 

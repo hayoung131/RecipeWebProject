@@ -26,6 +26,7 @@
 	
 	List<Ingredient> ingredientList = (List<Ingredient>)request.getAttribute("ingredientList");
 	String message = (String)request.getAttribute("message");
+	String isUser = (String)request.getAttribute("isUser");
 	
 	String check = null;
 	check = (String)request.getAttribute("check");
@@ -71,7 +72,7 @@
 
    <colgroup>
 		<col width="80%">
-		<col width="10%">
+		<col width="16%">
 		<col width="4%">
 	</colgroup>
 
@@ -81,9 +82,14 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=title%></th>
 		<th style="text-align:right; font-size: 13pt; padding-bottom: 12px;">조회수&nbsp;<%=hit_count %></th>
 		<th style="padding-bottom: 10px;">
+		<% if(isUser.equals("yes")){ %>
 			<a href="recipeAddFavorites.bo?num=<%=information.getNum()%>&isBookmark=<%=information.isBookmark()%>&user_id=<%=information.isBookmark()%>">														
 			<img src=<%=img %> width="25px" height="25px">
 			</a>
+			<%}else if(isUser.equals("no")){ %>
+			
+			<img src="images/star1.png" width="25px" height="25px">
+			<%} %>
 		</th>
 	</tr>
 </thead>

@@ -25,7 +25,7 @@ public class AnswerFrame {
 		      "<span class='direct-chat-timestamp pull-right'></span>"+
 		    "</div>"+
 		    "<img class='direct-chat-img' src='https://bootdey.com/img/Content/user_1.jpg' alt='Message User Image'>"+
-		    "<div class='direct-chat-text' style=' margin-right: 500px; min-width: 600px;'>";
+		    "<div class='direct-chat-text' style=' margin-right: 500px; max-width: 550px;  width : 550px;'>";
 	private String selectBSentence;
 	private String addBotButton="";
     private String botSentence2= "</div></div>";

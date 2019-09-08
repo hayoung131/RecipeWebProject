@@ -49,12 +49,12 @@
 <%
 	if (count == 0) {
 %>
-<table width="700" border="1" cellpadding="0" cellspacing="0">
-<tr>
-    <td align="center">
-    즐겨찾기에 추가한 레시피가 없습니다.
-    </td>
-</table>
+<div style="border-radius: 10px; margin-top:30px; background-color:#4C4C4C; padding-left : 10px; text-align: center;">
+	<dl class="row" style="margin-top: 15px; margin-bottom: 15px; padding-top: 10px;">
+	  <dt class="col-sm-1" style="color: white;"></dt>
+  		<dd class="col-sm-10" style="color: white;">즐겨찾기한 게시글이 없습니다.</dd>
+</dl>
+</div>
 
 <%
 	} else {
