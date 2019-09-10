@@ -14,7 +14,7 @@ public class AnswerFrame {
 			"</span>"+
 			"</div>"+
 			"<img class='direct-chat-img' src='https://bootdey.com/img/Content/user_2.jpg' alt='Message User Image'>"+
-			"<div class='direct-chat-text' style = 'float:right; margin-right: 10px; max-width:360px; text-align : right;'>";
+			"<div class='direct-chat-text' style = 'float:right; margin-right: 10px; max-width:360px;'>";
 	private String selectHSentence;		
 	private String humanSentence4="</div>"+"</div>";
 	

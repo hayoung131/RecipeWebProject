@@ -43,6 +43,7 @@ public class RecipeSearchListAction implements Action2 {
 		String order = "accuracy";
 		String checkNumm = "0";
 		String isOnlyIngre = "0";
+		int negative_number;
 		
 		List<SearchResult> searchResultList = null;
 		LastAnswerTag lastAnswerTag = new LastAnswerTag(); //여기에 보낼 태그를 붙이는거임.
@@ -124,16 +125,19 @@ public class RecipeSearchListAction implements Action2 {
 					
 					for(int i = 0; i < searchResultList.size(); i++ ) {
 						SearchResult searchResult = (SearchResult)searchResultList.get(i); 
-						
+						negative_number = (int)searchResult.getAccuracy();
+						if(negative_number < 0) {
+							negative_number = 0;
+						}
 						forward += lastAnswerTag.getStringTag3() + searchResult.getNum()+lastAnswerTag.getStringTag4();
 						
-						if(searchResult.getTitle().length() > 25) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
-							forward += searchResult.getTitle().substring(0,25)+"...";
+						if(searchResult.getTitle().length() > 20) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
+							forward += searchResult.getTitle().substring(0,20)+"...";
 						}else {
 							forward +=searchResult.getTitle();
 						}
 						forward += lastAnswerTag.getStringTag5()+
-								(int)searchResult.getAccuracy()+"개"+lastAnswerTag.getStringTag6();
+								negative_number+"개"+lastAnswerTag.getStringTag6();
 						
 					}forward += lastAnswerTag.getStringTag7();
 					
@@ -158,16 +162,19 @@ public class RecipeSearchListAction implements Action2 {
 					
 					for(int i = 0; i < searchResultList.size(); i++ ) {
 						SearchResult searchResult = (SearchResult)searchResultList.get(i); 
-						
+						negative_number = (int)searchResult.getAccuracy();
+						if(negative_number < 0) {
+							negative_number = 0;
+						}
 						forward += lastAnswerTag.getStringTag3() + searchResult.getNum()+lastAnswerTag.getStringTag4();
 						
-						if(searchResult.getTitle().length() > 25) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
-							forward += searchResult.getTitle().substring(0,25)+"...";
+						if(searchResult.getTitle().length() > 20) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
+							forward += searchResult.getTitle().substring(0,20)+"...";
 						}else {
 							forward +=searchResult.getTitle();
 						}
 						forward += lastAnswerTag.getStringTag5()+
-								(int)searchResult.getAccuracy()+"개"+lastAnswerTag.getStringTag6();
+								negative_number+"개"+lastAnswerTag.getStringTag6();
 						
 					}forward += lastAnswerTag.getStringTag7();
 					
@@ -186,17 +193,20 @@ public class RecipeSearchListAction implements Action2 {
 				
 				for(int i = 0; i < searchResultList.size(); i++ ) {
 					SearchResult searchResult = (SearchResult)searchResultList.get(i); 
-					
+					negative_number = (int)searchResult.getAccuracy();
+					if(negative_number < 0) {
+						negative_number = 0;
+					}
 					forward += lastAnswerTag.getStringTag3() + searchResult.getNum()+lastAnswerTag.getStringTag4();
 					
-					if(searchResult.getTitle().length() > 25) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
-						forward += searchResult.getTitle().substring(0,25)+"...";
+					if(searchResult.getTitle().length() > 20) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
+						forward += searchResult.getTitle().substring(0,20)+"...";
 					}else {
 						forward +=searchResult.getTitle();
 						System.out.println("제목들 : " + searchResult.getTitle());
 					}
 					forward += lastAnswerTag.getStringTag5()+
-							(int)searchResult.getAccuracy()+"개"+lastAnswerTag.getStringTag6();
+							negative_number+"개"+lastAnswerTag.getStringTag6();
 					
 				}
 				
@@ -217,8 +227,8 @@ public class RecipeSearchListAction implements Action2 {
 					SearchResult searchResult = (SearchResult)searchResultList.get(i);
 					forward += lastAnswerTag2.getStringTag3()+ searchResult.getNum()+lastAnswerTag2.getStringTag4();
 					
-					if(searchResult.getTitle().length() > 25) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
-						forward += searchResult.getTitle().substring(0,25)+"...";
+					if(searchResult.getTitle().length() > 20) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
+						forward += searchResult.getTitle().substring(0,20)+"...";
 					}else {
 						forward +=searchResult.getTitle();
 					}
@@ -231,7 +241,7 @@ public class RecipeSearchListAction implements Action2 {
 			}
 			
 			
-		}else {
+		}else { //회원일때 
 			//재료명만으로 검색했거나 레시피명+재료명으로 검색할때만 하는 거임....!
 			if(checkNumm.equals("0")) {
 			
@@ -249,16 +259,19 @@ public class RecipeSearchListAction implements Action2 {
 					
 					for(int i = 0; i < searchResultList.size(); i++ ) {
 						SearchResult searchResult = (SearchResult)searchResultList.get(i); 
-						
+						negative_number = (int)searchResult.getAccuracy();
+						if(negative_number < 0) {
+							negative_number = 0;
+						}
 						forward += lastAnswerTag.getStringTag3() + searchResult.getNum()+lastAnswerTag.getStringTag4();
 						
-						if(searchResult.getTitle().length() > 25) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
-							forward += searchResult.getTitle().substring(0,25)+"...";
+						if(searchResult.getTitle().length() > 20) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
+							forward += searchResult.getTitle().substring(0,20)+"...";
 						}else {
 							forward +=searchResult.getTitle();
 						}
 						forward += lastAnswerTag.getStringTag5()+
-								(int)searchResult.getAccuracy()+"개"+lastAnswerTag.getStringTag6();
+								negative_number+"개"+lastAnswerTag.getStringTag6();
 						
 					}forward += lastAnswerTag.getStringTag7();
 					
@@ -278,16 +291,19 @@ public class RecipeSearchListAction implements Action2 {
 					
 					for(int i = 0; i < searchResultList.size(); i++ ) {
 						SearchResult searchResult = (SearchResult)searchResultList.get(i); 
-						
+						negative_number = (int)searchResult.getAccuracy();
+						if(negative_number < 0) {
+							negative_number = 0;
+						}
 						forward += lastAnswerTag.getStringTag3() + searchResult.getNum()+lastAnswerTag.getStringTag4();
 						
-						if(searchResult.getTitle().length() > 25) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
-							forward += searchResult.getTitle().substring(0,25)+"...";
+						if(searchResult.getTitle().length() > 20) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
+							forward += searchResult.getTitle().substring(0,20)+"...";
 						}else {
 							forward +=searchResult.getTitle();
 						}
 						forward += lastAnswerTag.getStringTag5()+
-								(int)searchResult.getAccuracy()+"개"+lastAnswerTag.getStringTag6();
+								negative_number+"개"+lastAnswerTag.getStringTag6();
 						
 					}forward += lastAnswerTag.getStringTag7();
 					
@@ -306,17 +322,20 @@ public class RecipeSearchListAction implements Action2 {
 					
 					for(int i = 0; i < searchResultList.size(); i++ ) {
 						SearchResult searchResult = (SearchResult)searchResultList.get(i); 
-						
+						negative_number = (int)searchResult.getAccuracy();
+						if(negative_number < 0) {
+							negative_number = 0;
+						}
 						forward += lastAnswerTag.getStringTag3() + searchResult.getNum()+lastAnswerTag.getStringTag4();
 						
-						if(searchResult.getTitle().length() > 25) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
-							forward += searchResult.getTitle().substring(0,25)+"...";
+						if(searchResult.getTitle().length() > 20) { // 제목길이가 9개보다 길면 9까지만 가져오고 뒤에 ...붙임
+							forward += searchResult.getTitle().substring(0,20)+"...";
 						}else {
 							forward +=searchResult.getTitle();
 							System.out.println("제목들 : " + searchResult.getTitle());
 						}
 						forward += lastAnswerTag.getStringTag5()+
-								(int)searchResult.getAccuracy()+"개"+lastAnswerTag.getStringTag6();
+								negative_number+"개"+lastAnswerTag.getStringTag6();
 						
 					}
 					

@@ -186,14 +186,14 @@ public List<SearchResult> selectSearchResult(SearchInformation searchInformation
     	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where ";
     	String hateIngredient = "";
     	
-    	String Title = "s.searching_title like '%"+searchInformation.getTitle()+"%' and ";
+    	String Title = "s.searching_title like '%"+searchInformation.getTitle()+"%' ";
     	
-    	if(hateIngredients != null && hateIngredients.length == 0) {
+    	if(hateIngredients != null && hateIngredients.length != 0) {
 	    	for(int i=0; i< hateIngredients.length; i++) {
 	    		
-	    		if(i != 0) {
-	    			hateIngredient += "and ";
-	    		}
+	    		
+	    		hateIngredient += "and ";
+	    		
 	    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
 	    		
 	    	}
@@ -269,18 +269,19 @@ public List<SearchResult> selectSearchResultIm(SearchInformation searchInformati
     	String [] haveIngredients = searchInformation.getHaveIngredients();
     	String [] hateIngredients = searchInformation.getHateIngredients();
     	
+    	String sql;
     	String haveIngredient = " s.ingredient_num - (" ;
-    	String IngredientSelect = "select s.recipe_id, m.cooking_title, ";
+    	String IngredientSelect = "select m.importance, s.recipe_id, m.cooking_title, ";
     	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where ";
     	String hateIngredient = "";
-    	String Title = "s.searching_title like '%"+searchInformation.getTitle()+"%' and ";
+    	String Title = "s.searching_title like '%"+searchInformation.getTitle()+"%' ";
     	
-    	if(hateIngredients != null && hateIngredients.length == 0) {
+    	if(hateIngredients != null && hateIngredients.length != 0) {
 	    	for(int i=0; i< hateIngredients.length; i++) {
 	    		
-	    		if(i != 0) {
-	    			hateIngredient += "and ";
-	    		}
+	    		
+	    		hateIngredient += "and ";
+	    		
 	    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
 	    		
 	    	}
@@ -300,12 +301,13 @@ public List<SearchResult> selectSearchResultIm(SearchInformation searchInformati
     	}while(i<haveIngredients.length);
     	
     	haveIngredient += ")";
-    	IngredientSelect_sub += Title+ hateIngredient +" ORDER BY importance DESC limit 0,15";
+    	IngredientSelect_sub += Title+ hateIngredient +" ORDER BY necessaryNum ASC limit 0,15";
     	IngredientSelect += haveIngredient + " as necessaryNum" + IngredientSelect_sub;
+    	sql = "select list1.* from(" + IngredientSelect + ")list1 ORDER BY list1.importance DESC " ;
     	
-    	System.out.println("중요도순으로 나영여령"+IngredientSelect);
+    	System.out.println("중요도순으로 나영여령"+sql);
     	
-    	pstmt = con.prepareStatement(IngredientSelect);
+    	pstmt = con.prepareStatement(sql);
     	
     	rs = pstmt.executeQuery();
 
@@ -590,10 +592,11 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	
 		    	String haveIngredient = " s.ingredient_num - (" ;
 		    	String IngredientSelect = "select s.recipe_id, m.cooking_title, ";
-		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where ";
+		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id";
 		    	String hateIngredient = "";
 		    	
-		    	if(hateIngredients != null && hateIngredients.length == 0) {
+		    	if(hateIngredients != null && hateIngredients.length != 0) {
+		    		IngredientSelect_sub +=" where"; 
 			    	for(int i=0; i< hateIngredients.length; i++) {
 			    		
 			    		if(i != 0) {
@@ -675,11 +678,12 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	String [] hateIngredients = searchInformation.getHateIngredients();
 		    	
 		    	String haveIngredient = " s.ingredient_num - (" ;
-		    	String IngredientSelect = "select s.recipe_id, m.cooking_title, ";
-		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where ";
+		    	String IngredientSelect = "select m.importance, s.recipe_id, m.cooking_title, ";
+		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id ";
 		    	String hateIngredient = "";
 		    	
-		    	if(hateIngredients != null && hateIngredients.length == 0) {
+		    	if(hateIngredients != null && hateIngredients.length != 0) {
+		    		IngredientSelect_sub += " where ";
 			    	for(int i=0; i< hateIngredients.length; i++) {
 			    		
 			    		if(i != 0) {
@@ -703,12 +707,13 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	}while(i<haveIngredients.length);
 		    	
 		    	haveIngredient += ")";
-		    	IngredientSelect_sub += hateIngredient +" ORDER BY importance DESC limit 0,15";
+		    	IngredientSelect_sub += hateIngredient +" ORDER BY necessaryNum ASC limit 0,15";
 		    	IngredientSelect += haveIngredient + " as necessaryNum" + IngredientSelect_sub;
+		    	String sql = "select list1.* from(" + IngredientSelect + ")list1 ORDER BY list1.importance DESC " ;
 		    	
-		    	System.out.println("호호호호고고혹ㅎㄱ"+IngredientSelect);
+		    	System.out.println("호호호호고고혹ㅎㄱ"+sql);
 		    	
-		    	pstmt = con.prepareStatement(IngredientSelect);
+		    	pstmt = con.prepareStatement(sql);
 		    	
 		    	rs = pstmt.executeQuery();
 
@@ -755,12 +760,12 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	
 		    	String [] hateIngredients = searchInformation.getHateIngredients();
 		    	String hateIngredient = "";
-		    	if(hateIngredients != null && hateIngredients.length == 0) {
+		    	if(hateIngredients != null && hateIngredients.length != 0) {
 			    	for(int i=0; i< hateIngredients.length; i++) {
 			    		
-			    		if(i != 0) {
-			    			hateIngredient += "and ";
-			    		}
+			    		
+			    		hateIngredient += "and ";
+			    		
 			    	
 			    		hateIngredient += "s.searching_ingredients not like '%"+hateIngredients[i]+"%' ";
 			    		
@@ -807,9 +812,9 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	
 		    	String [] haveIngredients = searchInformation.getHaveIngredients();		    	
 		    	String haveIngredient = " s.ingredient_num - (" ;
-		    	String IngredientSelect = "select s.recipe_id, m.cooking_title, ";
+		    	String IngredientSelect = "select m.importance, s.recipe_id, m.cooking_title, ";
 		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where ";
-		    	String Title = "s.searching_title like '%"+searchInformation.getTitle()+"%' and ";
+		    	String Title = "s.searching_title like '%"+searchInformation.getTitle()+"%' ";
 		  
 		    	int i = 0;
 		    	do{
@@ -825,12 +830,13 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	}while(i<haveIngredients.length);
 		    	
 		    	haveIngredient += ")";
-		    	IngredientSelect_sub += Title + "  ORDER BY importance DESC limit 0,15";
+		    	IngredientSelect_sub += Title + "  ORDER BY necessaryNum ASC limit 0,15";
 		    	IngredientSelect += haveIngredient + " as necessaryNum" + IngredientSelect_sub;
+		    	String sql = "select list1.* from(" + IngredientSelect + ")list1 ORDER BY list1.importance DESC " ;
 		    	
-		    	System.out.println("중요도순으로 나영여령"+IngredientSelect);
+		    	System.out.println("중요도순으로 나영여령"+sql);
 		    	
-		    	pstmt = con.prepareStatement(IngredientSelect);
+		    	pstmt = con.prepareStatement(sql);
 		    	
 		    	rs = pstmt.executeQuery();
 
@@ -1030,8 +1036,8 @@ public String[] selectCooking_step(int num) throws Exception {
 		
 		    	
 		    	String haveIngredient = " s.ingredient_num - (" ;
-		    	String IngredientSelect = "select s.recipe_id, m.cooking_title, ";
-		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id where ";
+		    	String IngredientSelect = "select m.importance, s.recipe_id, m.cooking_title, ";
+		    	String IngredientSelect_sub = " from searching s inner join mainrecipe m on s.recipe_id = m.recipe_id ";
 		    
 
 		    	
@@ -1049,12 +1055,13 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	}while(i<haveIngredients.length);
 		    	
 		    	haveIngredient += ")";
-		    	IngredientSelect_sub +=  " ORDER BY importance DESC limit 0,15";
+		    	IngredientSelect_sub +=  " ORDER BY necessaryNum ASC limit 0,15";
 		    	IngredientSelect += haveIngredient + " as necessaryNum " + IngredientSelect_sub;
+		    	String sql = "select list1.* from(" + IngredientSelect + ")list1 ORDER BY list1.importance DESC " ;
 		    	
-		    	System.out.println("호호호호고고혹ㅎㄱ"+IngredientSelect);
+		    	System.out.println("호호호호고고혹ㅎㄱ"+sql);
 		    	
-		    	pstmt = con.prepareStatement(IngredientSelect);
+		    	pstmt = con.prepareStatement(sql);
 		    	
 		    	rs = pstmt.executeQuery();
 

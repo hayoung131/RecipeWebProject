@@ -22,9 +22,6 @@ public class RecipeMpDeleteIngreAction implements Action {
 		String btnName = request.getParameter("btnName");
 		System.out.println("무슨버튼이 눌렸니 : "+btnName);
 		
-		
-		
-		
 		boolean check_success = false;
 		
 		RecipeMpDeleteIngreService recipeMpDeleteIngreService = new RecipeMpDeleteIngreService();
