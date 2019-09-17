@@ -98,6 +98,31 @@ label{
   width:282px;
 }
 </style>
+<script>
+	$(document).ready(
+			function() {
+				document.getElementById('pwdBtn').onclick = function() {
+					var id = document.getElementById("findPwd-id").value;
+					var name = document.getElementById("findPwd-name").value;
+					var answer = document.getElementById("findPwd-ans").value;
+
+					if (id == ''){
+						alert("아이디를 입력해주세요.");
+						return false;
+					} else if (name == '') {
+						alert("이름을 입력해주세요.");
+						return false;
+					} else if (answer == '') {
+						alert("답변을 입력해주세요.");
+						return false;
+					} else {
+						document.getElementById('frm').submit();
+						return true;
+					}
+				};
+				
+			});
+</script>
 </head>
 <body>
 
@@ -105,7 +130,7 @@ label{
 
     <div class="form">
       <h2>비밀번호 찾기</h2>
-      <form method="post" class="findPwd-form" action="recipeFindPwdForm.bo">
+      <form method="post" class="findPwd-form" id="frm" action="recipeFindPwdForm.bo">
 
           <label for="findPwd-id">아이디</label>
           <input type="text" placeholder="아이디를 입력해주세요" id="findPwd-id" name="findPwd-id"/>

@@ -41,7 +41,7 @@ $('.message a').click(function(){
   background: #f2f2f2;
   width: 68%;
   border: 0;
-  margin: 0 0 13px;/*위 좌우 아래*/
+  margin: 0 0 11px;/*위 좌우 아래*/
   padding: 13px;
   /* box-sizing: border-box; /*이건 모하는놈이지*/ */
   font-size: 14px;
@@ -125,7 +125,6 @@ textarea{
 
 function confirmDup(){
 	var dupCheck_id=document.getElementById("signUp-id").value;
-	alert(dupCheck_id);
 	
 	if(dupCheck_id==''){
 			alert("아이디를 입력해주세요.");
@@ -137,10 +136,10 @@ function confirmDup(){
 		data:{dupCheck_id: encodeURIComponent(dupCheck_id)},
 		success: function(data){
 			if(data=="false"){
-				alert("사용가능한 ID입니다.");
+				alert("사용가능한 아이디입니다.");
 				$('#idCheckOn').val('1');
 			}else{
-				alert("이미 사용중인 ID입니다. 새로운 아이디를 입력해주세요.");
+				alert("이미 사용중인 아이디입니다. 새로운 아이디를 입력해주세요.");
 				$('#signUp-id').val('');
 			}
 			
@@ -167,7 +166,6 @@ function checkForm(){
 		return false;
 	}
 	else if(phone.value=='' || phone.value.length!=11 || isNaN(phone.value)!=false){//공백이거나 11자리가 아니거나 숫자가아니면
-		alert(phone.value.length);
 		alert("휴대폰번호 숫자 11자리를 입력해주세요.");     
 		return false;
 	}

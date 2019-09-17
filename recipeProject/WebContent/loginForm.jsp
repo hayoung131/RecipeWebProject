@@ -68,7 +68,7 @@
     .form .message a {
       color: #4CAF50;
       text-decoration: none;
-      padding:10%;
+      padding:9%;
       width:100%;
     }
 

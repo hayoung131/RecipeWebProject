@@ -23,7 +23,7 @@ public class SelectServingsAction implements Action2 {
 		String element = "";
 		String addBotButton = 
 				  "<div class='question1' id = 'exclude_div' style='margin: 10px; margin-left: 50px;'>"
-		+"<input id = 'excludeIngre' type='text' placeholder='제외할 재료를 추가' style='margin:8px; width:200px;padding-bottom:3px;'>"
+				+"<input id = 'excludeIngre' type='text' placeholder='제외할 재료를 추가' style='margin:8px; width:200px;padding-bottom:3px;'>"
 				+ "<button onclick='submitFunction(0)' class='btn btn-secondary btn-sm' role='button' aria-pressed='true'"
 				+ "style='text-align: right;margin:2px;padding:4px 10px 4px 10px;' type='submit' name='exceptBtn'>추가</button>"
 				+ "<button onclick='submitFunction(1)' class='btn btn-secondary btn-sm' role='button' aria-pressed='true'"

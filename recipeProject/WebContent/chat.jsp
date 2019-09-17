@@ -9,7 +9,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/chatbot_ex1/css/main.css">
+<link rel="stylesheet" href="./css/main.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -389,7 +389,7 @@ function f5Event(){
 								src="https://bootdey.com/img/Content/user_1.jpg"
 								alt="Message User Image">
 							<!-- /.direct-chat-img -->
-							<div class="direct-chat-text" style=" margin-right: 500px; max-width: 550px; width : 550px;">								안녕 나는 냠냠봇이야! 궁금한 레시피가 있으면 나에게 물어봐줘
+							<div class="direct-chat-text" style=" margin-right: 500px; max-width: 550px; width : 550px;">안녕 나는 냠냠봇이야! 궁금한 레시피가 있으면 나에게 물어봐줘
 							<div class="question1" style="margin: 10px;">
 								<button id=aaa onclick="submitFunction('1')"
 									class="btn btn-secondary btn-sm" role="button"

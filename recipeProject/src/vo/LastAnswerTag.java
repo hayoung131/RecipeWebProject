@@ -5,7 +5,7 @@ public class LastAnswerTag {
 	private String stringTag1 = "<div class='direct-chat-msg' id = 'chatbotSay'>"+
 				 "<div class='direct-chat-info clearfix'>"+
 				 "<span class='direct-chat-name pull-left'>냠냠봇</span>"+
-					    "<span class='direct-chat-timestamp pull-right'>23 Jan 2:00 pm</span>"+
+					    "<span class='direct-chat-timestamp pull-right'></span>"+
 					  "</div>"+
 					  
 					  "<img class='direct-chat-img' src='https://bootdey.com/img/Content/user_1.jpg' alt='Message User Image'>"+
