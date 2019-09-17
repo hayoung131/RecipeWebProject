@@ -45,29 +45,36 @@ public class RecipeMpDeleteIngreAction implements Action {
 				out.println("</script>");
 			}
 			return forward;
-		}else if(btnName.equals("2") ) {
+		}else if(btnName.equals("2") ) { //추가버튼 눌렀을때
 			String addIngre = URLDecoder.decode(request.getParameter("addIngre"), "UTF-8");//이케 해줘야 안깨지고 한글 받을 수 있음.
 			if(addIngre!=null){
 				addIngre=addIngre.replaceAll(" ","");
-				String[] IngreNames = addIngre.split(",");
 				
-				for (String n :IngreNames) {
-					System.out.println(" 배열:"+n);
-				}
-				check_success = recipeMpDeleteIngreService.insertIngre(user_id,IngreNames);
-				
-				if(check_success){
+				if(addIngre!= "") {
+					String[] IngreNames = addIngre.split(",");
+					
+					for (String n :IngreNames) {
+						System.out.println(" 배열:"+n);
+					}
+					check_success = recipeMpDeleteIngreService.insertIngre(user_id,IngreNames);
+					
+					if(check_success){
+						forward = new ActionForward();
+						forward.setRedirect(true);
+						forward.setUrl("hateIngreList.bo");
+					}
+					else{
+						response.setContentType("text/html;charset=UTF-8");
+						PrintWriter out = response.getWriter();
+						out.println("<script>");
+						out.println("alert('추가실패')");
+						out.println("history.back()");
+						out.println("</script>");
+					}
+				}else {
 					forward = new ActionForward();
 					forward.setRedirect(true);
 					forward.setUrl("hateIngreList.bo");
-				}
-				else{
-					response.setContentType("text/html;charset=UTF-8");
-					PrintWriter out = response.getWriter();
-					out.println("<script>");
-					out.println("alert('추가실패')");
-					out.println("history.back()");
-					out.println("</script>");
 				}
 			}
 			return forward;

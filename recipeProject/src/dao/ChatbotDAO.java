@@ -596,7 +596,7 @@ public String[] selectCooking_step(int num) throws Exception {
 		    	String hateIngredient = "";
 		    	
 		    	if(hateIngredients != null && hateIngredients.length != 0) {
-		    		IngredientSelect_sub +=" where"; 
+		    		IngredientSelect_sub +=" where "; 
 			    	for(int i=0; i< hateIngredients.length; i++) {
 			    		
 			    		if(i != 0) {
