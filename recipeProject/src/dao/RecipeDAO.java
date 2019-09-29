@@ -859,17 +859,26 @@ public class RecipeDAO {
 	public boolean insertIngre(String user_id, String[] addIngre)throws Exception {
 		
 		
-		PreparedStatement pstmt = null;
-        
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
         boolean check = false;
 
         int x=-1;
         try {
         	for(int i = 0; i<addIngre.length;i++) {
-				pstmt = con.prepareStatement("insert into dislike_ingredient (user_id,ingredient) values(?,?)");
+        		pstmt = con.prepareStatement("select * from dislike_ingredient where user_id = ? and ingredient = ?");
 	            pstmt.setString(1,user_id);
 	            pstmt.setString(2, addIngre[i]);
-	            x = pstmt.executeUpdate();
+	           
+	            rs = pstmt.executeQuery();
+	            if(!rs.next()) {
+        		
+					pstmt = con.prepareStatement("insert into dislike_ingredient (user_id,ingredient) values(?,?) ");
+		            pstmt.setString(1,user_id);
+		            pstmt.setString(2, addIngre[i]);
+		            
+		            x = pstmt.executeUpdate();
+	            }
         	}
             if(x>0)
             	check = true;
@@ -878,6 +887,7 @@ public class RecipeDAO {
             ex.printStackTrace();
         } finally {
            close(pstmt);
+           close(rs);
         }
 		return check;
 		
