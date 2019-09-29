@@ -121,7 +121,7 @@
 </div>
 
 <%
-	if(ingredientList.size()<6){
+	if(ingredientList.size()<=6){
 %>
 
 <div style="text-align: center; margin: 20px; width: 350px; margin-left: 220px;">
