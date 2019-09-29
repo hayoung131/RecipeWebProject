@@ -72,11 +72,18 @@ public int InsertExcludeIngre(String user_id, String[] ingreNames) {
 	try {
 		
 		for (int i =0; i<ingreNames.length;i++) {
-			pstmt=con.prepareStatement("insert into dislike_ingredient (user_id, ingredient) values (?,?) ");
-			pstmt.setString(1, user_id);
-			pstmt.setString(2, ingreNames[i]);
-			System.out.println(pstmt);
-			a = pstmt.executeUpdate();
+    		pstmt = con.prepareStatement("select * from dislike_ingredient where user_id = ? and ingredient = ?");
+            pstmt.setString(1,user_id);
+            pstmt.setString(2, ingreNames[i]);
+           
+            rs = pstmt.executeQuery();
+            if(!rs.next()) {
+				pstmt=con.prepareStatement("insert into dislike_ingredient (user_id, ingredient) values (?,?) ");
+				pstmt.setString(1, user_id);
+				pstmt.setString(2, ingreNames[i]);
+				System.out.println(pstmt);
+				a = pstmt.executeUpdate();
+            }
 		}
 		
 
@@ -88,6 +95,7 @@ public int InsertExcludeIngre(String user_id, String[] ingreNames) {
 	}
 	
 	return a;
+
 }
 
 public int DeleteExcludeIngre(String user_id, String[] ingre_arr) {
