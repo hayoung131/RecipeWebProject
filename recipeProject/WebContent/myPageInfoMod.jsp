@@ -143,14 +143,23 @@ $(document).ready(function() {
 </head>
 <body>
 <%@include file="/topMenu.jsp"%>
-<div class="myPage-menu">
 
+<div class="myPage-menu">
 		<div class="form">
 			<h2>회원정보 수정</h2>
 			<form class="mod-form" id="frm" action="recipeModMemInfo.bo" method="post">
+				<%-- 
 				<label for="mod_name">이름</label>
 				<input type="text" placeholder="<%=name%>" id="mod_name" readOnly/>
-	
+				 --%>
+				<div class="form-group row">
+						<label for="colFormLabel" class="col-sm-2 col-form-label">현재 비밀번호</label>
+						<div class="col-sm-10">
+							<input type="email" class="form-control"
+								placeholder="<%=name%>" id="mod_name"/>
+						</div>
+					</div>
+				
 				<label for="mod_id">아이디</label>
 				<input type="text" placeholder="<%=id%>" id="mod_id" readOnly/>
 	

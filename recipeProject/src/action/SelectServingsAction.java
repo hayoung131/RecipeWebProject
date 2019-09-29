@@ -37,7 +37,7 @@ public class SelectServingsAction implements Action2 {
 		session.setAttribute("servingsNum", servingsNum);// session에 공유
 
 		String user_id = (String) session.getAttribute("user_id");
-
+		System.out.println(user_id+"   : 1");
 		if (user_id == "null" || user_id == null) {
 			user_id = "비회원";
 		}
@@ -45,11 +45,12 @@ public class SelectServingsAction implements Action2 {
 		ChatBringExceptService chatBringExceptService = new ChatBringExceptService();
 		ArrayList<String> exceptIngre = chatBringExceptService.bringExceptIngre(user_id);
 		// 제외재료 체크박스 코드 생성부분
-
+		System.out.println("2");
 		int arrayLength = exceptIngre.size();
 		int divCount = arrayLength;
 		String code = "";
 		int index = 0;
+		System.out.println("3");
 		for (int i = 0; i < Math.round(divCount / 2.0); i++) {// 출력해야하는 행 수만큼 돌것
 			System.out.println((i + 1) + "번째 for문");
 			code += "<div class='row'>\n";
